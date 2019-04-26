@@ -20,7 +20,34 @@ public class Imagen {
 		division=new Vector<Imagencita>();
 	}
 	public void Dividir()
-	{
-		for()
+	{ int i=0;
+		int columSup=0;
+		int filaSup=0;
+		int alto=img.getHeight();
+			int ancho=img.getWidth();
+		while(i<alto) {
+			int j=0;
+			if(Math.abs(alto-i)>=500)
+				filaSup=i+499;//ancho de 500
+			else
+				filaSup=alto;
+			while(j<ancho) {
+				if(Math.abs(ancho-j)>=500)
+					columSup=j+499;//ancho de 500
+				else
+					columSup=ancho;//ancho menor a 500 --> el limite superior de ancho de imagencita = limite superior del ancho original
+				Imagencita bloque=new Imagencita(i,j,columSup, filaSup,img);
+				division.add(bloque);
+				j=columSup+1;
+			}
+			i=filaSup+1;
+		}
 	}
+	
+
+	
+	
+	
+	
+	
 }
