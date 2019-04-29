@@ -18,38 +18,42 @@ public class Imagencita {
 	private float[] probabilidades;
 	
 	
-	public Imagencita(int altoinf,int anchoinf,int altosup,int anchosup,BufferedImage img) {
+	public Imagencita(int altoinf,int anchoinf,int anchosup,int altosup,BufferedImage img) {
 		this.altosup = altosup;
 		this.anchosup = anchosup;
 		this.altoinf=altoinf;
 		this.anchoinf=anchoinf;
 		this.img=img;
 		probabilidades=new float[256];
-		CargarArreglo();
+		cargarArreglo();
+		cargarEntropiaSM();
 	}
 
 
-	private void CargarArreglo() {
+	private void cargarArreglo() {
 		// TODO Auto-generated method stub
 		int rgb;
 		Color color;
 		int r;
-		for(int i=anchoinf;i<anchosup;i++)
-			for(int j=altoinf;j<altosup;i++)
+		
+		for(int i=this.altoinf;i<=this.altosup;i++) {
+			for(int j=this.anchoinf;j<=this.anchosup;j++)
 			{
-				rgb = img.getRGB(i, j);
+				
+				rgb = this.img.getRGB(j, i);
 				color = new Color(rgb, true);
 				r = color.getRed();//numero de 0-255
-				probabilidades[r]=probabilidades[r]+1;
+				this.probabilidades[r]=this.probabilidades[r]+1f;//calcula las ocurrencias
 				
 			}
-		for(int i=0;i<probabilidades.length;i++) {
-			probabilidades[i]=probabilidades[i]/(this.altosup*this.anchosup);
+		}
+		for(int i=0;i<this.probabilidades.length;i++) {
+			this.probabilidades[i]=(float) (this.probabilidades[i]/(this.altosup*this.anchosup));
 		}
 	}
 
 
-	public void getEscalaDeGrises(BufferedImage img) {
+	/*public void getEscalaDeGrises(BufferedImage img) {
 		Color color;
 		int r;
 		int g;
@@ -66,11 +70,31 @@ public class Imagencita {
 			 }
 			
 		}
+	}*/
+	
+	private void cargarEntropiaSM() {
+		float suma=0;
+		for(int i=0;i<this.probabilidades.length;i++)
+			{if(this.probabilidades[i]!=0.0) {
+				suma= (float) (suma+(this.probabilidades[i]*(Math.log10(this.probabilidades[i])/Math.log10(2f))));
+		
+				System.out.println("che esto es los logar: "+(Math.log10(this.probabilidades[i])/Math.log10(2f)));}
+			}
+		for(int i=0;i<this.probabilidades.length;i++)
+			System.out.println(probabilidades[i]);
+		this.entropiaSM=-suma;
 	}
 	
-	public void getEntropiaSM(BufferedImage img){
-		
+	
+	public float getEntropiaSM(){
+		return this.entropiaSM;
 		
 	}
+	
+	public int getAltoInf() {return this.altoinf;}
+	public int getAltoSup() {return this.altosup;}
+	public int getAnchoInf() {return this.anchoinf;}
+	public int getAnchoSup() {return this.anchosup;}
+	
 	
 }
