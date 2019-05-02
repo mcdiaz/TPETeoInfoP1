@@ -7,26 +7,21 @@ import java.io.IOException;
 import java.util.Vector;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-
+import javax.swing.JFileChooser;
 import java.lang.Class;
 
 public class Imagen {
 	private BufferedImage img;
 	private Vector<Imagencita> division;
-	File file;
-	FileWriter escribir;
+	private File file;
+	private FileWriter escribir;
 	
-	public Imagen() {
+	public Imagen(String ruta) {
 		this.img=img;
 		
 		try {
-			
-			//Image imgexterna = new ImageIcon(getClass().getResource("marsSurface.bmp")).getImage();
-			//this.img = ImageIO.read(imgexterna);
-			this.img = ImageIO.read(new File("marsSurface.bmp"));
-			//this.img = ImageIO.read(new File(getClass().getResource("marsSurface.bmp").getFile()));
-			//this.img = ImageIO.read(new File("C:\\Users\\hp\\Documents\\GitHub\\TPETeoInfoP1\\TPTeoria\\marsSurface.bmp"));
-			 file=new File("C:\\Users\\hp\\Documents\\GitHub\\TPETeoInfoP1\\TPTeoria\\file.txt");
+			this.img = ImageIO.read(new File(ruta));
+			 file=new File("file.txt");//preguntar que lo ponga en el proyecto?
 			 escribir=new FileWriter(file,true);
 			 
 		} catch (IOException e) {
@@ -100,7 +95,10 @@ public class Imagen {
 	
 	public static void main(String[] args)
 	{
-		Imagen imagen= new Imagen();
+		JFileChooser ventanita=new JFileChooser();
+		ventanita.showOpenDialog(ventanita);
+		String ruta=ventanita.getSelectedFile().getAbsolutePath();
+		Imagen imagen= new Imagen(ruta);
 		imagen.Dividir();
 		imagen.calcularEntropias();
 		

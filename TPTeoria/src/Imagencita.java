@@ -15,7 +15,11 @@ public class Imagencita {
 	private float entropiaSM;
 	private float entropiaCM;
 	private BufferedImage img;
+	private float[] estacionario;
 	private float[] probabilidades;
+	private float[][] mCondicional;
+	private float[][] mConjunta;
+	private int cantSimbolos;
 	
 	
 	public Imagencita(int altoinf,int anchoinf,int anchosup,int altosup,BufferedImage img) {
@@ -24,9 +28,25 @@ public class Imagencita {
 		this.altoinf=altoinf;
 		this.anchoinf=anchoinf;
 		this.img=img;
-		probabilidades=new float[256];
+		this.estacionario=new float[256];
+		this.probabilidades=new float[256];
+		this.cantSimbolos=(Math.abs(this.anchosup-this.anchoinf)+1)*(Math.abs(this.altosup-this.altoinf)+1);
+		this.mCondicional=new float[256][256];
+		this.mConjunta=new float[256][256];
 		cargarArreglo();
+		cargarMatrices();
 		cargarEntropiaSM();
+	}
+	
+
+	private void cargarMatrices() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	public int getCantSimbolos() {
+		return cantSimbolos;
 	}
 
 
@@ -35,7 +55,7 @@ public class Imagencita {
 		int rgb;
 		Color color;
 		int r;
-		
+		int antR=-1;
 		for(int i=this.altoinf;i<=this.altosup;i++) {
 			for(int j=this.anchoinf;j<=this.anchosup;j++)
 			{
@@ -43,13 +63,21 @@ public class Imagencita {
 				rgb = this.img.getRGB(j, i);
 				color = new Color(rgb, true);
 				r = color.getRed();//numero de 0-255
-				this.probabilidades[r]=this.probabilidades[r]+1f;//calcula las ocurrencias
-				
+				this.estacionario[r]=this.estacionario[r]+1f;//calcula las ocurrencias
+				if(antR>0) {
+					this.mCondicional[antR][r]=this.mCondicional[antR][r]+1;
+					this.mConjunta[antR][r]=this.mConjunta[antR][r]+1;
+				}
+				antR=r;
 			}
 		}
-		for(int i=0;i<this.probabilidades.length;i++) {
-			this.probabilidades[i]=(float) (this.probabilidades[i]/(this.altosup*this.anchosup));
-		}
+		int i=0;
+		System.out.println(this.cantSimbolos);
+		while(i<this.estacionario.length || i<this.probabilidades.length) {
+			this.probabilidades[i]=(float) (this.estacionario[i]/(this.cantSimbolos));
+			i++;}
+		
+		
 	}
 
 
@@ -77,13 +105,11 @@ public class Imagencita {
 		for(int i=0;i<this.probabilidades.length;i++)
 			{if(this.probabilidades[i]!=0.0) {
 				suma= (float) (suma+(this.probabilidades[i]*(Math.log10(this.probabilidades[i])/Math.log10(2f))));
-		
-				System.out.println("che esto es los logar: "+(Math.log10(this.probabilidades[i])/Math.log10(2f)));}
 			}
-		for(int i=0;i<this.probabilidades.length;i++)
-			System.out.println(probabilidades[i]);
+			}
 		this.entropiaSM=-suma;
-	}
+	
+}
 	
 	
 	public float getEntropiaSM(){
