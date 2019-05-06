@@ -153,15 +153,16 @@ public class Imagencita {
 		
 		
 		  DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+		  
 		  for(int i=0;i<this.estacionario.length;i++) {
-			  System.out.println(Integer.toHexString(i)+"\n");
+			  System.out.println(Integer.toString(i)+"\n");
 			  if(this.estacionario[i]!=(double)0) {
-				  String numero="color: ";
-				  dataset.setValue(this.estacionario[i], "ocurrencias", Integer.toHexString(i));
+				  
+				  dataset.setValue(this.estacionario[i], "ocurrencias", Integer.toString(i));
 				  }}
 		  JFreeChart chart= ChartFactory.createBarChart("Histograma", "valores de grises","ocurrencias", dataset, PlotOrientation.VERTICAL, true, true, false);
 			try {
-				ChartUtilities.saveChartAsPNG(new File("Histograma.PNG"), chart, 1000, 1000);
+				ChartUtilities.saveChartAsPNG(new File("Histograma.PNG"), chart, 5000, 500);
 			}catch(IOException e) {}
 		 
 		

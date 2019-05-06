@@ -1258,3 +1258,483 @@ entropias de Bloque desde 500 a 999 y 1000 a 1499:
 entropias de Bloque desde 1500 a 1999 y 500 a 999: 
  	 Entropia sin memoria: 5.708776
  	 Entropia con memoria: 721.68335
+entropias de Bloque desde 2000 a 2499 y 0 a 499: 
+ 	 Entropia sin memoria: 4.4198008
+ 	 Entropia con memoria: 165.47495
+entropias de Bloque desde 2000 a 2499 y 1500 a 1999: 
+ 	 Entropia sin memoria: 3.8381667
+ 	 Entropia con memoria: 203.06746
+entropias de Bloque desde 0 a 499 y 500 a 999: 
+ 	 Entropia sin memoria: 4.486026
+ 	 Entropia con memoria: 232.24484
+entropias de Bloque desde 0 a 499 y 0 a 499: 
+ 	 Entropia sin memoria: 4.6169534
+ 	 Entropia con memoria: 272.84747
+entropias de Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Entropia sin memoria: 4.9207854
+ 	 Entropia con memoria: 281.80743
+entropias de Bloque desde 1000 a 1499 y 1000 a 1499: 
+ 	 Entropia sin memoria: 5.479951
+ 	 Entropia con memoria: 282.61234
+entropias de Bloque desde 0 a 499 y 1000 a 1499: 
+ 	 Entropia sin memoria: 4.6326723
+ 	 Entropia con memoria: 306.57166
+entropias de Bloque desde 1500 a 1999 y 1500 a 1999: 
+ 	 Entropia sin memoria: 5.1030865
+ 	 Entropia con memoria: 323.30206
+entropias de Bloque desde 1500 a 1999 y 0 a 499: 
+ 	 Entropia sin memoria: 4.062763
+ 	 Entropia con memoria: 338.07718
+entropias de Bloque desde 1500 a 1999 y 1000 a 1499: 
+ 	 Entropia sin memoria: 4.9876165
+ 	 Entropia con memoria: 391.53018
+entropias de Bloque desde 500 a 999 y 0 a 499: 
+ 	 Entropia sin memoria: 3.7025573
+ 	 Entropia con memoria: 439.4335
+entropias de Bloque desde 2000 a 2499 y 1000 a 1499: 
+ 	 Entropia sin memoria: 4.497745
+ 	 Entropia con memoria: 467.8636
+entropias de Bloque desde 2000 a 2499 y 500 a 999: 
+ 	 Entropia sin memoria: 4.433007
+ 	 Entropia con memoria: 504.82214
+entropias de Bloque desde 1000 a 1499 y 1500 a 1999: 
+ 	 Entropia sin memoria: 5.2325726
+ 	 Entropia con memoria: 536.19824
+entropias de Bloque desde 1000 a 1499 y 500 a 999: 
+ 	 Entropia sin memoria: 5.7355328
+ 	 Entropia con memoria: 557.9854
+entropias de Bloque desde 1000 a 1499 y 0 a 499: 
+ 	 Entropia sin memoria: 5.0966783
+ 	 Entropia con memoria: 613.6727
+entropias de Bloque desde 500 a 999 y 500 a 999: 
+ 	 Entropia sin memoria: 6.154453
+ 	 Entropia con memoria: 627.23804
+entropias de Bloque desde 500 a 999 y 1500 a 1999: 
+ 	 Entropia sin memoria: 4.502859
+ 	 Entropia con memoria: 650.85754
+entropias de Bloque desde 500 a 999 y 1000 a 1499: 
+ 	 Entropia sin memoria: 5.9878144
+ 	 Entropia con memoria: 668.6159
+entropias de Bloque desde 1500 a 1999 y 500 a 999: 
+ 	 Entropia sin memoria: 5.708776
+ 	 Entropia con memoria: 721.68335
+entropias de Bloque desde 2000 a 2499 y 0 a 499: 
+ 	 Entropia sin memoria: 4.4198008
+ 	 Entropia con memoria: 165.47495
+entropias de Bloque desde 2000 a 2499 y 1500 a 1999: 
+ 	 Entropia sin memoria: 3.8381667
+ 	 Entropia con memoria: 203.06746
+entropias de Bloque desde 0 a 499 y 500 a 999: 
+ 	 Entropia sin memoria: 4.486026
+ 	 Entropia con memoria: 232.24484
+entropias de Bloque desde 0 a 499 y 0 a 499: 
+ 	 Entropia sin memoria: 4.6169534
+ 	 Entropia con memoria: 272.84747
+entropias de Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Entropia sin memoria: 4.9207854
+ 	 Entropia con memoria: 281.80743
+entropias de Bloque desde 1000 a 1499 y 1000 a 1499: 
+ 	 Entropia sin memoria: 5.479951
+ 	 Entropia con memoria: 282.61234
+entropias de Bloque desde 0 a 499 y 1000 a 1499: 
+ 	 Entropia sin memoria: 4.6326723
+ 	 Entropia con memoria: 306.57166
+entropias de Bloque desde 1500 a 1999 y 1500 a 1999: 
+ 	 Entropia sin memoria: 5.1030865
+ 	 Entropia con memoria: 323.30206
+entropias de Bloque desde 1500 a 1999 y 0 a 499: 
+ 	 Entropia sin memoria: 4.062763
+ 	 Entropia con memoria: 338.07718
+entropias de Bloque desde 1500 a 1999 y 1000 a 1499: 
+ 	 Entropia sin memoria: 4.9876165
+ 	 Entropia con memoria: 391.53018
+entropias de Bloque desde 500 a 999 y 0 a 499: 
+ 	 Entropia sin memoria: 3.7025573
+ 	 Entropia con memoria: 439.4335
+entropias de Bloque desde 2000 a 2499 y 1000 a 1499: 
+ 	 Entropia sin memoria: 4.497745
+ 	 Entropia con memoria: 467.8636
+entropias de Bloque desde 2000 a 2499 y 500 a 999: 
+ 	 Entropia sin memoria: 4.433007
+ 	 Entropia con memoria: 504.82214
+entropias de Bloque desde 1000 a 1499 y 1500 a 1999: 
+ 	 Entropia sin memoria: 5.2325726
+ 	 Entropia con memoria: 536.19824
+entropias de Bloque desde 1000 a 1499 y 500 a 999: 
+ 	 Entropia sin memoria: 5.7355328
+ 	 Entropia con memoria: 557.9854
+entropias de Bloque desde 1000 a 1499 y 0 a 499: 
+ 	 Entropia sin memoria: 5.0966783
+ 	 Entropia con memoria: 613.6727
+entropias de Bloque desde 500 a 999 y 500 a 999: 
+ 	 Entropia sin memoria: 6.154453
+ 	 Entropia con memoria: 627.23804
+entropias de Bloque desde 500 a 999 y 1500 a 1999: 
+ 	 Entropia sin memoria: 4.502859
+ 	 Entropia con memoria: 650.85754
+entropias de Bloque desde 500 a 999 y 1000 a 1499: 
+ 	 Entropia sin memoria: 5.9878144
+ 	 Entropia con memoria: 668.6159
+entropias de Bloque desde 1500 a 1999 y 500 a 999: 
+ 	 Entropia sin memoria: 5.708776
+ 	 Entropia con memoria: 721.68335
+entropias de Bloque desde 2000 a 2499 y 0 a 499: 
+ 	 Entropia sin memoria: 4.4198008
+ 	 Entropia con memoria: 165.47495
+entropias de Bloque desde 2000 a 2499 y 1500 a 1999: 
+ 	 Entropia sin memoria: 3.8381667
+ 	 Entropia con memoria: 203.06746
+entropias de Bloque desde 0 a 499 y 500 a 999: 
+ 	 Entropia sin memoria: 4.486026
+ 	 Entropia con memoria: 232.24484
+entropias de Bloque desde 0 a 499 y 0 a 499: 
+ 	 Entropia sin memoria: 4.6169534
+ 	 Entropia con memoria: 272.84747
+entropias de Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Entropia sin memoria: 4.9207854
+ 	 Entropia con memoria: 281.80743
+entropias de Bloque desde 1000 a 1499 y 1000 a 1499: 
+ 	 Entropia sin memoria: 5.479951
+ 	 Entropia con memoria: 282.61234
+entropias de Bloque desde 0 a 499 y 1000 a 1499: 
+ 	 Entropia sin memoria: 4.6326723
+ 	 Entropia con memoria: 306.57166
+entropias de Bloque desde 1500 a 1999 y 1500 a 1999: 
+ 	 Entropia sin memoria: 5.1030865
+ 	 Entropia con memoria: 323.30206
+entropias de Bloque desde 1500 a 1999 y 0 a 499: 
+ 	 Entropia sin memoria: 4.062763
+ 	 Entropia con memoria: 338.07718
+entropias de Bloque desde 1500 a 1999 y 1000 a 1499: 
+ 	 Entropia sin memoria: 4.9876165
+ 	 Entropia con memoria: 391.53018
+entropias de Bloque desde 500 a 999 y 0 a 499: 
+ 	 Entropia sin memoria: 3.7025573
+ 	 Entropia con memoria: 439.4335
+entropias de Bloque desde 2000 a 2499 y 1000 a 1499: 
+ 	 Entropia sin memoria: 4.497745
+ 	 Entropia con memoria: 467.8636
+entropias de Bloque desde 2000 a 2499 y 500 a 999: 
+ 	 Entropia sin memoria: 4.433007
+ 	 Entropia con memoria: 504.82214
+entropias de Bloque desde 1000 a 1499 y 1500 a 1999: 
+ 	 Entropia sin memoria: 5.2325726
+ 	 Entropia con memoria: 536.19824
+entropias de Bloque desde 1000 a 1499 y 500 a 999: 
+ 	 Entropia sin memoria: 5.7355328
+ 	 Entropia con memoria: 557.9854
+entropias de Bloque desde 1000 a 1499 y 0 a 499: 
+ 	 Entropia sin memoria: 5.0966783
+ 	 Entropia con memoria: 613.6727
+entropias de Bloque desde 500 a 999 y 500 a 999: 
+ 	 Entropia sin memoria: 6.154453
+ 	 Entropia con memoria: 627.23804
+entropias de Bloque desde 500 a 999 y 1500 a 1999: 
+ 	 Entropia sin memoria: 4.502859
+ 	 Entropia con memoria: 650.85754
+entropias de Bloque desde 500 a 999 y 1000 a 1499: 
+ 	 Entropia sin memoria: 5.9878144
+ 	 Entropia con memoria: 668.6159
+entropias de Bloque desde 1500 a 1999 y 500 a 999: 
+ 	 Entropia sin memoria: 5.708776
+ 	 Entropia con memoria: 721.68335
+entropias de Bloque desde 2000 a 2499 y 0 a 499: 
+ 	 Entropia sin memoria: 4.4198008
+ 	 Entropia con memoria: 165.47495
+entropias de Bloque desde 2000 a 2499 y 1500 a 1999: 
+ 	 Entropia sin memoria: 3.8381667
+ 	 Entropia con memoria: 203.06746
+entropias de Bloque desde 0 a 499 y 500 a 999: 
+ 	 Entropia sin memoria: 4.486026
+ 	 Entropia con memoria: 232.24484
+entropias de Bloque desde 0 a 499 y 0 a 499: 
+ 	 Entropia sin memoria: 4.6169534
+ 	 Entropia con memoria: 272.84747
+entropias de Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Entropia sin memoria: 4.9207854
+ 	 Entropia con memoria: 281.80743
+entropias de Bloque desde 1000 a 1499 y 1000 a 1499: 
+ 	 Entropia sin memoria: 5.479951
+ 	 Entropia con memoria: 282.61234
+entropias de Bloque desde 0 a 499 y 1000 a 1499: 
+ 	 Entropia sin memoria: 4.6326723
+ 	 Entropia con memoria: 306.57166
+entropias de Bloque desde 1500 a 1999 y 1500 a 1999: 
+ 	 Entropia sin memoria: 5.1030865
+ 	 Entropia con memoria: 323.30206
+entropias de Bloque desde 1500 a 1999 y 0 a 499: 
+ 	 Entropia sin memoria: 4.062763
+ 	 Entropia con memoria: 338.07718
+entropias de Bloque desde 1500 a 1999 y 1000 a 1499: 
+ 	 Entropia sin memoria: 4.9876165
+ 	 Entropia con memoria: 391.53018
+entropias de Bloque desde 500 a 999 y 0 a 499: 
+ 	 Entropia sin memoria: 3.7025573
+ 	 Entropia con memoria: 439.4335
+entropias de Bloque desde 2000 a 2499 y 1000 a 1499: 
+ 	 Entropia sin memoria: 4.497745
+ 	 Entropia con memoria: 467.8636
+entropias de Bloque desde 2000 a 2499 y 500 a 999: 
+ 	 Entropia sin memoria: 4.433007
+ 	 Entropia con memoria: 504.82214
+entropias de Bloque desde 1000 a 1499 y 1500 a 1999: 
+ 	 Entropia sin memoria: 5.2325726
+ 	 Entropia con memoria: 536.19824
+entropias de Bloque desde 1000 a 1499 y 500 a 999: 
+ 	 Entropia sin memoria: 5.7355328
+ 	 Entropia con memoria: 557.9854
+entropias de Bloque desde 1000 a 1499 y 0 a 499: 
+ 	 Entropia sin memoria: 5.0966783
+ 	 Entropia con memoria: 613.6727
+entropias de Bloque desde 500 a 999 y 500 a 999: 
+ 	 Entropia sin memoria: 6.154453
+ 	 Entropia con memoria: 627.23804
+entropias de Bloque desde 500 a 999 y 1500 a 1999: 
+ 	 Entropia sin memoria: 4.502859
+ 	 Entropia con memoria: 650.85754
+entropias de Bloque desde 500 a 999 y 1000 a 1499: 
+ 	 Entropia sin memoria: 5.9878144
+ 	 Entropia con memoria: 668.6159
+entropias de Bloque desde 1500 a 1999 y 500 a 999: 
+ 	 Entropia sin memoria: 5.708776
+ 	 Entropia con memoria: 721.68335
+entropias de Bloque desde 2000 a 2499 y 0 a 499: 
+ 	 Entropia sin memoria: 4.4198008
+ 	 Entropia con memoria: 165.47495
+entropias de Bloque desde 2000 a 2499 y 1500 a 1999: 
+ 	 Entropia sin memoria: 3.8381667
+ 	 Entropia con memoria: 203.06746
+entropias de Bloque desde 0 a 499 y 500 a 999: 
+ 	 Entropia sin memoria: 4.486026
+ 	 Entropia con memoria: 232.24484
+entropias de Bloque desde 0 a 499 y 0 a 499: 
+ 	 Entropia sin memoria: 4.6169534
+ 	 Entropia con memoria: 272.84747
+entropias de Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Entropia sin memoria: 4.9207854
+ 	 Entropia con memoria: 281.80743
+entropias de Bloque desde 1000 a 1499 y 1000 a 1499: 
+ 	 Entropia sin memoria: 5.479951
+ 	 Entropia con memoria: 282.61234
+entropias de Bloque desde 0 a 499 y 1000 a 1499: 
+ 	 Entropia sin memoria: 4.6326723
+ 	 Entropia con memoria: 306.57166
+entropias de Bloque desde 1500 a 1999 y 1500 a 1999: 
+ 	 Entropia sin memoria: 5.1030865
+ 	 Entropia con memoria: 323.30206
+entropias de Bloque desde 1500 a 1999 y 0 a 499: 
+ 	 Entropia sin memoria: 4.062763
+ 	 Entropia con memoria: 338.07718
+entropias de Bloque desde 1500 a 1999 y 1000 a 1499: 
+ 	 Entropia sin memoria: 4.9876165
+ 	 Entropia con memoria: 391.53018
+entropias de Bloque desde 500 a 999 y 0 a 499: 
+ 	 Entropia sin memoria: 3.7025573
+ 	 Entropia con memoria: 439.4335
+entropias de Bloque desde 2000 a 2499 y 1000 a 1499: 
+ 	 Entropia sin memoria: 4.497745
+ 	 Entropia con memoria: 467.8636
+entropias de Bloque desde 2000 a 2499 y 500 a 999: 
+ 	 Entropia sin memoria: 4.433007
+ 	 Entropia con memoria: 504.82214
+entropias de Bloque desde 1000 a 1499 y 1500 a 1999: 
+ 	 Entropia sin memoria: 5.2325726
+ 	 Entropia con memoria: 536.19824
+entropias de Bloque desde 1000 a 1499 y 500 a 999: 
+ 	 Entropia sin memoria: 5.7355328
+ 	 Entropia con memoria: 557.9854
+entropias de Bloque desde 1000 a 1499 y 0 a 499: 
+ 	 Entropia sin memoria: 5.0966783
+ 	 Entropia con memoria: 613.6727
+entropias de Bloque desde 500 a 999 y 500 a 999: 
+ 	 Entropia sin memoria: 6.154453
+ 	 Entropia con memoria: 627.23804
+entropias de Bloque desde 500 a 999 y 1500 a 1999: 
+ 	 Entropia sin memoria: 4.502859
+ 	 Entropia con memoria: 650.85754
+entropias de Bloque desde 500 a 999 y 1000 a 1499: 
+ 	 Entropia sin memoria: 5.9878144
+ 	 Entropia con memoria: 668.6159
+entropias de Bloque desde 1500 a 1999 y 500 a 999: 
+ 	 Entropia sin memoria: 5.708776
+ 	 Entropia con memoria: 721.68335
+entropias de Bloque desde 2000 a 2499 y 0 a 499: 
+ 	 Entropia sin memoria: 4.4198008
+ 	 Entropia con memoria: 165.47495
+entropias de Bloque desde 2000 a 2499 y 1500 a 1999: 
+ 	 Entropia sin memoria: 3.8381667
+ 	 Entropia con memoria: 203.06746
+entropias de Bloque desde 0 a 499 y 500 a 999: 
+ 	 Entropia sin memoria: 4.486026
+ 	 Entropia con memoria: 232.24484
+entropias de Bloque desde 0 a 499 y 0 a 499: 
+ 	 Entropia sin memoria: 4.6169534
+ 	 Entropia con memoria: 272.84747
+entropias de Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Entropia sin memoria: 4.9207854
+ 	 Entropia con memoria: 281.80743
+entropias de Bloque desde 1000 a 1499 y 1000 a 1499: 
+ 	 Entropia sin memoria: 5.479951
+ 	 Entropia con memoria: 282.61234
+entropias de Bloque desde 0 a 499 y 1000 a 1499: 
+ 	 Entropia sin memoria: 4.6326723
+ 	 Entropia con memoria: 306.57166
+entropias de Bloque desde 1500 a 1999 y 1500 a 1999: 
+ 	 Entropia sin memoria: 5.1030865
+ 	 Entropia con memoria: 323.30206
+entropias de Bloque desde 1500 a 1999 y 0 a 499: 
+ 	 Entropia sin memoria: 4.062763
+ 	 Entropia con memoria: 338.07718
+entropias de Bloque desde 1500 a 1999 y 1000 a 1499: 
+ 	 Entropia sin memoria: 4.9876165
+ 	 Entropia con memoria: 391.53018
+entropias de Bloque desde 500 a 999 y 0 a 499: 
+ 	 Entropia sin memoria: 3.7025573
+ 	 Entropia con memoria: 439.4335
+entropias de Bloque desde 2000 a 2499 y 1000 a 1499: 
+ 	 Entropia sin memoria: 4.497745
+ 	 Entropia con memoria: 467.8636
+entropias de Bloque desde 2000 a 2499 y 500 a 999: 
+ 	 Entropia sin memoria: 4.433007
+ 	 Entropia con memoria: 504.82214
+entropias de Bloque desde 1000 a 1499 y 1500 a 1999: 
+ 	 Entropia sin memoria: 5.2325726
+ 	 Entropia con memoria: 536.19824
+entropias de Bloque desde 1000 a 1499 y 500 a 999: 
+ 	 Entropia sin memoria: 5.7355328
+ 	 Entropia con memoria: 557.9854
+entropias de Bloque desde 1000 a 1499 y 0 a 499: 
+ 	 Entropia sin memoria: 5.0966783
+ 	 Entropia con memoria: 613.6727
+entropias de Bloque desde 500 a 999 y 500 a 999: 
+ 	 Entropia sin memoria: 6.154453
+ 	 Entropia con memoria: 627.23804
+entropias de Bloque desde 500 a 999 y 1500 a 1999: 
+ 	 Entropia sin memoria: 4.502859
+ 	 Entropia con memoria: 650.85754
+entropias de Bloque desde 500 a 999 y 1000 a 1499: 
+ 	 Entropia sin memoria: 5.9878144
+ 	 Entropia con memoria: 668.6159
+entropias de Bloque desde 1500 a 1999 y 500 a 999: 
+ 	 Entropia sin memoria: 5.708776
+ 	 Entropia con memoria: 721.68335
+entropias de Bloque desde 2000 a 2499 y 0 a 499: 
+ 	 Entropia sin memoria: 4.4198008
+ 	 Entropia con memoria: 165.47495
+entropias de Bloque desde 2000 a 2499 y 1500 a 1999: 
+ 	 Entropia sin memoria: 3.8381667
+ 	 Entropia con memoria: 203.06746
+entropias de Bloque desde 0 a 499 y 500 a 999: 
+ 	 Entropia sin memoria: 4.486026
+ 	 Entropia con memoria: 232.24484
+entropias de Bloque desde 0 a 499 y 0 a 499: 
+ 	 Entropia sin memoria: 4.6169534
+ 	 Entropia con memoria: 272.84747
+entropias de Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Entropia sin memoria: 4.9207854
+ 	 Entropia con memoria: 281.80743
+entropias de Bloque desde 1000 a 1499 y 1000 a 1499: 
+ 	 Entropia sin memoria: 5.479951
+ 	 Entropia con memoria: 282.61234
+entropias de Bloque desde 0 a 499 y 1000 a 1499: 
+ 	 Entropia sin memoria: 4.6326723
+ 	 Entropia con memoria: 306.57166
+entropias de Bloque desde 1500 a 1999 y 1500 a 1999: 
+ 	 Entropia sin memoria: 5.1030865
+ 	 Entropia con memoria: 323.30206
+entropias de Bloque desde 1500 a 1999 y 0 a 499: 
+ 	 Entropia sin memoria: 4.062763
+ 	 Entropia con memoria: 338.07718
+entropias de Bloque desde 1500 a 1999 y 1000 a 1499: 
+ 	 Entropia sin memoria: 4.9876165
+ 	 Entropia con memoria: 391.53018
+entropias de Bloque desde 500 a 999 y 0 a 499: 
+ 	 Entropia sin memoria: 3.7025573
+ 	 Entropia con memoria: 439.4335
+entropias de Bloque desde 2000 a 2499 y 1000 a 1499: 
+ 	 Entropia sin memoria: 4.497745
+ 	 Entropia con memoria: 467.8636
+entropias de Bloque desde 2000 a 2499 y 500 a 999: 
+ 	 Entropia sin memoria: 4.433007
+ 	 Entropia con memoria: 504.82214
+entropias de Bloque desde 1000 a 1499 y 1500 a 1999: 
+ 	 Entropia sin memoria: 5.2325726
+ 	 Entropia con memoria: 536.19824
+entropias de Bloque desde 1000 a 1499 y 500 a 999: 
+ 	 Entropia sin memoria: 5.7355328
+ 	 Entropia con memoria: 557.9854
+entropias de Bloque desde 1000 a 1499 y 0 a 499: 
+ 	 Entropia sin memoria: 5.0966783
+ 	 Entropia con memoria: 613.6727
+entropias de Bloque desde 500 a 999 y 500 a 999: 
+ 	 Entropia sin memoria: 6.154453
+ 	 Entropia con memoria: 627.23804
+entropias de Bloque desde 500 a 999 y 1500 a 1999: 
+ 	 Entropia sin memoria: 4.502859
+ 	 Entropia con memoria: 650.85754
+entropias de Bloque desde 500 a 999 y 1000 a 1499: 
+ 	 Entropia sin memoria: 5.9878144
+ 	 Entropia con memoria: 668.6159
+entropias de Bloque desde 1500 a 1999 y 500 a 999: 
+ 	 Entropia sin memoria: 5.708776
+ 	 Entropia con memoria: 721.68335
+entropias de Bloque desde 2000 a 2499 y 0 a 499: 
+ 	 Entropia sin memoria: 4.4198008
+ 	 Entropia con memoria: 165.47495
+entropias de Bloque desde 2000 a 2499 y 1500 a 1999: 
+ 	 Entropia sin memoria: 3.8381667
+ 	 Entropia con memoria: 203.06746
+entropias de Bloque desde 0 a 499 y 500 a 999: 
+ 	 Entropia sin memoria: 4.486026
+ 	 Entropia con memoria: 232.24484
+entropias de Bloque desde 0 a 499 y 0 a 499: 
+ 	 Entropia sin memoria: 4.6169534
+ 	 Entropia con memoria: 272.84747
+entropias de Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Entropia sin memoria: 4.9207854
+ 	 Entropia con memoria: 281.80743
+entropias de Bloque desde 1000 a 1499 y 1000 a 1499: 
+ 	 Entropia sin memoria: 5.479951
+ 	 Entropia con memoria: 282.61234
+entropias de Bloque desde 0 a 499 y 1000 a 1499: 
+ 	 Entropia sin memoria: 4.6326723
+ 	 Entropia con memoria: 306.57166
+entropias de Bloque desde 1500 a 1999 y 1500 a 1999: 
+ 	 Entropia sin memoria: 5.1030865
+ 	 Entropia con memoria: 323.30206
+entropias de Bloque desde 1500 a 1999 y 0 a 499: 
+ 	 Entropia sin memoria: 4.062763
+ 	 Entropia con memoria: 338.07718
+entropias de Bloque desde 1500 a 1999 y 1000 a 1499: 
+ 	 Entropia sin memoria: 4.9876165
+ 	 Entropia con memoria: 391.53018
+entropias de Bloque desde 500 a 999 y 0 a 499: 
+ 	 Entropia sin memoria: 3.7025573
+ 	 Entropia con memoria: 439.4335
+entropias de Bloque desde 2000 a 2499 y 1000 a 1499: 
+ 	 Entropia sin memoria: 4.497745
+ 	 Entropia con memoria: 467.8636
+entropias de Bloque desde 2000 a 2499 y 500 a 999: 
+ 	 Entropia sin memoria: 4.433007
+ 	 Entropia con memoria: 504.82214
+entropias de Bloque desde 1000 a 1499 y 1500 a 1999: 
+ 	 Entropia sin memoria: 5.2325726
+ 	 Entropia con memoria: 536.19824
+entropias de Bloque desde 1000 a 1499 y 500 a 999: 
+ 	 Entropia sin memoria: 5.7355328
+ 	 Entropia con memoria: 557.9854
+entropias de Bloque desde 1000 a 1499 y 0 a 499: 
+ 	 Entropia sin memoria: 5.0966783
+ 	 Entropia con memoria: 613.6727
+entropias de Bloque desde 500 a 999 y 500 a 999: 
+ 	 Entropia sin memoria: 6.154453
+ 	 Entropia con memoria: 627.23804
+entropias de Bloque desde 500 a 999 y 1500 a 1999: 
+ 	 Entropia sin memoria: 4.502859
+ 	 Entropia con memoria: 650.85754
+entropias de Bloque desde 500 a 999 y 1000 a 1499: 
+ 	 Entropia sin memoria: 5.9878144
+ 	 Entropia con memoria: 668.6159
+entropias de Bloque desde 1500 a 1999 y 500 a 999: 
+ 	 Entropia sin memoria: 5.708776
+ 	 Entropia con memoria: 721.68335

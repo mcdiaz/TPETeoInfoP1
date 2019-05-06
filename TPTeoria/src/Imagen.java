@@ -99,7 +99,8 @@ public class Imagen {
 		}
 	}
 	public void generarHistograma() {
-		this.division.get(0).crearHistograma();
+		this.division.get(this.division.size()-1).crearHistograma();
+		//this.division.get(0).crearHistograma();
 	}
 	
 	
