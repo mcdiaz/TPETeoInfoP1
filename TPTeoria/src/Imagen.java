@@ -1,23 +1,25 @@
 import java.awt.Color;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
-import java.lang.Class;
+
+
+
 
 public class Imagen {
 	private BufferedImage img;
-	private Vector<Imagencita> division;
+	private ArrayList<Imagencita> division;
 	private File file;
 	private FileWriter escribir;
 	
 	public Imagen(String ruta) {
-		this.img=img;
 		
 		try {
 			this.img = ImageIO.read(new File(ruta));
@@ -27,7 +29,7 @@ public class Imagen {
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 	}
-		division=new Vector<Imagencita>();
+		this.division=new ArrayList<Imagencita>();
 	}
 	
 	
@@ -35,7 +37,8 @@ public class Imagen {
 	
 	
 	public void Dividir()
-	{ int i=0;
+	{ 	
+		int i=0;
 		int columSup=0;
 		int filaSup=0;
 		int alto=img.getHeight();
@@ -58,20 +61,31 @@ public class Imagen {
 			}
 			i=filaSup+1;
 		}
-	}
+		Collections.sort(this.division, new Comparator() {
+			@Override
+			public int compare(Imagencita i1, Imagencita i2) {
+				return new Float(i1.getEntropiaCM()).compareTo(new Float(i2.getEntropiaCM()));
+				}}
+				);
+		
+		}
 	
 	public void calcularEntropias() {
 		try {
 		for(int i=0; i<this.division.size();i++)
-			escribir.write("entropiaSM de Bloque desde:"+ this.division.get(i).getAltoInf() +" "+ this.division.get(i).getAltoSup()+" y "+this.division.get(i).getAnchoInf() +" "+ this.division.get(i).getAnchoSup()+": "+Float.toString((float) this.division.get(i).getEntropiaSM())+"\n");
-			
+			escribir.write(
+					"entropias de Bloque desde "+ this.division.get(i).getAltoInf()+
+					" a "+ this.division.get(i).getAltoSup()+
+					" y "+this.division.get(i).getAnchoInf() +
+					" a "+ this.division.get(i).getAnchoSup()+
+					": \n \t Entropia sin memoria: "+Float.toString((float) this.division.get(i).getEntropiaSM())+
+					"\n \t Entropia con memoria: "+Float.toString((float) this.division.get(i).getEntropiaCM())+
+					"\n"
+					);
 		escribir.close();
-		
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
-}
-			
-			
+		}	
 	}
 	
 	public void getEscalaDeGrises() {

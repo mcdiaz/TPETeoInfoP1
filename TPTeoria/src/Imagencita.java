@@ -1,11 +1,9 @@
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.Vector;
 
-import javax.imageio.ImageIO;
+
+
 
 public class Imagencita {
 	private  int altosup;
@@ -36,6 +34,7 @@ public class Imagencita {
 		cargarArreglo();
 		cargarMatrices();
 		cargarEntropiaSM();
+		cargarEntropiaCM();
 	}
 	
 
@@ -114,6 +113,23 @@ public class Imagencita {
 	
 	public float getEntropiaSM(){
 		return this.entropiaSM;
+		
+	}
+	
+	public void cargarEntropiaCM() {
+		float suma=0;
+		for(int i=0; i<this.mCondicional.length; i++)
+			for(int j=0; j<this.mCondicional.length; j++)
+			{if(this.probabilidades[i]!=0.0) {
+				float probCond= (this.mCondicional[i][j])/(this.probabilidades[i]);
+				suma= (float) (suma+(probCond*(Math.log10(probCond)/Math.log10(2f))));
+				}
+			}
+		this.entropiaCM=-suma;
+	}
+	
+	public float getEntropiaCM(){
+		return this.entropiaCM;
 		
 	}
 	
