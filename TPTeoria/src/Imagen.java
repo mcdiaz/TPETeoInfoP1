@@ -5,8 +5,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
-
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 
@@ -61,14 +59,8 @@ public class Imagen {
 			}
 			i=filaSup+1;
 		}
-		Collections.sort(this.division, new Comparator() {
-			@Override
-			public int compare(Imagencita i1, Imagencita i2) {
-				return new Float(i1.getEntropiaCM()).compareTo(new Float(i2.getEntropiaCM()));
-				}}
-				);
-		
-		}
+		Collections.sort(this.division, new Comparador());
+	}
 	
 	public void calcularEntropias() {
 		try {
@@ -106,6 +98,10 @@ public class Imagen {
 			
 		}
 	}
+	public void generarHistograma() {
+		this.division.get(0).crearHistograma();
+	}
+	
 	
 	public static void main(String[] args)
 	{
@@ -115,6 +111,7 @@ public class Imagen {
 		Imagen imagen= new Imagen(ruta);
 		imagen.Dividir();
 		imagen.calcularEntropias();
+		imagen.generarHistograma();
 		
 	}
 	

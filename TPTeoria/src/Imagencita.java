@@ -1,6 +1,14 @@
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import org.jfree.chart.*;
+import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.statistics.*;
+import org.jfree.chart.plot.PlotOrientation;
+
 
 
 
@@ -13,7 +21,7 @@ public class Imagencita {
 	private float entropiaSM;
 	private float entropiaCM;
 	private BufferedImage img;
-	private float[] estacionario;
+	private double[] estacionario;
 	private float[] probabilidades;
 	private float[][] mCondicional;
 	private float[][] mConjunta;
@@ -26,22 +34,14 @@ public class Imagencita {
 		this.altoinf=altoinf;
 		this.anchoinf=anchoinf;
 		this.img=img;
-		this.estacionario=new float[256];
+		this.estacionario=new double[256];
 		this.probabilidades=new float[256];
 		this.cantSimbolos=(Math.abs(this.anchosup-this.anchoinf)+1)*(Math.abs(this.altosup-this.altoinf)+1);
 		this.mCondicional=new float[256][256];
 		this.mConjunta=new float[256][256];
-		cargarArreglo();
-		cargarMatrices();
-		cargarEntropiaSM();
-		cargarEntropiaCM();
+		cargar();
 	}
 	
-
-	private void cargarMatrices() {
-		// TODO Auto-generated method stub
-		
-	}
 
 
 	public int getCantSimbolos() {
@@ -49,7 +49,7 @@ public class Imagencita {
 	}
 
 
-	private void cargarArreglo() {
+	private void cargar() {
 		// TODO Auto-generated method stub
 		int rgb;
 		Color color;
@@ -62,21 +62,21 @@ public class Imagencita {
 				rgb = this.img.getRGB(j, i);
 				color = new Color(rgb, true);
 				r = color.getRed();//numero de 0-255
-				this.estacionario[r]=this.estacionario[r]+1f;//calcula las ocurrencias
+				this.estacionario[r]=this.estacionario[r]+1;//calcula las ocurrencias
 				if(antR>0) {
-					this.mCondicional[antR][r]=this.mCondicional[antR][r]+1;
+					this.mCondicional[antR][r]=this.mCondicional[antR][r]+1f;
 					this.mConjunta[antR][r]=this.mConjunta[antR][r]+1;
 				}
 				antR=r;
 			}
 		}
 		int i=0;
-		System.out.println(this.cantSimbolos);
 		while(i<this.estacionario.length || i<this.probabilidades.length) {
 			this.probabilidades[i]=(float) (this.estacionario[i]/(this.cantSimbolos));
 			i++;}
 		
-		
+		cargarEntropiaSM();
+		cargarEntropiaCM();
 	}
 
 
@@ -118,13 +118,15 @@ public class Imagencita {
 	
 	public void cargarEntropiaCM() {
 		float suma=0;
-		for(int i=0; i<this.mCondicional.length; i++)
-			for(int j=0; j<this.mCondicional.length; j++)
-			{if(this.probabilidades[i]!=0.0) {
-				float probCond= (this.mCondicional[i][j])/(this.probabilidades[i]);
-				suma= (float) (suma+(probCond*(Math.log10(probCond)/Math.log10(2f))));
+		for(int i=0; i<256; i++) {
+			for(int j=0; j<256; j++)
+			{if(this.estacionario[j]!=0.0) {
+				float probCond= (float) ((this.mCondicional[i][j])/(this.estacionario[j]));
+				if(probCond!=0.0) {
+				suma= (float) (suma+(probCond*(Math.log10(probCond)/Math.log10(2f))));}
 				}
 			}
+		}
 		this.entropiaCM=-suma;
 	}
 	
@@ -137,6 +139,35 @@ public class Imagencita {
 	public int getAltoSup() {return this.altosup;}
 	public int getAnchoInf() {return this.anchoinf;}
 	public int getAnchoSup() {return this.anchosup;}
+
+	public void crearHistograma() {
+		/*HistogramDataset dataset=new HistogramDataset();
+		dataset.setType(HistogramType.FREQUENCY);
+		dataset.addSeries("Histogram",this.estacionario,10);
+		dataset.addChangeListener();
+		JFreeChart chart= ChartFactory.createHistogram("Histogram","ocurrencias", "valores de grises", dataset, PlotOrientation.VERTICAL, true, true, false);
+		try {
+			ChartUtilities.saveChartAsPNG(new File("Histograma.PNG"), chart, 500, 500);
+		}catch(IOException e) {}*/
+		
+		
+		
+		  DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+		  for(int i=0;i<this.estacionario.length;i++) {
+			  System.out.println(Integer.toHexString(i)+"\n");
+			  if(this.estacionario[i]!=(double)0) {
+				  String numero="color: ";
+				  dataset.setValue(this.estacionario[i], "ocurrencias", Integer.toHexString(i));
+				  }}
+		  JFreeChart chart= ChartFactory.createBarChart("Histograma", "valores de grises","ocurrencias", dataset, PlotOrientation.VERTICAL, true, true, false);
+			try {
+				ChartUtilities.saveChartAsPNG(new File("Histograma.PNG"), chart, 1000, 1000);
+			}catch(IOException e) {}
+		 
+		
+	}
+	
+	
 	
 	
 }
