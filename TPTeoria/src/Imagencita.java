@@ -21,7 +21,7 @@ public class Imagencita {
 	private float entropiaSM;
 	private float entropiaCM;
 	private BufferedImage img;
-	private double[] estacionario;
+	private double[] ocurrencias;
 	private float[] probabilidades;
 	private float[][] mCondicional;
 	private float[][] mConjunta;
@@ -34,7 +34,7 @@ public class Imagencita {
 		this.altoinf=altoinf;
 		this.anchoinf=anchoinf;
 		this.img=img;
-		this.estacionario=new double[256];
+		this.ocurrencias=new double[256];
 		this.probabilidades=new float[256];
 		this.cantSimbolos=(Math.abs(this.anchosup-this.anchoinf)+1)*(Math.abs(this.altosup-this.altoinf)+1);
 		this.mCondicional=new float[256][256];
@@ -62,7 +62,7 @@ public class Imagencita {
 				rgb = this.img.getRGB(j, i);
 				color = new Color(rgb, true);
 				r = color.getRed();//numero de 0-255
-				this.estacionario[r]=this.estacionario[r]+1;//calcula las ocurrencias
+				this.ocurrencias[r]=this.ocurrencias[r]+1;//calcula las ocurrencias
 				if(antR>0) {
 					this.mCondicional[antR][r]=this.mCondicional[antR][r]+1f;
 					this.mConjunta[antR][r]=this.mConjunta[antR][r]+1;
@@ -71,8 +71,8 @@ public class Imagencita {
 			}
 		}
 		int i=0;
-		while(i<this.estacionario.length || i<this.probabilidades.length) {
-			this.probabilidades[i]=(float) (this.estacionario[i]/(this.cantSimbolos));
+		while(i<this.ocurrencias.length || i<this.probabilidades.length) {
+			this.probabilidades[i]=(float) (this.ocurrencias[i]/(this.cantSimbolos));
 			i++;}
 		
 		cargarEntropiaSM();
@@ -120,10 +120,10 @@ public class Imagencita {
 		float suma=0;
 		for(int i=0; i<256; i++) {
 			for(int j=0; j<256; j++)
-			{if(this.estacionario[j]!=0.0) {
-				float probCond= (float) ((this.mCondicional[i][j])/(this.estacionario[j]));
-				if(probCond!=0.0) {
-				suma= (float) (suma+(probCond*(Math.log10(probCond)/Math.log10(2f))));}
+			{if(this.ocurrencias[j]!=0.0) {
+				float probConj= (float) ((this.mConjunta[i][j])/(this.cantSimbolos-1));
+				if(probConj!=0.0) {
+				suma= (float) (suma+(probConj*(Math.log10(probConj)/Math.log10(2f))));}
 				}
 			}
 		}
@@ -140,29 +140,18 @@ public class Imagencita {
 	public int getAnchoInf() {return this.anchoinf;}
 	public int getAnchoSup() {return this.anchosup;}
 
-	public void crearHistograma() {
-		/*HistogramDataset dataset=new HistogramDataset();
-		dataset.setType(HistogramType.FREQUENCY);
-		dataset.addSeries("Histogram",this.estacionario,10);
-		dataset.addChangeListener();
-		JFreeChart chart= ChartFactory.createHistogram("Histogram","ocurrencias", "valores de grises", dataset, PlotOrientation.VERTICAL, true, true, false);
-		try {
-			ChartUtilities.saveChartAsPNG(new File("Histograma.PNG"), chart, 500, 500);
-		}catch(IOException e) {}*/
-		
-		
-		
+	public void crearHistograma(String cuadrado) {
 		  DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-		  
-		  for(int i=0;i<this.estacionario.length;i++) {
-			  System.out.println(Integer.toString(i)+"\n");
-			  if(this.estacionario[i]!=(double)0) {
+		  String numero="Histograma "+cuadrado+".PNG";
+		  for(int i=0;i<this.ocurrencias.length;i++) {
+			  
+			  if(this.ocurrencias[i]!=(double)0) {
 				  
-				  dataset.setValue(this.estacionario[i], "ocurrencias", Integer.toString(i));
+				  dataset.setValue(this.ocurrencias[i], "ocurrencias", Integer.toString(i));
 				  }}
 		  JFreeChart chart= ChartFactory.createBarChart("Histograma", "valores de grises","ocurrencias", dataset, PlotOrientation.VERTICAL, true, true, false);
 			try {
-				ChartUtilities.saveChartAsPNG(new File("Histograma.PNG"), chart, 5000, 500);
+				ChartUtilities.saveChartAsPNG(new File(numero), chart, 6000, 2000);
 			}catch(IOException e) {}
 		 
 		

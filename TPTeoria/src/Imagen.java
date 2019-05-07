@@ -98,9 +98,30 @@ public class Imagen {
 			
 		}
 	}
+	
 	public void generarHistograma() {
-		this.division.get(this.division.size()-1).crearHistograma();
-		//this.division.get(0).crearHistograma();
+		this.division.get(this.division.size()-1).crearHistograma("Mayor entropia");
+		this.division.get(0).crearHistograma("Menor Entropia");
+		float suma=(float) 0.0;
+		for(int i=0;i<this.division.size();i++) {
+			suma=suma+this.division.get(i).getEntropiaCM();
+		}
+		suma=suma/this.division.size()-1;
+		int posicionAnt=0;
+		float resultAnt=-1;
+		float resultAct=0;
+		for(int i=1;i<this.division.size()-1;i++) {
+			resultAct=Math.abs(this.division.get(i).getEntropiaCM()-suma);
+			if(resultAnt>=0 && (resultAct==0 || resultAct>resultAnt))
+			{
+				resultAnt=resultAct;
+				posicionAnt=i;
+				break;
+			}
+			resultAnt=resultAct;
+			posicionAnt=i;
+		}
+		this.division.get(posicionAnt).crearHistograma("Entropia promedio");
 	}
 	
 	
