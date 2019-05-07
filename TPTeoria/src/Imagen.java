@@ -124,6 +124,10 @@ public class Imagen {
 		this.division.get(posicionAnt).crearHistograma("Entropia promedio");
 	}
 	
+	public void cargarMatriz()
+	{
+		this.division.get(0).cargarMatrizAcumulada();
+	}
 	
 	public static void main(String[] args)
 	{
@@ -132,8 +136,9 @@ public class Imagen {
 		String ruta=ventanita.getSelectedFile().getAbsolutePath();
 		Imagen imagen= new Imagen(ruta);
 		imagen.Dividir();
-		imagen.calcularEntropias();
-		imagen.generarHistograma();
+		//imagen.calcularEntropias();
+		//imagen.generarHistograma();
+		imagen.cargarMatriz();
 		
 	}
 	

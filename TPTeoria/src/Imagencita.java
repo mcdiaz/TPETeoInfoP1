@@ -2,11 +2,11 @@
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import org.jfree.chart.*;
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.data.statistics.*;
 import org.jfree.chart.plot.PlotOrientation;
 
 
@@ -25,7 +25,13 @@ public class Imagencita {
 	private float[] probabilidades;
 	private float[][] mCondicional;
 	private float[][] mConjunta;
+	private float[][] mAcumulada;
 	private int cantSimbolos;
+	
+	
+	
+	private File file;
+	private FileWriter escribir;
 	
 	
 	public Imagencita(int altoinf,int anchoinf,int anchosup,int altosup,BufferedImage img) {
@@ -39,6 +45,14 @@ public class Imagencita {
 		this.cantSimbolos=(Math.abs(this.anchosup-this.anchoinf)+1)*(Math.abs(this.altosup-this.altoinf)+1);
 		this.mCondicional=new float[256][256];
 		this.mConjunta=new float[256][256];
+		this.mAcumulada=new float[256][256];
+		file=new File("MatrizAcumulada.txt");//preguntar que lo ponga en el proyecto?
+		 try {
+			escribir=new FileWriter(file,true);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		cargar();
 	}
 	
@@ -77,7 +91,51 @@ public class Imagencita {
 		
 		cargarEntropiaSM();
 		cargarEntropiaCM();
+		
 	}
+
+
+	public void cargarMatrizAcumulada() {
+		// TODO Auto-generated method stub
+		float suma=0;
+		for(int f=0;f<256;f++) {
+			//if(this.ocurrencias[f]!=0 ) {
+			for(int c=0;c<256;c++) {
+				if(this.ocurrencias[c]!=0 ) {
+						if(f==0) {
+							suma=(float) (this.mCondicional[f][c]/this.ocurrencias[c]);
+						}
+						else {
+							suma= (float) (this.mCondicional[f][c]/this.ocurrencias[c])+this.mAcumulada[f-1][c];}
+						this.mAcumulada[f][c]=suma;
+			
+			
+						try {
+							escribir.write(this.mAcumulada[f][c]+"\t");
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				else this.mAcumulada[f][c]=0;
+				}
+			try {
+				escribir.write("\n");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
+		//}
+	}
+		try {
+			escribir.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 
 
 	/*public void getEscalaDeGrises(BufferedImage img) {
