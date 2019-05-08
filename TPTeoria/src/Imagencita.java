@@ -27,11 +27,15 @@ public class Imagencita {
 	private float[][] mConjunta;
 	private float[][] mAcumulada;
 	private int cantSimbolos;
+	private float desvio;
+	private float mediaConSimulacion;
+	private float mediaSin;
+	private float desvioSin;
 	
 	
 	
-	private File file;
-	private FileWriter escribir;
+	private File fileC;
+	private FileWriter escribirC;
 	
 	
 	public Imagencita(int altoinf,int anchoinf,int anchosup,int altosup,BufferedImage img) {
@@ -46,14 +50,9 @@ public class Imagencita {
 		this.mCondicional=new float[256][256];
 		this.mConjunta=new float[256][256];
 		this.mAcumulada=new float[256][256];
-		file=new File("MatrizAcumulada.txt");//preguntar que lo ponga en el proyecto?
-		 try {
-			escribir=new FileWriter(file,true);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 		cargar();
+		calcularDM();
 	}
 	
 
@@ -89,8 +88,10 @@ public class Imagencita {
 			this.probabilidades[i]=(float) (this.ocurrencias[i]/(this.cantSimbolos));
 			i++;}
 		
-		cargarEntropiaSM();
-		cargarEntropiaCM();
+		this.cargarEntropiaSM();
+		this.cargarEntropiaCM();
+		this.cargarMatrizAcumulada();
+		
 		
 	}
 
@@ -99,7 +100,7 @@ public class Imagencita {
 		// TODO Auto-generated method stub
 		float suma=0;
 		for(int f=0;f<256;f++) {
-			//if(this.ocurrencias[f]!=0 ) {
+			
 			for(int c=0;c<256;c++) {
 				if(this.ocurrencias[c]!=0 ) {
 						if(f==0) {
@@ -108,28 +109,44 @@ public class Imagencita {
 						else {
 							suma= (float) (this.mCondicional[f][c]/this.ocurrencias[c])+this.mAcumulada[f-1][c];}
 						this.mAcumulada[f][c]=suma;
+				}
+				else this.mAcumulada[f][c]=0;
+				}
 			
-			
+	}
+}
+	
+	
+	public void cargarMatrizCondicional(String nombre) {
+		// TODO Auto-generated method stub
+		fileC=new File(nombre+".txt");
+		 try {
+			escribirC=new FileWriter(fileC,true);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		for(int f=0;f<256;f++) {
+			for(int c=0;c<256;c++) {
+				if(this.ocurrencias[c]!=0 ) {
 						try {
-							escribir.write(this.mAcumulada[f][c]+"\t");
+							escribirC.write(this.mCondicional[f][c]/this.ocurrencias[c]+"\t");
 						} catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}
-				else this.mAcumulada[f][c]=0;
+				else this.mCondicional[f][c]=0;
 				}
 			try {
-				escribir.write("\n");
+				escribirC.write("\n");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		
-		//}
 	}
 		try {
-			escribir.close();
+			escribirC.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -137,25 +154,6 @@ public class Imagencita {
 	}
 
 
-
-	/*public void getEscalaDeGrises(BufferedImage img) {
-		Color color;
-		int r;
-		int g;
-		int b;
-		int rgb;
-		for (int x = 0; x < img.getWidth(); x++) {
-			for (int y = 0; y < img.getHeight(); y++) {
-			 rgb = img.getRGB(x, y);
-			 color = new Color(rgb, true);
-			 r = color.getRed();
-			 g = color.getGreen();
-			 b = color.getBlue();
-			 System.out.println(r + "," + g + "," + b + "," + img.getHeight() + "," + img.getWidth());
-			 }
-			
-		}
-	}*/
 	
 	private void cargarEntropiaSM() {
 		float suma=0;
@@ -197,6 +195,8 @@ public class Imagencita {
 	public int getAltoSup() {return this.altosup;}
 	public int getAnchoInf() {return this.anchoinf;}
 	public int getAnchoSup() {return this.anchosup;}
+	public float getDesvio() {return this.desvio;}
+	public float getMedia() {return this.mediaConSimulacion;}
 
 	public void crearHistograma(String cuadrado) {
 		  DefaultCategoryDataset dataset = new DefaultCategoryDataset();
@@ -214,8 +214,73 @@ public class Imagencita {
 		 
 		
 	}
+	private boolean converge(float anterior,float actual) {
+		if(Math.abs(anterior-actual)<0.001f)
+			return true;
+		return false;
+	}
 	
+	private int generar(int c) {
+		float x= (float) Math.random();
+		for(int f=0;f<256;f++)	{
+			if(x<this.mAcumulada[f][c])
+				{if(this.ocurrencias[f]!=0)
+					{
+					return f;
+					}
+				}
+			}
+		return 0;
+	}
 	
+	public void calcularDM() {
+		float suma=0;
+		float sumaCuadrada=0;
+		float mediaCuadradaAct=0;
+		float mediaAct=0;
+		float tiradas=0;
+		float mediaAnt=-1;
+		float mediaCuadradaAnt=-1;
+		int f=0;
+		for(int i=0;i<this.ocurrencias.length;i++) {
+			if(this.ocurrencias[i]!=0) {
+				f=i;
+				break;
+				}
+			}
+		while (!converge(mediaAnt,mediaAct) && !converge(mediaCuadradaAnt,mediaCuadradaAct) || tiradas<10000) {
+					 f=this.generar(f);
+					suma=suma+f;
+					sumaCuadrada=(float) (Math.pow(f, 2))+sumaCuadrada;
+					tiradas++;
+				
+				
+					mediaAnt=mediaAct;
+					mediaCuadradaAnt=mediaCuadradaAct;
+					mediaAct=suma/tiradas;
+					mediaCuadradaAct=sumaCuadrada/tiradas;
+			
+		}
+		this.desvio=(float) Math.sqrt(mediaCuadradaAct-Math.pow(mediaAct, 2));
+		this.mediaConSimulacion=mediaAct;
+		
+		
+	}
 	
+	public float mediaSinSimu() {
+		double suma=0;
+		for(int i=0;i<this.ocurrencias.length;i++)
+			if(this.ocurrencias[i]!=0)	
+				suma=suma+(this.ocurrencias[i]*i);
+		return (float) (suma/this.cantSimbolos);
+	}
+	
+	public float desvioSinSimu() {
+		double suma=0;
+		for(int i=0;i<this.ocurrencias.length;i++)
+			if(this.ocurrencias[i]!=0)	
+				suma=suma+(this.ocurrencias[i]*Math.pow(i, 2));
+		return (float) Math.sqrt((suma/this.cantSimbolos)-Math.pow(this.mediaSinSimu(), 2));
+	}
 	
 }

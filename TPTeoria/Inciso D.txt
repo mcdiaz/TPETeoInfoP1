@@ -1,0 +1,8 @@
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 7.9346285
+ 	 Media: 200.6472
+MEDIA SIN SIMU:201.08397desvio:5.7200847
+ Bloque desde 500 a 999 y 500 a 999: 
+ 	 Desvio: 39.829308
+ 	 Media: 168.92828
+MEDIA SIN SIMU:171.3587desvio:39.29234

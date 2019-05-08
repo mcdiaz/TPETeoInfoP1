@@ -14,15 +14,19 @@ import javax.swing.JFileChooser;
 public class Imagen {
 	private BufferedImage img;
 	private ArrayList<Imagencita> division;
-	private File file;
-	private FileWriter escribir;
+	private File fileA;
+	private File fileD;
+	private FileWriter escribirA;
+	private FileWriter escribirD;
 	
 	public Imagen(String ruta) {
 		
 		try {
 			this.img = ImageIO.read(new File(ruta));
-			 file=new File("file.txt");//preguntar que lo ponga en el proyecto?
-			 escribir=new FileWriter(file,true);
+			 fileA=new File("Inciso A.txt");//preguntar que lo ponga en el proyecto?
+			 escribirA=new FileWriter(fileA,true);
+			 fileD=new File("Inciso D.txt");//preguntar que lo ponga en el proyecto?
+			 escribirD=new FileWriter(fileD,true);
 			 
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
@@ -65,7 +69,7 @@ public class Imagen {
 	public void calcularEntropias() {
 		try {
 		for(int i=0; i<this.division.size();i++)
-			escribir.write(
+			escribirA.write(
 					"entropias de Bloque desde "+ this.division.get(i).getAltoInf()+
 					" a "+ this.division.get(i).getAltoSup()+
 					" y "+this.division.get(i).getAnchoInf() +
@@ -74,7 +78,7 @@ public class Imagen {
 					"\n \t Entropia con memoria: "+Float.toString((float) this.division.get(i).getEntropiaCM())+
 					"\n"
 					);
-		escribir.close();
+		escribirA.close();
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}	
@@ -124,9 +128,35 @@ public class Imagen {
 		this.division.get(posicionAnt).crearHistograma("Entropia promedio");
 	}
 	
-	public void cargarMatriz()
+	public void generarIncisoC()
 	{
-		this.division.get(0).cargarMatrizAcumulada();
+		this.division.get(0).cargarMatrizCondicional("IncisoCMenorEntropia");
+		this.division.get(this.division.size()-1).cargarMatrizCondicional("IncisoCMayorEntropia");
+		
+	}
+	public void generarIncisoD() {
+			try {
+				escribirD.write(
+						" Bloque desde "+ this.division.get(0).getAltoInf()+
+						" a "+ this.division.get(0).getAltoSup()+
+						" y "+this.division.get(0).getAnchoInf() +
+						" a "+ this.division.get(0).getAnchoSup()+
+						": \n \t Desvio: "+Float.toString((float) this.division.get(0).getDesvio())+
+						"\n \t Media: "+Float.toString((float) this.division.get(0).getMedia())+
+						"\n"+
+						"MEDIA SIN SIMU:"+this.division.get(0).mediaSinSimu()+"desvio:"+this.division.get(0).desvioSinSimu()+"\n"+
+						" Bloque desde "+ this.division.get(this.division.size()-1).getAltoInf()+
+						" a "+ this.division.get(this.division.size()-1).getAltoSup()+
+						" y "+this.division.get(this.division.size()-1).getAnchoInf() +
+						" a "+ this.division.get(this.division.size()-1).getAnchoSup()+
+						": \n \t Desvio: "+Float.toString((float) this.division.get(this.division.size()-1).getDesvio())+
+						"\n \t Media: "+Float.toString((float) this.division.get(this.division.size()-1).getMedia())+"\n"+
+						"MEDIA SIN SIMU:"+this.division.get(this.division.size()-1).mediaSinSimu()+"desvio:"+this.division.get(this.division.size()-1).desvioSinSimu()
+						);
+			escribirD.close();
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+			}	
 	}
 	
 	public static void main(String[] args)
@@ -138,7 +168,8 @@ public class Imagen {
 		imagen.Dividir();
 		//imagen.calcularEntropias();
 		//imagen.generarHistograma();
-		imagen.cargarMatriz();
+		//imagen.generarIncisoC();
+		imagen.generarIncisoD();
 		
 	}
 	
