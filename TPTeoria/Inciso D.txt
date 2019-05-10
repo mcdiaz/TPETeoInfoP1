@@ -1,8 +1,44 @@
  Bloque desde 500 a 999 y 0 a 499: 
- 	 Desvio: 7.9346285
- 	 Media: 200.6472
+ 	 Desvio: 6.0659184
+ 	 Media: 201.00304
 MEDIA SIN SIMU:201.08397desvio:5.7200847
- Bloque desde 500 a 999 y 500 a 999: 
- 	 Desvio: 39.829308
- 	 Media: 168.92828
-MEDIA SIN SIMU:171.3587desvio:39.29234
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 76.589905
+ 	 Media: 35.30807
+MEDIA SIN SIMU:201.08397desvio:5.7200847
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 99.889465
+ 	 Media: 111.78789
+MEDIA SIN SIMU:201.08397desvio:5.7200847
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 97.32788
+ 	 Media: 75.08426
+MEDIA SIN SIMU:201.08397desvio:5.7200847
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 89.88121
+ 	 Media: 145.82765
+MEDIA SIN SIMU:201.08397desvio:5.7200847
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 0.0
+ 	 Media: 255.0
+MEDIA SIN SIMU:201.08397desvio:5.7200847
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 0.0
+ 	 Media: 255.0
+MEDIA SIN SIMU:201.08397desvio:5.7200847
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 26.258186
+ 	 Media: 217.96667
+MEDIA SIN SIMU:201.08397desvio:5.7200847
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 21.564444
+ 	 Media: 244.72728
+MEDIA SIN SIMU:201.08397desvio:5.7200847
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 100.59466
+ 	 Media: 101.33438
+MEDIA SIN SIMU:201.08397desvio:5.7200847
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 79.386765
+ 	 Media: 38.87062
+MEDIA SIN SIMU:201.08397desvio:5.7200847

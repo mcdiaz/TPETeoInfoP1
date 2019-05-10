@@ -23,9 +23,9 @@ public class Imagen {
 		
 		try {
 			this.img = ImageIO.read(new File(ruta));
-			 fileA=new File("Inciso A.txt");//preguntar que lo ponga en el proyecto?
+			 fileA=new File("Inciso A.txt");
 			 escribirA=new FileWriter(fileA,true);
-			 fileD=new File("Inciso D.txt");//preguntar que lo ponga en el proyecto?
+			 fileD=new File("Inciso D.txt");
 			 escribirD=new FileWriter(fileD,true);
 			 
 		} catch (IOException e) {
@@ -144,7 +144,7 @@ public class Imagen {
 						": \n \t Desvio: "+Float.toString((float) this.division.get(0).getDesvio())+
 						"\n \t Media: "+Float.toString((float) this.division.get(0).getMedia())+
 						"\n"+
-						"MEDIA SIN SIMU:"+this.division.get(0).mediaSinSimu()+"desvio:"+this.division.get(0).desvioSinSimu()+"\n"+
+						"MEDIA SIN SIMU:"+this.division.get(0).mediaSinSimu()+"desvio:"+this.division.get(0).desvioSinSimu()+"\n"/*+
 						" Bloque desde "+ this.division.get(this.division.size()-1).getAltoInf()+
 						" a "+ this.division.get(this.division.size()-1).getAltoSup()+
 						" y "+this.division.get(this.division.size()-1).getAnchoInf() +
@@ -152,7 +152,7 @@ public class Imagen {
 						": \n \t Desvio: "+Float.toString((float) this.division.get(this.division.size()-1).getDesvio())+
 						"\n \t Media: "+Float.toString((float) this.division.get(this.division.size()-1).getMedia())+"\n"+
 						"MEDIA SIN SIMU:"+this.division.get(this.division.size()-1).mediaSinSimu()+"desvio:"+this.division.get(this.division.size()-1).desvioSinSimu()
-						);
+						*/);
 			escribirD.close();
 			} catch (IOException e) {
 				System.out.println(e.getMessage());
