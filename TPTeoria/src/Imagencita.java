@@ -98,7 +98,7 @@ public class Imagencita {
 			this.probabilidades[i]=(float)(this.ocurrencias[i]/((float)this.cantSimbolos));
 			i++;}
 		this.cargarEntropiaSM();
-		this.cargarEntropiaCM();
+		this.cargarEntropiaCondiconal();
 		this.cargarMatrizAcumulada();
 		
 	}
@@ -182,7 +182,7 @@ public class Imagencita {
 		
 	}
 	
-	public void cargarEntropiaCM() {//calcula entropia con memoria, utilizando la entropia conjunta
+	/*public void cargarEntropiaCM() {//calcula entropia con memoria, utilizando la entropia conjunta
 		float suma=0;
 		for(int i=0; i<256; i++) {
 			for(int j=0; j<256; j++)
@@ -194,9 +194,31 @@ public class Imagencita {
 			}
 		}
 		this.entropiaCM=-suma;
+	}*/
+	
+	public void cargarEntropiaCondiconal()//Se tiene que seguir probando
+	{
+		float sumaEntropiaSubJ;
+		float suma=(float)0.0;
+		for(int i=0; i<256; i++) {
+			sumaEntropiaSubJ=(float)0.0;
+			for(int j=0; j<256; j++)
+			{
+				if(this.ocurrencias[i]!=0 ) {
+					float probCond =((float)this.mCondicional[j][i]/(float)this.ocurrencias[i]);
+					if(probCond!=0.0) {
+						sumaEntropiaSubJ=(float)((probCond)*(Math.log10(probCond)/Math.log10(2f))) + sumaEntropiaSubJ;
+					}
+				}
+			}
+			
+			if(this.probabilidades[i]!=0.0) {
+				suma=(this.probabilidades[i]*sumaEntropiaSubJ)+suma;
+			}
+		}
+		
+		this.entropiaCM=-suma;
 	}
-	
-	
 
 	
 	

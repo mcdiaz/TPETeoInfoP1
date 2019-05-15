@@ -150,8 +150,8 @@ public class Imagen {
 		imagen.Dividir();
 		imagen.calcularEntropias();
 		imagen.generarHistograma();
-		imagen.generarIncisoC();
-		imagen.generarIncisoD();
+		//imagen.generarIncisoC();
+		//imagen.generarIncisoD();
 		
 	}
 	
