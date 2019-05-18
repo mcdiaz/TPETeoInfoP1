@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import javax.imageio.ImageIO;
+import javax.swing.JFileChooser;
 
 public class Imagen {
 
@@ -15,6 +16,7 @@ public class Imagen {
 	private File fileD;
 	private FileWriter escribirA;
 	private FileWriter escribirD;
+	private float Ht;
 	
 	public Imagen(String ruta) {//cargar datos
 		
@@ -59,11 +61,26 @@ public class Imagen {
 		Collections.sort(this.division, new Comparador());
 	}
 	
+	public void comprimir() {
+		for(int i=0;i<this.division.size();i++)
+			if(this.division.get(i).getEntropiaCM()<Ht)
+				this.division.get(i).comprimirHuffman();
+			else
+				this.division.get(i).comprimirLlRC();
+	}
 	
-	
+	 public void setHt(float Ht) {
+		 this.Ht=Ht;
+	 }
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		JFileChooser ventanita=new JFileChooser();
+		ventanita.showOpenDialog(ventanita);
+		String ruta=ventanita.getSelectedFile().getAbsolutePath();//obtiene la ruta del archivo selecionado
+		Imagen imagen= new Imagen(ruta);
+		imagen.Dividir();
+		imagen.setHt(Ht);// pedir por consola
+		
 
 	}
 

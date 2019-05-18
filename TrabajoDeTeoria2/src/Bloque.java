@@ -20,10 +20,10 @@ public class Bloque {
 	private int[][] mConjunta;
 	private float[][] mAcumulada;
 	private int cantSimbolos;
-
+	// PARTE 2
+	private Codificacion CH;
+	private Decodificacion DH;
 	
-	private File fileC;
-	private FileWriter escribirC;
 
 	
 	public Bloque(int altoinf,int anchoinf,int anchosup,int altosup,BufferedImage img) {
@@ -40,6 +40,7 @@ public class Bloque {
 		this.mConjunta=new int[256][256];
 		InicializoEn0();
 		cargar();
+		codificacion=new codificacion(this.probabilidades);
 	}
 	
 	private void InicializoEn0() {//inicializa todo en 0
@@ -89,41 +90,6 @@ public class Bloque {
 	}
 	
 	
-	/*public void cargarMatrizCondicional(String nombre) {//carga matriz condicional a un archivo .txt con el nombre que se envie por parametro
-		fileC=new File(nombre+".txt");
-		 try {
-			escribirC=new FileWriter(fileC,true);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		 try {
-			escribirC.write("Probabilidades condicionales de las intensidades: \n");
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		for(int f=0;f<256;f++) {
-			for(int c=0;c<256;c++) {
-				if(this.ocurrencias[c]!=0 ) {
-						try {
-							escribirC.write(c+" dado "+f+": "+Math.rint(((float)this.mCondicional[f][c]/(float)this.ocurrencias[c])*10000)/10000+"; \t");
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
-				}
-			try {
-				escribirC.write("\n");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-	}
-		try {
-			escribirC.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}*/
-	
 	private void cargarEntropiaSM() {//calcula entropia sin memoria
 		float suma=0;
 		for(int i=0;i<this.probabilidades.length;i++)
@@ -170,10 +136,11 @@ public class Bloque {
 	public int getAnchoInf() {return this.anchoinf;}
 	public int getAnchoSup() {return this.anchosup;}
 
-	
-	public static void main(String[] args) {
+	public void comprimirHuffman() {
 		// TODO Auto-generated method stub
-
+		
 	}
+
+	
 
 }
