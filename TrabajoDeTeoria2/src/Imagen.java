@@ -1,0 +1,70 @@
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+
+import javax.imageio.ImageIO;
+
+public class Imagen {
+
+	private BufferedImage img;
+	private ArrayList<Bloque> division;
+	private File fileA;
+	private File fileD;
+	private FileWriter escribirA;
+	private FileWriter escribirD;
+	
+	public Imagen(String ruta) {//cargar datos
+		
+		try {
+			this.img = ImageIO.read(new File(ruta));
+			 fileA=new File("Inciso A.txt");
+			 escribirA=new FileWriter(fileA,true);
+			 fileD=new File("Inciso D.txt");
+			 escribirD=new FileWriter(fileD,true);
+			 
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+	}
+		this.division=new ArrayList<Bloque>();
+	}
+	
+	public void Dividir()//guarda la posicion de cada imagencita en el vector dividir
+	{ 	
+		int i=0;
+		int columSup=0;
+		int filaSup=0;
+		int alto=img.getHeight();
+			int ancho=img.getWidth();
+		while(i<alto) {
+			int j=0;
+			if(Math.abs(alto-i)>=500)
+				filaSup=i+499;//ancho de 500
+			else
+				filaSup=alto;
+			while(j<ancho) {
+				if(Math.abs(ancho-j)>=500)
+					columSup=j+499;//ancho de 500
+				else {
+					columSup=ancho;//ancho menor a 500 --> el limite superior de ancho de imagencita = limite superior del ancho original
+				}
+				Bloque bloque=new Bloque(i,j,columSup, filaSup,this.img);
+				this.division.add(bloque);
+				j=columSup+1;
+			}
+			i=filaSup+1;
+		}
+		Collections.sort(this.division, new Comparador());
+	}
+	
+	
+	
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}
