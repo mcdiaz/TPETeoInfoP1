@@ -14,6 +14,10 @@ public class Nodo implements Comparable<Nodo>{
 		this.der=null;
 	}
 	
+	public Nodo()
+	{
+		
+	}
 	
 	public int getS() {
 		return s;
@@ -36,29 +40,78 @@ public class Nodo implements Comparable<Nodo>{
 
 
 	public Nodo getIzq() {
-		return izq;
+		
+		/*if(this.izq!=null) {
+			Nodo aux=new Nodo(this.izq.getS(),this.izq.getP());
+			if(this.izq.getDer()!=null) 
+				aux.setDer(this.izq.getDer());
+			
+			if(this.izq.getIzq()!=null) 
+				aux.setIzq(this.izq.getIzq());
+			
+			return aux;
+		}
+		else 
+			return null;*/
+		return this.izq;
+		
 	}
 
 
 	public void setIzq(Nodo izq) {
-		this.izq = izq;
+		
+		if(izq!=null) {
+			Nodo aux=new Nodo(izq.getS(),izq.getP());
+			if(izq.getDer()!=null) 
+				aux.setDer(izq.getDer());
+			
+			if(izq.getIzq()!=null) 
+				aux.setIzq(izq.getIzq());
+			
+			this.izq = aux;}
+		//this.izq=izq;
+
+			
+		
+		
 	}
 
 
 	public Nodo getDer() {
-		return der;
+		
+		if(this.der!=null) {
+			Nodo aux=new Nodo(this.der.getS(),this.der.getP());
+			if(this.der.getDer()!=null) 
+				aux.setDer(this.der.getDer());
+			
+			if(this.der.getIzq()!=null) 
+				aux.setIzq(this.der.getIzq());
+			
+			return aux;
+
+		}
+		else
+			return null;
+		//return this.der;
 	}
 
 
 	public void setDer(Nodo der) {
-		this.der = der;
+		/*if(der!=null) {
+			Nodo aux=new Nodo(der.getS(),der.getP());
+			if(der.getDer()!=null) 
+				aux.setDer(der.getDer());
+			
+			if(der.getIzq()!=null) 
+				aux.setIzq(der.getIzq());
+			
+			this.der = aux;
+		}*/
+		this.der=der;
 	}
 
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
-	}
 
 
 	@Override

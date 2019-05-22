@@ -18,11 +18,10 @@ public class Bloque {
 	private float[] probabilidades;
 	private int[][] mCondicional;
 	private int[][] mConjunta;
-	private float[][] mAcumulada;
+	//private float[][] mAcumulada;
 	private int cantSimbolos;
 	// PARTE 2
-	private Codificacion CH;
-	private Decodificacion DH;
+	private Codificacion cH;
 	
 
 	
@@ -40,7 +39,7 @@ public class Bloque {
 		this.mConjunta=new int[256][256];
 		InicializoEn0();
 		cargar();
-		codificacion=new codificacion(this.probabilidades);
+		cH=new Codificacion(this.img, this.anchosup, this.altosup);
 	}
 	
 	private void InicializoEn0() {//inicializa todo en 0
@@ -51,7 +50,6 @@ public class Bloque {
 		}
 		for(int k=0;k<256;k++) {
 			for(int j=0;j<256;j++) {
-				this.mAcumulada[k][j]= 0f;
 				this.mConjunta[k][j]= 0;
 				this.mCondicional[k][j]=0;
 						}}}
@@ -138,7 +136,7 @@ public class Bloque {
 
 	public void comprimirHuffman() {
 		// TODO Auto-generated method stub
-		
+		this.cH.codifHuffman(this.probabilidades);
 	}
 
 	

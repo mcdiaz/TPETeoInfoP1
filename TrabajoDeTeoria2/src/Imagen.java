@@ -12,20 +12,20 @@ public class Imagen {
 
 	private BufferedImage img;
 	private ArrayList<Bloque> division;
-	private File fileA;
-	private File fileD;
-	private FileWriter escribirA;
-	private FileWriter escribirD;
+	//private File fileA;
+//	private File fileD;
+	//private FileWriter escribirA;
+	//private FileWriter escribirD;
 	private float Ht;
 	
 	public Imagen(String ruta) {//cargar datos
 		
 		try {
 			this.img = ImageIO.read(new File(ruta));
-			 fileA=new File("Inciso A.txt");
-			 escribirA=new FileWriter(fileA,true);
-			 fileD=new File("Inciso D.txt");
-			 escribirD=new FileWriter(fileD,true);
+			 //fileA=new File("Inciso A.txt");
+			// escribirA=new FileWriter(fileA,true);
+			// fileD=new File("Inciso D.txt");
+			// escribirD=new FileWriter(fileD,true);
 			 
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
@@ -62,16 +62,17 @@ public class Imagen {
 	}
 	
 	public void comprimir() {
-		for(int i=0;i<this.division.size();i++)
+		/*for(int i=0;i<this.division.size();i++)
 			if(this.division.get(i).getEntropiaCM()<Ht)
 				this.division.get(i).comprimirHuffman();
 			else
-				this.division.get(i).comprimirLlRC();
+				this.division.get(i).comprimirLlRC();*/
+		this.division.get(0).comprimirHuffman();
 	}
-	
+	/*
 	 public void setHt(float Ht) {
 		 this.Ht=Ht;
-	 }
+	 }*/
 	
 	public static void main(String[] args) {
 		JFileChooser ventanita=new JFileChooser();
@@ -79,8 +80,8 @@ public class Imagen {
 		String ruta=ventanita.getSelectedFile().getAbsolutePath();//obtiene la ruta del archivo selecionado
 		Imagen imagen= new Imagen(ruta);
 		imagen.Dividir();
-		imagen.setHt(Ht);// pedir por consola
-		
+		//imagen.setHt(Ht);// pedir por consola
+		imagen.comprimir();
 
 	}
 
