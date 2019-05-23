@@ -82,18 +82,18 @@ public class Codificacion {
 		Color color;
 		int r;
 		int bufferedLength=8;
-		
+		boolean encontrado;
 		for(int i=0; i<this.alto;i++)
 			for(int j=0;j<this.ancho;j++) {
 				rgb = this.img.getRGB(j, i);
 				color = new Color(rgb, true);
 				r = color.getRed();
-				boolean encontrado=false;
+				encontrado=false;
 				this.generarCodigo(resultaux,result, byteBuffered, bufferedPos, bufferedLength, this.arbolHuf.element(), r, encontrado);
-				resultverdadero.addAll(result);////////////////CAMBIE PORQUE ME PARECIA RARO QUE RESULT SE VUELVA A SI MISMO//////////////////////
+				//result.addAll(result);////////////////CAMBIE PORQUE ME PARECIA RARO QUE RESULT SE VUELVA A SI MISMO//////////////////////
 				
 			}
-		this.arregloByte= ConvertByteListToPrimitives(resultverdadero);
+		this.arregloByte= ConvertByteListToPrimitives(result);
 		this.generarArchivo();
 		
 	}
@@ -140,33 +140,42 @@ public class Codificacion {
 	private void generarCodigo(List<Byte> resultaux,List<Byte> result,byte ByteBuffered,int bufferedPos, int bufferedLength, Nodo raiz,int intensidad, boolean encontrado) 
 	{
 		
-		if(encontrado) {///////////////////ACA ESTABA EL ERROR estaba el !encontro y nunca entraba//////////////////////////
-			if(bufferedPos==bufferedLength) {
+		if(!encontrado) {///////////////////ACA ESTABA EL ERROR estaba el !encontro y nunca entraba//////////////////////////
+			if((bufferedPos-1)==bufferedLength) {
 				result.add(ByteBuffered);
 				bufferedPos=0;
 				ByteBuffered=0;
 			}
 			if((raiz.getDer()!=null) || (raiz.getIzq()!=null))//posee al menos un hijo ///Aca saque los distintos de afuera y se los puse adentro
 			{	
-				bufferedPos++;
+				
 				if(!(resultaux.isEmpty())) {
 					for(int i=0;i<resultaux.size();i++)
 						{resultaux.remove(i);}
 					if(!(result.isEmpty()))
 						resultaux.addAll(result);
 				}
+				ByteBuffered=(byte)(ByteBuffered << 1);
+				bufferedPos++;
 				if(raiz.getIzq()!=null) {//hijo izquierdo
-					ByteBuffered=(byte)(ByteBuffered | 0);
+					
 					generarCodigo(result,result,ByteBuffered,bufferedPos,bufferedLength,raiz.getIzq(),intensidad, encontrado);
 				}
 				if(raiz.getDer()!=null && !encontrado)//hijo derecho
 				{
+					
+					
 					ByteBuffered=(byte)(ByteBuffered | 1);
+					
 					generarCodigo(resultaux,resultaux,ByteBuffered,bufferedPos,bufferedLength,raiz.getDer(),intensidad, encontrado);
 					if(encontrado)
 					{
-						result.removeAll(result);
-						result.addAll(resultaux);
+						if(!(result.isEmpty())) {
+							for(int i=0;i<result.size();i++)
+								{result.remove(i);}
+							if(!(resultaux.isEmpty()))
+								result.addAll(resultaux);
+						}
 					}
 				}
 			}
@@ -175,6 +184,7 @@ public class Codificacion {
 					if(!encontrado && raiz.getDer()==null && raiz.getIzq()==null && intensidad==raiz.getS())
 					{
 						//chocamos los cinco
+						bufferedPos--;
 						encontrado=true;
 						if(bufferedLength!=bufferedPos){
 							ByteBuffered= (byte)(ByteBuffered << (bufferedLength - bufferedPos));//lo corre 
@@ -182,6 +192,7 @@ public class Codificacion {
 							bufferedPos=0;
 						}
 					}
+					
 			
 				}
 		}

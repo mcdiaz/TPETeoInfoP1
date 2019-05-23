@@ -26,6 +26,7 @@ public class Bloque {
 
 	
 	public Bloque(int altoinf,int anchoinf,int anchosup,int altosup,BufferedImage img) {
+		
 		this.altosup = altosup;
 		this.anchosup = anchosup;
 		this.altoinf=altoinf;

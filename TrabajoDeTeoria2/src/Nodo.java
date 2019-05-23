@@ -59,7 +59,7 @@ public class Nodo implements Comparable<Nodo>{
 
 
 	public void setIzq(Nodo izq) {
-		
+		/*
 		if(izq!=null) {
 			Nodo aux=new Nodo(izq.getS(),izq.getP());
 			if(izq.getDer()!=null) 
@@ -68,8 +68,8 @@ public class Nodo implements Comparable<Nodo>{
 			if(izq.getIzq()!=null) 
 				aux.setIzq(izq.getIzq());
 			
-			this.izq = aux;}
-		//this.izq=izq;
+			this.izq = aux;}*/
+		this.izq=izq;
 
 			
 		
@@ -79,7 +79,7 @@ public class Nodo implements Comparable<Nodo>{
 
 	public Nodo getDer() {
 		
-		if(this.der!=null) {
+		/*if(this.der!=null) {
 			Nodo aux=new Nodo(this.der.getS(),this.der.getP());
 			if(this.der.getDer()!=null) 
 				aux.setDer(this.der.getDer());
@@ -91,8 +91,8 @@ public class Nodo implements Comparable<Nodo>{
 
 		}
 		else
-			return null;
-		//return this.der;
+			return null;*/
+		return this.der;
 	}
 
 
