@@ -71,11 +71,11 @@ public class Decodificacion {
 			this.arbolHuf.add(padre);
 		}
 	}
-		
+		/*
 	public static void main(String[] args) {
 		Decodificacion d = new Decodificacion();
 
-	}
+	}*/
 
 	
 	

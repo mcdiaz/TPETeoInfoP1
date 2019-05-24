@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
@@ -20,6 +21,7 @@ public class Codificacion {
 	private BufferedImage img;
 	private int ancho,alto;
 	private ArrayList<DuplaSerial> simProb=new ArrayList<DuplaSerial>() ;
+	private Hashtable<Integer,ArrayList<Character>> codHuff;
 	
 	/*private File binario;
 	private FileWriter escribirBinario;*/
@@ -35,6 +37,8 @@ public class Codificacion {
 		this.alto = alto;
 		this.CH=null;
 		this.CR=null;
+		this.codHuff=new Hashtable<Integer,ArrayList<Character>>(256);
+		
 	}
 
 
@@ -70,29 +74,38 @@ public class Codificacion {
 	public void codifHuffman(float[] simbProb)
 	{
 		List<Byte>result=new ArrayList<Byte>();
-		List<Byte>resultaux=new ArrayList<Byte>();
-		List<Byte>resultverdadero=new ArrayList<Byte>();
+		ArrayList<Character> acumCod=new ArrayList<Character>();
+		/*List<Byte>resultaux=new ArrayList<Byte>();
+		List<Byte>resultverdadero=new ArrayList<Byte>();*/
 		
 		this.inicArbolHuffman(simbProb);
-		this.generarArbol();
-		byte byteBuffered=0;
-		int bufferedPos=0;
-		
-		int rgb = 0;
+		this.generarArbol();//hasta aca venimos piola!!!
+		int rgb=0;
 		Color color;
-		int r;
-		int bufferedLength=8;
-		boolean encontrado;
-		for(int i=0; i<this.alto;i++)
-			for(int j=0;j<this.ancho;j++) {
+		int r=0;
+		byte buffer=0;
+		int bufferPos=0;
+		int bufferLength=8;
+		int t=-1;
+		this.generarCodigo(acumCod,this.arbolHuf.element(),t);
+		ArrayList<Character> acumCodif=new ArrayList<Character>();
+		for(int i=0;i<this.alto;i++) {
+			for(int j=0;j<this.ancho;j++)
+			{
 				rgb = this.img.getRGB(j, i);
 				color = new Color(rgb, true);
 				r = color.getRed();
-				encontrado=false;
-				this.generarCodigo(resultaux,result, byteBuffered, bufferedPos, bufferedLength, this.arbolHuf.element(), r, encontrado);
-				//result.addAll(result);////////////////CAMBIE PORQUE ME PARECIA RARO QUE RESULT SE VUELVA A SI MISMO//////////////////////
+				acumCodif=this.codHuff.get(r);
 				
+				//System.out.println(r);
+				codificarSecuencia(acumCodif,buffer,bufferPos,result,bufferLength);
+				
+				}
 			}
+		if(bufferPos<bufferLength && bufferPos!=0) {
+			buffer=(byte)(buffer<<(bufferLength-bufferPos));
+			result.add(buffer);
+		}
 		this.arregloByte= ConvertByteListToPrimitives(result);
 		this.generarArchivo();
 		
@@ -100,6 +113,36 @@ public class Codificacion {
 	
 
 	
+	private void codificarSecuencia(ArrayList<Character> acumCodif, byte buffer, int bufferPos, List<Byte> result,int bufferLength) {
+		// TODO Auto-generated method stub
+		int i = 0;
+		
+		while (i < acumCodif.size() ) {
+			// La operación de corrimiento pone un '0'
+			buffer = (byte) (buffer << 1);
+			bufferPos++;
+			if (acumCodif.get(i) == '1') {
+				buffer = (byte) (buffer | 1);
+			}
+
+			if (bufferPos == bufferLength) {
+				result.add(buffer);
+				buffer = 0;
+				bufferPos = 0;
+				bufferLength=8;
+			}
+
+			i++;
+		}
+		if(bufferPos<bufferLength && bufferPos!=0) {
+			buffer=(byte)(buffer<<(bufferLength-bufferPos));
+			bufferLength=bufferPos;
+			bufferPos=0;
+		}
+	}
+
+
+
 	private void generarArchivo() {
 		ByteArrayOutputStream bs=new ByteArrayOutputStream();
 		ObjectOutputStream os;
@@ -137,66 +180,45 @@ public class Codificacion {
 
 
 
-	private void generarCodigo(List<Byte> resultaux,List<Byte> result,byte ByteBuffered,int bufferedPos, int bufferedLength, Nodo raiz,int intensidad, boolean encontrado) 
+	private void generarCodigo(ArrayList<Character> acumCod,Nodo raiz,int i) 
 	{
-		
-		if(!encontrado) {///////////////////ACA ESTABA EL ERROR estaba el !encontro y nunca entraba//////////////////////////
-			if((bufferedPos-1)==bufferedLength) {
-				result.add(ByteBuffered);
-				bufferedPos=0;
-				ByteBuffered=0;
-			}
-			if((raiz.getDer()!=null) || (raiz.getIzq()!=null))//posee al menos un hijo ///Aca saque los distintos de afuera y se los puse adentro
+			System.out.println(raiz.getS() + "tam: " +acumCod.size());
+			if((raiz.getDer()!=null) || (raiz.getIzq()!=null))//posee al menos un hijo 
 			{	
 				
-				if(!(resultaux.isEmpty())) {
-					for(int i=0;i<resultaux.size();i++)
-						{resultaux.remove(i);}
-					if(!(result.isEmpty()))
-						resultaux.addAll(result);
-				}
-				ByteBuffered=(byte)(ByteBuffered << 1);
-				bufferedPos++;
+				i++;
 				if(raiz.getIzq()!=null) {//hijo izquierdo
+					acumCod.add(i,'0');
+					generarCodigo(acumCod,raiz.getIzq(),i);
 					
-					generarCodigo(result,result,ByteBuffered,bufferedPos,bufferedLength,raiz.getIzq(),intensidad, encontrado);
+					
 				}
-				if(raiz.getDer()!=null && !encontrado)//hijo derecho
+				if(raiz.getDer()!=null )//hijo derecho
 				{
-					
-					
-					ByteBuffered=(byte)(ByteBuffered | 1);
-					
-					generarCodigo(resultaux,resultaux,ByteBuffered,bufferedPos,bufferedLength,raiz.getDer(),intensidad, encontrado);
-					if(encontrado)
-					{
-						if(!(result.isEmpty())) {
-							for(int i=0;i<result.size();i++)
-								{result.remove(i);}
-							if(!(resultaux.isEmpty()))
-								result.addAll(resultaux);
-						}
-					}
+					if(i!=0)
+						i--;
+					acumCod.remove(i);
+					//i++;
+					acumCod.add(i, '1');
+					generarCodigo(acumCod,raiz.getDer(),i);
+					acumCod.remove(i);
 				}
 			}
 			else //esHoja
 				{
-					if(!encontrado && raiz.getDer()==null && raiz.getIzq()==null && intensidad==raiz.getS())
+					if(raiz.getDer()==null && raiz.getIzq()==null)
 					{
 						//chocamos los cinco
-						bufferedPos--;
-						encontrado=true;
-						if(bufferedLength!=bufferedPos){
-							ByteBuffered= (byte)(ByteBuffered << (bufferedLength - bufferedPos));//lo corre 
-							bufferedLength= (bufferedLength - bufferedPos);
-							bufferedPos=0;
-						}
+						//acumCod.remove(i);
+						//i--;
+						this.codHuff.put(raiz.getS(),acumCod);
+						
 					}
 					
 			
 				}
-		}
+			}
 	}
 	
 
-}
+
