@@ -18,7 +18,7 @@ public class Decodificacion {
 	private CabeceraHuf CH;
 	private CabeceraRLC CR;
 	private int inicancho, inicalto,ancho,alto;
-	private byte[] cod;
+	private byte[] cod;//contiene codigo del archivo
 	private BufferedImage img;
 	
 	
@@ -35,18 +35,17 @@ public class Decodificacion {
 				byte[] inPut= Files.readAllBytes(ruta.toPath());
 				//System.out.println(ruta.toPath());
 				System.out.println(ruta.getName());
-				System.out.println(inPut.length);
+				//System.out.println(inPut.length);
 				
 				ByteArrayInputStream bs= new ByteArrayInputStream(inPut);
-				int inic=bs.available();
-				System.out.println(inPut[0]);
+				//int inic=bs.available();
+				//System.out.println(inPut[0]);
 				ObjectInputStream  os=new ObjectInputStream(bs);
-				int fin=bs.available();
-
-				/*for(int i=0;i<(inPut.length-(fin-inic));i++)
-					inPut[i]=inPut[i+(fin-inic)];*/
 				
-				System.out.println(inPut.length);
+				
+				
+				
+				//System.out.println(inPut.length);
 				//System.out.println(bs.available());
 				//System.out.println(bs.read());
 
@@ -58,6 +57,11 @@ public class Decodificacion {
 				} catch (ClassNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+				}
+				cod=new byte[bs.available()];
+				for(int i=0;i<cod.length;i++)
+				{cod[i]=(byte)bs.read();
+				System.out.println(cod[i]);
 				}
 				//System.out.println("alto : "+ CH.getAlto()+ " ancho: "+ CH.getAncho() + " simprob : " + CH.simProb.get(0).getS()+"\n");
 				
@@ -105,11 +109,48 @@ public class Decodificacion {
 				
 	}
 		
-	private void recorrerArbol(Nodo element, BufferedImage img2, int inicalto2, int inicancho2, int alto2, int ancho2,
-			int i) {
+	private void recorrerArbol(Nodo element, BufferedImage img2, int inicalto2, int inicancho2, int alto2, int ancho2,int i) {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	/*private static char[] decodeSequence() {//SE USA PARA PASAR EL ARREGLO DE BYTE COD A UN ARREGLO DE CHAR[], ASI LEEMOS BIT A BIT PARA RECORRERLO EN EL ARBOL
+		char[] restoredSequence = new char[sequenceLength];//se deb mandar cuantos datos va a haber adentro, no se debe tener asi como una constante adentro
+		
+		try {
+			byte[] inputSequence = Files.readAllBytes(new File(outputfilepath).toPath());//arreglo de byte que ya tiene cada uno			
+			int globalIndex = 0;//indice en toda la secuencia			
+			byte mask = (byte) (1 << (bufferLength - 1)); // mask: 10000000 - bufferlength siempre va a ser 8
+			int bufferPos = 0;//indice dentro del buffer
+			int i = 0;//indice en la lista de byte
+			while (globalIndex < sequenceLength) //longitud de secuencia puede ser distinta de la secuencia de inputSequence
+			{
+				byte buffer = inputSequence[i];			
+				while (bufferPos < bufferLength) {
+					
+					if ((buffer & mask) == mask) {
+						restoredSequence[globalIndex] = '1';
+					} else {
+						restoredSequence[globalIndex] = '0';
+					}
+					
+					buffer = (byte) (buffer << 1);//para ver el segundo bit
+					bufferPos++;
+					globalIndex++;
+					
+					if (globalIndex == sequenceLength) {//si ya se procesaron todos los datos - tiene que cortar y no seguir
+						break;
+					}
+				}
+				i++;
+				bufferPos = 0;
+			}
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		
+		return restoredSequence;
+	}*/
 
 	public static void main(String[] args) {
 		Decodificacion d = new Decodificacion();
