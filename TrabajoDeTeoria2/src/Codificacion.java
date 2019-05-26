@@ -21,23 +21,28 @@ public class Codificacion {
 	private BufferedImage img;
 	private int ancho,alto;
 	private ArrayList<DuplaSerial> simProb=new ArrayList<DuplaSerial>() ;
-	private Hashtable<Integer,ArrayList<Character>> codHuff;
+	private Hashtable<Integer,char[]> codHuff;
+	private int inicancho,inicalto;
 	
 	/*private File binario;
 	private FileWriter escribirBinario;*/
 	
-	private static String outPutFilePath="outPut.bin";
+	private static String outPutFilePath;
 	byte[] arregloByte;
 	private FileOutputStream fos;
 	
-	public Codificacion(BufferedImage img, int ancho, int alto) {
+	public Codificacion(BufferedImage img, int inicancho, int inicalto, int ancho, int alto,String cod) {
 		this.arbolHuf = new PriorityQueue< Nodo >();
 		this.img = img;
 		this.ancho = ancho;
 		this.alto = alto;
+		
 		this.CH=null;
 		this.CR=null;
-		this.codHuff=new Hashtable<Integer,ArrayList<Character>>(256);
+		String aux= Integer.toString(this.inicancho) + "-" +Integer.toString(this.inicalto)+"-"+ Integer.toString(this.ancho) + "-" +Integer.toString(this.alto)+ "-"+ cod;
+		Codificacion.outPutFilePath=aux+".bin";
+		this.codHuff=new Hashtable<Integer,char[]>(256);
+		
 		
 	}
 
@@ -55,7 +60,7 @@ public class Codificacion {
 				this.simProb.add(dS);
 			}
 		}
-		CH=new CabeceraHuf(this.ancho, this.alto, this.simProb);
+		CH=new CabeceraHuf(this.inicancho,this.inicalto,this.ancho, this.alto, this.simProb, img.TYPE_INT_RGB);
 	}
 	
 	public void generarArbol()
@@ -86,19 +91,18 @@ public class Codificacion {
 		byte buffer=0;
 		int bufferPos=0;
 		int bufferLength=8;
-		int t=-1;
-		this.generarCodigo(acumCod,this.arbolHuf.element(),t);
-		ArrayList<Character> acumCodif=new ArrayList<Character>();
-		for(int i=0;i<this.alto;i++) {
-			for(int j=0;j<this.ancho;j++)
+		this.generarCodigo(acumCod,this.arbolHuf.element());
+		//System.out.println("prob "+simbProb[232]);
+		//ArrayList<Character> acumCodif=new ArrayList<Character>();
+		for(int i=this.inicalto;i<=this.alto;i++) {
+			for(int j=this.inicancho;j<=this.ancho;j++)
 			{
 				rgb = this.img.getRGB(j, i);
 				color = new Color(rgb, true);
 				r = color.getRed();
-				acumCodif=this.codHuff.get(r);
-				
-				//System.out.println(r);
-				codificarSecuencia(acumCodif,buffer,bufferPos,result,bufferLength);
+				//System.out.println(r+"/n");
+				//System.out.println("colum "+j +" fila "+ i+" tam "+ this.codHuff.get(r).length);
+				codificarSecuencia(this.codHuff.get(r),buffer,bufferPos,result,bufferLength);
 				
 				}
 			}
@@ -113,15 +117,15 @@ public class Codificacion {
 	
 
 	
-	private void codificarSecuencia(ArrayList<Character> acumCodif, byte buffer, int bufferPos, List<Byte> result,int bufferLength) {
+	private void codificarSecuencia(char[] acumCodif, byte buffer, int bufferPos, List<Byte> result,int bufferLength) {
 		// TODO Auto-generated method stub
 		int i = 0;
-		
-		while (i < acumCodif.size() ) {
+		//System.out.println(acumCodif.length);
+		while (i < acumCodif.length) {
 			// La operación de corrimiento pone un '0'
 			buffer = (byte) (buffer << 1);
 			bufferPos++;
-			if (acumCodif.get(i) == '1') {
+			if (acumCodif[i] == '1') {
 				buffer = (byte) (buffer | 1);
 			}
 
@@ -180,28 +184,26 @@ public class Codificacion {
 
 
 
-	private void generarCodigo(ArrayList<Character> acumCod,Nodo raiz,int i) 
+	private void generarCodigo(ArrayList<Character> acumCod,Nodo raiz) 
 	{
-			System.out.println(raiz.getS() + "tam: " +acumCod.size());
+			
 			if((raiz.getDer()!=null) || (raiz.getIzq()!=null))//posee al menos un hijo 
 			{	
 				
-				i++;
+				
 				if(raiz.getIzq()!=null) {//hijo izquierdo
-					acumCod.add(i,'0');
-					generarCodigo(acumCod,raiz.getIzq(),i);
+					acumCod.add('0');
+					generarCodigo(acumCod,raiz.getIzq());
+					acumCod.remove(acumCod.size()-1);
 					
 					
 				}
 				if(raiz.getDer()!=null )//hijo derecho
 				{
-					if(i!=0)
-						i--;
-					acumCod.remove(i);
-					//i++;
-					acumCod.add(i, '1');
-					generarCodigo(acumCod,raiz.getDer(),i);
-					acumCod.remove(i);
+					
+					acumCod.add('1');
+					generarCodigo(acumCod,raiz.getDer());
+					acumCod.remove(acumCod.size()-1);
 				}
 			}
 			else //esHoja
@@ -211,8 +213,11 @@ public class Codificacion {
 						//chocamos los cinco
 						//acumCod.remove(i);
 						//i--;
-						this.codHuff.put(raiz.getS(),acumCod);
-						
+						char[] arr=new char[acumCod.size()];
+						for(int j=0;j<acumCod.size();j++)
+							arr[j]=acumCod.get(j);
+						//System.out.println("cargo primer simbolo");*/
+						this.codHuff.put(raiz.getS(),arr);
 					}
 					
 			

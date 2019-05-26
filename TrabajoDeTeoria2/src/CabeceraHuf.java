@@ -1,3 +1,4 @@
+import java.awt.image.ColorModel;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -34,15 +35,44 @@ public class CabeceraHuf implements Serializable{
 		return serialVersionUID;
 	}
 
-	public int ancho,alto;
-	public ArrayList<DuplaSerial> simProb=new ArrayList<DuplaSerial>() ;
-	
-	public CabeceraHuf(int ancho, int alto, ArrayList<DuplaSerial> simProb)
-	{
-		this.ancho=ancho;
-		this.alto=alto;
-		this.simProb=simProb;
+	public int ancho,alto,inicancho,inicalto;
+	public int getInicancho() {
+		return inicancho;
 	}
+
+	public void setInicancho(int inicancho) {
+		this.inicancho = inicancho;
+	}
+
+	public int getInicalto() {
+		return inicalto;
+	}
+
+	public void setInicalto(int inicalto) {
+		this.inicalto = inicalto;
+	}
+
+	public ArrayList<DuplaSerial> simProb=new ArrayList<DuplaSerial>() ;
+	public int c;
+	public int getC() {
+		return c;
+	}
+
+	public void setC(int c) {
+		this.c = c;
+	}
+
+	public CabeceraHuf(int inicancho,int inicalto,int ancho,int alto, ArrayList<DuplaSerial> simProb, int c) {
+		super();
+		this.ancho = ancho;
+		this.alto = alto;
+		this.inicancho = inicancho;
+		this.inicalto = inicalto;
+		this.simProb = simProb;
+		this.c=c;
+	}
+	
+
 	
 	
 	

@@ -40,7 +40,7 @@ public class Bloque {
 		this.mConjunta=new int[256][256];
 		InicializoEn0();
 		cargar();
-		cH=new Codificacion(this.img, this.anchosup, this.altosup);
+		cH=new Codificacion(this.img, this.anchoinf, this.altoinf, this.anchosup, this.altosup,"h");
 	}
 	
 	private void InicializoEn0() {//inicializa todo en 0
@@ -136,7 +136,7 @@ public class Bloque {
 	public int getAnchoSup() {return this.anchosup;}
 
 	public void comprimirHuffman() {
-		// TODO Auto-generated method stub
+
 		this.cH.codifHuffman(this.probabilidades);
 	}
 
