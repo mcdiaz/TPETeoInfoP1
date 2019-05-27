@@ -36,7 +36,8 @@ public class Codificacion {
 		this.img = img;
 		this.ancho = ancho;
 		this.alto = alto;
-		
+		this.inicancho=inicancho;
+		this.inicalto=inicalto;
 		this.CH=null;
 		this.CR=null;
 		String aux= Integer.toString(this.inicancho) + "-" +Integer.toString(this.inicalto)+"-"+ Integer.toString(this.ancho) + "-" +Integer.toString(this.alto)+ "-"+ cod;
@@ -60,6 +61,7 @@ public class Codificacion {
 				this.simProb.add(dS);
 			}
 		}
+		System.out.println(img.TYPE_INT_RGB);
 		CH=new CabeceraHuf(this.inicancho,this.inicalto,this.ancho, this.alto, this.simProb, img.TYPE_INT_RGB);
 	}
 	

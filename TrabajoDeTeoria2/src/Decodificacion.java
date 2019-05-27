@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -9,6 +10,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 
 public class Decodificacion {
@@ -25,6 +27,7 @@ public class Decodificacion {
 	private int[][] matriz;
 	
 	public Decodificacion() {
+		
 		this.arbolHuf = new PriorityQueue< Nodo >();
 		matriz=new int[500][500];
 		JFileChooser ventanita=new JFileChooser();
@@ -61,13 +64,13 @@ public class Decodificacion {
 				cod=new byte[bs.available()];
 				for(int i=0;i<cod.length;i++)
 				{cod[i]=(byte)bs.read();
-				System.out.println(cod[i]);
+				//System.out.println(cod[i]);
 				}
 				//System.out.println("alto : "+ CH.getAlto()+ " ancho: "+ CH.getAncho() + " simprob : " + CH.simProb.get(0).getS()+"\n");
 				
+				System.out.println(CH.getC());
 				
-				
-				//img= new BufferedImage(2000, 2500, CH.getC());
+				img= new BufferedImage(500, 500, CH.getC());
 				generarArbol();
 				
 				//System.out.println("raiz"+this.arbolHuf.element().getP()+"\n");
@@ -105,56 +108,83 @@ public class Decodificacion {
 	
 	public void generarBloqueH()
 	{
-		recorrerArbol(this.arbolHuf.element(),this.img, this.inicalto,this.inicancho,this.alto,this.ancho,0);
-				
+		char[] secRestaurada = decodificarSecuencia();
+		Color c = null;
+		recorrerArbol(this.arbolHuf.element(), 0,0,500,500,-1,secRestaurada,c);
+		try {
+			ImageIO.write(this.img,"bmp",new File("foto.bmp"));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}	
 	}
 		
-	private void recorrerArbol(Nodo element, BufferedImage img2, int inicalto2, int inicancho2, int alto2, int ancho2,int i) {
+	private void recorrerArbol(Nodo element, int inicalto, int inicancho, int alto, int ancho,int posMsj, char[] secuencia,Color c) {
 		// TODO Auto-generated method stub
-		
+		//Color color;
+		if(element.getDer()!=null || element.getIzq()!=null)	
+		{posMsj++;
+			if(element.getIzq()!=null && secuencia[posMsj]=='0') {
+				
+				recorrerArbol(element.getIzq(), inicalto,inicancho,alto,ancho,posMsj,secuencia,c);
+			}
+			if(element.getDer()!=null && secuencia[posMsj]=='1') {
+				recorrerArbol(element.getDer(), inicalto,inicancho,alto,ancho,posMsj,secuencia,c);
+			}
+		}
+		else
+			if(inicalto<=alto)
+			{	if(inicancho<=ancho) {
+					c=new Color(element.getS(),element.getS(),element.getS());
+					this.img.setRGB(inicancho,inicalto, c.getRGB());
+					inicancho++;
+					}
+				else
+					{inicancho=ancho-500;
+					c=new Color(element.getS(),element.getS(),element.getS());
+					this.img.setRGB(inicancho,inicalto, c.getRGB());
+					inicancho++;}
+				inicalto++;
+			}
 	}
 	
-	/*private static char[] decodeSequence() {//SE USA PARA PASAR EL ARREGLO DE BYTE COD A UN ARREGLO DE CHAR[], ASI LEEMOS BIT A BIT PARA RECORRERLO EN EL ARBOL
-		char[] restoredSequence = new char[sequenceLength];//se deb mandar cuantos datos va a haber adentro, no se debe tener asi como una constante adentro
+	private char[] decodificarSecuencia() {//SE USA PARA PASAR EL ARREGLO DE BYTE COD A UN ARREGLO DE CHAR[], ASI LEEMOS BIT A BIT PARA RECORRERLO EN EL ARBOL
 		
-		try {
-			byte[] inputSequence = Files.readAllBytes(new File(outputfilepath).toPath());//arreglo de byte que ya tiene cada uno			
-			int globalIndex = 0;//indice en toda la secuencia			
+			char[] secRestaurada = new char[this.cod.length*8];//se deb mandar cuantos datos va a haber adentro, no se debe tener asi como una constante adentro
+			int indicesec=0;//indice en toda la secuencia	
+			int bufferLength=8;
 			byte mask = (byte) (1 << (bufferLength - 1)); // mask: 10000000 - bufferlength siempre va a ser 8
 			int bufferPos = 0;//indice dentro del buffer
 			int i = 0;//indice en la lista de byte
-			while (globalIndex < sequenceLength) //longitud de secuencia puede ser distinta de la secuencia de inputSequence
+			while (indicesec < secRestaurada.length) //longitud de secuencia puede ser distinta de la secuencia de inputSequence
 			{
-				byte buffer = inputSequence[i];			
+				byte buffer = this.cod[i];			
 				while (bufferPos < bufferLength) {
 					
 					if ((buffer & mask) == mask) {
-						restoredSequence[globalIndex] = '1';
+						secRestaurada[indicesec] = '1';
 					} else {
-						restoredSequence[globalIndex] = '0';
+						secRestaurada[indicesec] = '0';
 					}
 					
 					buffer = (byte) (buffer << 1);//para ver el segundo bit
 					bufferPos++;
-					globalIndex++;
+					indicesec++;
 					
-					if (globalIndex == sequenceLength) {//si ya se procesaron todos los datos - tiene que cortar y no seguir
+					if (indicesec == secRestaurada.length) {//si ya se procesaron todos los datos - tiene que cortar y no seguir
 						break;
 					}
 				}
 				i++;
 				bufferPos = 0;
 			}
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+			return secRestaurada;
 		
-		return restoredSequence;
-	}*/
+	}
 
 	public static void main(String[] args) {
 		Decodificacion d = new Decodificacion();
-
+		d.generarBloqueH();
 	}
 
 	
