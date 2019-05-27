@@ -67,7 +67,7 @@ public class Imagen {
 				this.division.get(i).comprimirHuffman();
 			else
 				this.division.get(i).comprimirLlRC();*/
-		this.division.get(0).comprimirHuffman();
+		this.division.get(10).comprimirHuffman();
 	}
 	/*
 	 public void setHt(float Ht) {

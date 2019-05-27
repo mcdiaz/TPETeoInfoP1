@@ -41,6 +41,7 @@ public class Codificacion {
 		this.CH=null;
 		this.CR=null;
 		String aux= Integer.toString(this.inicancho) + "-" +Integer.toString(this.inicalto)+"-"+ Integer.toString(this.ancho) + "-" +Integer.toString(this.alto)+ "-"+ cod;
+		System.out.println(aux);
 		Codificacion.outPutFilePath=aux+".bin";
 		this.codHuff=new Hashtable<Integer,char[]>(256);
 		

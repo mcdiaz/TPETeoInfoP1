@@ -22,7 +22,7 @@ public class Decodificacion {
 	private int inicancho, inicalto,ancho,alto;
 	private byte[] cod;//contiene codigo del archivo
 	private BufferedImage img;
-	
+	private char[] secRestaurada;
 	
 	private int[][] matriz;
 	
@@ -108,9 +108,22 @@ public class Decodificacion {
 	
 	public void generarBloqueH()
 	{
-		char[] secRestaurada = decodificarSecuencia();
+		this.secRestaurada = decodificarSecuencia();
 		Color c = null;
-		recorrerArbol(this.arbolHuf.element(), 0,0,500,500,-1,secRestaurada,c);
+		int s=0;
+		int inicMsj=-1;
+		boolean encontro=false;
+		for(int i=img.getMinY();i<img.getHeight();i++) {
+			for(int j=img.getMinX();j<img.getWidth();j++) {
+				//if(inicMsj<secRestaurada.length-1) {
+					System.out.println("x: "+img.getMinX());
+					recorrerArbol(this.arbolHuf.element(),inicMsj,i,j,encontro,c);
+					
+					
+				//}
+				
+			}
+		}
 		try {
 			ImageIO.write(this.img,"bmp",new File("foto.bmp"));
 		} catch (IOException e1) {
@@ -119,34 +132,43 @@ public class Decodificacion {
 		}	
 	}
 		
-	private void recorrerArbol(Nodo element, int inicalto, int inicancho, int alto, int ancho,int posMsj, char[] secuencia,Color c) {
+	private void recorrerArbol(Nodo element,int posMsj,int fila, int colum,boolean encontro, Color c) {
 		// TODO Auto-generated method stub
 		//Color color;
+	if(!encontro) {
 		if(element.getDer()!=null || element.getIzq()!=null)	
-		{posMsj++;
-			if(element.getIzq()!=null && secuencia[posMsj]=='0') {
+		{
+			posMsj++;
+			System.out.println("pos: "+posMsj);
+			if(posMsj<this.secRestaurada.length)
+			{	if(element.getIzq()!=null && this.secRestaurada[posMsj]=='0') {
 				
-				recorrerArbol(element.getIzq(), inicalto,inicancho,alto,ancho,posMsj,secuencia,c);
-			}
-			if(element.getDer()!=null && secuencia[posMsj]=='1') {
-				recorrerArbol(element.getDer(), inicalto,inicancho,alto,ancho,posMsj,secuencia,c);
+					recorrerArbol(element.getIzq(),posMsj,fila, colum,encontro,c);
+				}
+			else
+				if(element.getDer()!=null && this.secRestaurada[posMsj]=='1') {
+					recorrerArbol(element.getDer(),posMsj,fila, colum,encontro,c);
+				}
 			}
 		}
 		else
-			if(inicalto<=alto)
-			{	if(inicancho<=ancho) {
-					c=new Color(element.getS(),element.getS(),element.getS());
-					this.img.setRGB(inicancho,inicalto, c.getRGB());
-					inicancho++;
-					}
-				else
-					{inicancho=ancho-500;
-					c=new Color(element.getS(),element.getS(),element.getS());
-					this.img.setRGB(inicancho,inicalto, c.getRGB());
-					inicancho++;}
-				inicalto++;
-			}
-	}
+		{		int s=element.getS();
+				c=new Color(s,s,s);
+				this.img.setRGB(colum,fila, c.getRGB());
+				encontro=true;
+				int length=this.secRestaurada.length-posMsj;
+				char[] auxsec=new char[length];
+				int g=0;
+				for(int k=posMsj;k<this.secRestaurada.length;k++)
+				{
+					auxsec[g]=this.secRestaurada[k];
+					g++;
+				}
+				this.secRestaurada=auxsec;
+			
+		}
+		}
+}
 	
 	private char[] decodificarSecuencia() {//SE USA PARA PASAR EL ARREGLO DE BYTE COD A UN ARREGLO DE CHAR[], ASI LEEMOS BIT A BIT PARA RECORRERLO EN EL ARBOL
 		
