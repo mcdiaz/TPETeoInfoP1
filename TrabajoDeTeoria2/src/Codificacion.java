@@ -23,6 +23,8 @@ public class Codificacion {
 	private ArrayList<DuplaSerial> simProb=new ArrayList<DuplaSerial>() ;
 	private Hashtable<Integer,char[]> codHuff;
 	private int inicancho,inicalto;
+	private byte buffer=0;
+	private int bufferLength=8;
 	
 	/*private File binario;
 	private FileWriter escribirBinario;*/
@@ -31,7 +33,7 @@ public class Codificacion {
 	byte[] arregloByte;
 	private FileOutputStream fos;
 	
-	public Codificacion(BufferedImage img, int inicancho, int inicalto, int ancho, int alto,String cod) {
+	public Codificacion(BufferedImage img, int inicancho, int inicalto, int ancho, int alto,String cod,int num) {
 		this.arbolHuf = new PriorityQueue< Nodo >();
 		this.img = img;
 		this.ancho = ancho;
@@ -40,16 +42,93 @@ public class Codificacion {
 		this.inicalto=inicalto;
 		this.CH=null;
 		this.CR=null;
-		String aux= Integer.toString(this.inicancho) + "-" +Integer.toString(this.inicalto)+"-"+ Integer.toString(this.ancho) + "-" +Integer.toString(this.alto)+ "-"+ cod;
-		System.out.println(aux);
-		Codificacion.outPutFilePath=aux+".bin";
-		this.codHuff=new Hashtable<Integer,char[]>(256);
-		
-		
+		String aux= Integer.toString(num)+ "-"+ cod;
+		//System.out.println(aux);
+		if(cod.equals("h"))
+		{
+			Codificacion.outPutFilePath=aux+".bin";
+			this.codHuff=new Hashtable<Integer,char[]>(256);
+		}
+		else
+		{
+			Codificacion.outPutFilePath=aux+".txt";
+		}
 	}
 
+	public void codifRLC()
+	{
+		List<Integer> result= new ArrayList<Integer>();
+		int rgb=0;
+		Color color;
+		int r=0;
+		int ant=-1;
+		int acum=0;
+		for(int i=this.inicalto;i<=this.alto;i++) {
+			for(int j=this.inicancho;j<=this.ancho;j++)
+			{
+				rgb = this.img.getRGB(j, i);
+				color = new Color(rgb, true);
+				r = color.getRed();
+				//System.out.println(r+"/n");
+				//System.out.println("colum "+j +" fila "+ i+" tam "+ this.codHuff.get(r).length);
+				if(ant==-1) {
+					ant=r;
+					acum=1;}
+				else
+					if(r==ant)
+						acum++;
+					else
+						if(r!=ant)
+					{
+					//System.out.println("esto es la intencidad:"+r+"Con su repeticiones:"+acum);
+					
+					result.add(ant);
+					result.add(acum);
+					acum=1;
+					ant=r;
+					//System.out.println("intensidad:"+ant+"con acum:"+acum);
+				}
+				
+			}
+			
+		}
+		result.add(ant);
+		result.add(acum);
+		
+		//System.out.println(result.get(0));
+		
+		
+		this.CR=new CabeceraRLC(this.inicancho,this.inicalto,this.ancho,this.alto,img.TYPE_INT_RGB);
+		this.generarArchivoRLC(result);
+	}
 
-
+	public void generarArchivoRLC(List<Integer> result)
+	{
+		
+		ByteArrayOutputStream bs=new ByteArrayOutputStream();
+		ObjectOutputStream os;
+		try {
+			os = new ObjectOutputStream(bs);
+			os.writeObject(this.CR);
+			os.close();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		byte[] bytesCH=bs.toByteArray();
+		try {
+			fos =new FileOutputStream(Codificacion.outPutFilePath);
+			fos.write(bytesCH);
+			for(int i=0;i<result.size();i++)
+				fos.write(result.get(i));
+			fos.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	public void inicArbolHuffman(float[] simbProb)
 	{
 		
@@ -62,8 +141,9 @@ public class Codificacion {
 				this.simProb.add(dS);
 			}
 		}
-		System.out.println(img.TYPE_INT_RGB);
-		CH=new CabeceraHuf(this.inicancho,this.inicalto,this.ancho, this.alto, this.simProb, img.TYPE_INT_RGB);
+		//System.out.println(img.TYPE_INT_RGB);
+		this.CH=new CabeceraHuf(this.inicancho,this.inicalto,this.ancho, this.alto, this.simProb, img.TYPE_INT_RGB);
+		
 	}
 	
 	public void generarArbol()
@@ -91,9 +171,9 @@ public class Codificacion {
 		int rgb=0;
 		Color color;
 		int r=0;
-		byte buffer=0;
+		//this.buffer=0;
 		int bufferPos=0;
-		int bufferLength=8;
+		//int bufferLength=8;
 		this.generarCodigo(acumCod,this.arbolHuf.element());
 		//System.out.println("prob "+simbProb[232]);
 		//ArrayList<Character> acumCodif=new ArrayList<Character>();
@@ -105,52 +185,61 @@ public class Codificacion {
 				r = color.getRed();
 				//System.out.println(r+"/n");
 				//System.out.println("colum "+j +" fila "+ i+" tam "+ this.codHuff.get(r).length);
-				codificarSecuencia(this.codHuff.get(r),buffer,bufferPos,result,bufferLength);
+				codificarSecuencia(this.codHuff.get(r),bufferPos,result);
 				
 				}
 			}
-		if(bufferPos<bufferLength && bufferPos!=0) {
-			buffer=(byte)(buffer<<(bufferLength-bufferPos));
-			result.add(buffer);
+		if(bufferPos<this.bufferLength && bufferPos!=0) {
+			this.buffer=(byte)(this.buffer<<(this.bufferLength-bufferPos));
+			result.add(this.buffer);
 		}
+		System.out.println("valor result: "+result.get(0));
 		this.arregloByte= ConvertByteListToPrimitives(result);
-		this.generarArchivo();
+		this.generarArchivoHuf();
 		
 	}
 	
 
 	
-	private void codificarSecuencia(char[] acumCodif, byte buffer, int bufferPos, List<Byte> result,int bufferLength) {
+	private void codificarSecuencia(char[] acumCodif, int bufferPos, List<Byte> result) {
 		// TODO Auto-generated method stub
 		int i = 0;
 		//System.out.println(acumCodif.length);
 		while (i < acumCodif.length) {
 			// La operación de corrimiento pone un '0'
-			buffer = (byte) (buffer << 1);
+			//buffer = (byte) (buffer << 1);
 			bufferPos++;
 			if (acumCodif[i] == '1') {
-				buffer = (byte) (buffer | 1);
+				this.buffer = (byte) (this.buffer << 1);
+				this.buffer = (byte) (this.buffer | 1);
 			}
+			else
+				{this.buffer = (byte) (buffer << 1);}
 
-			if (bufferPos == bufferLength) {
-				result.add(buffer);
-				buffer = 0;
+			if (bufferPos == this.bufferLength) {
+				result.add(this.buffer);
+				this.buffer = 0;
+				//buffer = (byte) (buffer << 1);
 				bufferPos = 0;
-				bufferLength=8;
+				this.bufferLength=8;
 			}
-
+			
 			i++;
 		}
 		if(bufferPos<bufferLength && bufferPos!=0) {
-			buffer=(byte)(buffer<<(bufferLength-bufferPos));
-			bufferLength=bufferPos;
+			//System.out.println("bufferLength: "+this.bufferLength +"buferPos: "+ bufferPos);
+			int corrimiento=this.bufferLength-bufferPos;
+			//System.out.println(corrimiento);
+			this.buffer=(byte)(this.buffer<<(corrimiento));
+			this.bufferLength=(corrimiento);
+			
 			bufferPos=0;
 		}
 	}
 
 
 
-	private void generarArchivo() {
+	private void generarArchivoHuf() {
 		ByteArrayOutputStream bs=new ByteArrayOutputStream();
 		ObjectOutputStream os;
 		try {

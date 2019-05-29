@@ -40,6 +40,7 @@ public class Imagen {
 		int filaSup=0;
 		int alto=img.getHeight();
 			int ancho=img.getWidth();
+		int num=0;
 		while(i<alto) {
 			int j=0;
 			if(Math.abs(alto-i)>=500)
@@ -52,8 +53,9 @@ public class Imagen {
 				else {
 					columSup=ancho;//ancho menor a 500 --> el limite superior de ancho de imagencita = limite superior del ancho original
 				}
-				Bloque bloque=new Bloque(i,j,columSup, filaSup,this.img);
+				Bloque bloque=new Bloque(i,j,columSup, filaSup,this.img,num);
 				this.division.add(bloque);
+				num++;
 				j=columSup+1;
 			}
 			i=filaSup+1;
@@ -67,7 +69,7 @@ public class Imagen {
 				this.division.get(i).comprimirHuffman();
 			else
 				this.division.get(i).comprimirLlRC();*/
-		this.division.get(10).comprimirHuffman();
+		this.division.get(10).comprimirRLC();
 	}
 	/*
 	 public void setHt(float Ht) {

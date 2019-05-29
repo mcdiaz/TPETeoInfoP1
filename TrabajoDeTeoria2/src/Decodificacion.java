@@ -21,6 +21,7 @@ public class Decodificacion {
 	private CabeceraRLC CR;
 	private int inicancho, inicalto,ancho,alto;
 	private byte[] cod;//contiene codigo del archivo
+	private int[] codR;
 	private BufferedImage img;
 	private char[] secRestaurada;
 	
@@ -35,6 +36,7 @@ public class Decodificacion {
 		File ruta=ventanita.getSelectedFile();
 		
 			try {
+				
 				byte[] inPut= Files.readAllBytes(ruta.toPath());
 				//System.out.println(ruta.toPath());
 				System.out.println(ruta.getName());
@@ -53,25 +55,52 @@ public class Decodificacion {
 				//System.out.println(bs.read());
 
 				//bs.mark(bs.available());
+				String nomArch=ruta.getName();
+				char tipoCod='0';
+				for(int i=0;i<nomArch.length();i++) {
+					if(nomArch.charAt(i)=='-')
+					{
+						tipoCod=nomArch.charAt(i+1);
+					}
+				}
+				System.out.println(tipoCod);
+				if(tipoCod=='h') {
+					try {
+						CH= (CabeceraHuf) os.readObject();
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					cod=new byte[bs.available()];
+					for(int i=0;i<cod.length;i++)
+						{cod[i]=(byte)bs.read();
+						//System.out.println(cod[i]);
+						}
+				}
 				
-
-				try {
-					CH= (CabeceraHuf) os.readObject();
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				cod=new byte[bs.available()];
-				for(int i=0;i<cod.length;i++)
-				{cod[i]=(byte)bs.read();
-				//System.out.println(cod[i]);
-				}
+				else
+					if(tipoCod=='r') {
+						try {
+							CR= (CabeceraRLC) os.readObject();
+						} catch (ClassNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						codR=new int[bs.available()];//cambiarlo para que lea enteros
+						for(int i=0;i<codR.length;i++)
+							{codR[i]=(int)bs.read();
+							
+							}
+						
+						//System.out.println(CR.getAlto());
+					}
 				//System.out.println("alto : "+ CH.getAlto()+ " ancho: "+ CH.getAncho() + " simprob : " + CH.simProb.get(0).getS()+"\n");
 				
-				System.out.println(CH.getC());
+				System.out.println(CR.getC());
 				
-				img= new BufferedImage(500, 500, CH.getC());
-				generarArbol();
+				img= new BufferedImage(500, 500, 1);//DESCOMENTAR/////////////////
+				
+				//generarArbol();//DESCOMENTAR//////////////////////
 				
 				//System.out.println("raiz"+this.arbolHuf.element().getP()+"\n");
 
@@ -84,9 +113,33 @@ public class Decodificacion {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			//System.out.println(codR[0]);
 			
-		
 		}
+	public void generarImagenConRlc() {
+		int i=0;
+		int columna=0;
+		int fila=0;
+		while(i<this.codR.length) {
+			int simbolo=this.codR[i];
+			i++;
+			int cantidad=this.codR[i];
+			while(fila<500) {
+				while(columna<500) {
+						if(cantidad>0) {
+							Color c = new Color(simbolo,simbolo,simbolo);
+							this.img.setRGB(fila,columna, c.getRGB());
+						}
+						else
+							break;
+						cantidad--;
+						columna++;
+					}
+				break;
+				}
+			i++;
+		}
+	}
 	
 	public void generarArbol()
 	{
@@ -113,10 +166,11 @@ public class Decodificacion {
 		int s=0;
 		int inicMsj=-1;
 		boolean encontro=false;
-		for(int i=img.getMinY();i<img.getHeight();i++) {
-			for(int j=img.getMinX();j<img.getWidth();j++) {
+		System.out.println(secRestaurada.length);
+		for(int i=0;i<500;i++) {
+			for(int j=0;j<500;j++) {
 				//if(inicMsj<secRestaurada.length-1) {
-					System.out.println("x: "+img.getMinX());
+					//System.out.println("x: "+img.getMinX());
 					recorrerArbol(this.arbolHuf.element(),inicMsj,i,j,encontro,c);
 					
 					
@@ -124,6 +178,7 @@ public class Decodificacion {
 				
 			}
 		}
+		System.out.println(this.secRestaurada.length);
 		try {
 			ImageIO.write(this.img,"bmp",new File("foto.bmp"));
 		} catch (IOException e1) {
@@ -139,7 +194,7 @@ public class Decodificacion {
 		if(element.getDer()!=null || element.getIzq()!=null)	
 		{
 			posMsj++;
-			System.out.println("pos: "+posMsj);
+			//System.out.println("pos: "+posMsj);
 			if(posMsj<this.secRestaurada.length)
 			{	if(element.getIzq()!=null && this.secRestaurada[posMsj]=='0') {
 				
@@ -152,16 +207,19 @@ public class Decodificacion {
 			}
 		}
 		else
-		{		int s=element.getS();
+		{		
+				int s=element.getS();
 				c=new Color(s,s,s);
 				this.img.setRGB(colum,fila, c.getRGB());
 				encontro=true;
+				//System.out.println(secRestaurada.length);
 				int length=this.secRestaurada.length-posMsj;
 				char[] auxsec=new char[length];
 				int g=0;
-				for(int k=posMsj;k<this.secRestaurada.length;k++)
+				for(int k=posMsj+1;k<this.secRestaurada.length;k++)
 				{
 					auxsec[g]=this.secRestaurada[k];
+					
 					g++;
 				}
 				this.secRestaurada=auxsec;
@@ -206,7 +264,7 @@ public class Decodificacion {
 
 	public static void main(String[] args) {
 		Decodificacion d = new Decodificacion();
-		d.generarBloqueH();
+		d.generarImagenConRlc();
 	}
 
 	

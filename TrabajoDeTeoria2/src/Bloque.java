@@ -21,12 +21,14 @@ public class Bloque {
 	//private float[][] mAcumulada;
 	private int cantSimbolos;
 	// PARTE 2
+	private int numBloque;
 	private Codificacion cH;
+	private Codificacion cRLC;
 	
 
 	
-	public Bloque(int altoinf,int anchoinf,int anchosup,int altosup,BufferedImage img) {
-		
+	public Bloque(int altoinf,int anchoinf,int anchosup,int altosup,BufferedImage img, int num) {
+		this.numBloque=num;
 		this.altosup = altosup;
 		this.anchosup = anchosup;
 		this.altoinf=altoinf;
@@ -40,7 +42,8 @@ public class Bloque {
 		this.mConjunta=new int[256][256];
 		InicializoEn0();
 		cargar();
-		cH=new Codificacion(this.img, this.anchoinf, this.altoinf, this.anchosup, this.altosup,"h");
+		
+		
 	}
 	
 	private void InicializoEn0() {//inicializa todo en 0
@@ -136,10 +139,13 @@ public class Bloque {
 	public int getAnchoSup() {return this.anchosup;}
 
 	public void comprimirHuffman() {
-
+		cH=new Codificacion(this.img, this.anchoinf, this.altoinf, this.anchosup, this.altosup,"h",this.numBloque);
 		this.cH.codifHuffman(this.probabilidades);
 	}
-
+	public void comprimirRLC() {
+		cRLC=new Codificacion(this.img, this.anchoinf, this.altoinf, this.anchosup, this.altosup,"r",this.numBloque);
+		this.cRLC.codifRLC();
+	}
 	
 
 }
