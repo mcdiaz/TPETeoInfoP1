@@ -29,7 +29,7 @@ public class Codificacion {
 	/*private File binario;
 	private FileWriter escribirBinario;*/
 	
-	private static String outPutFilePath;
+	public String outPutFilePath;
 	byte[] arregloByte;
 	private FileOutputStream fos;
 	
@@ -46,12 +46,12 @@ public class Codificacion {
 		//System.out.println(aux);
 		if(cod.equals("h"))
 		{
-			Codificacion.outPutFilePath=aux+".bin";
+			outPutFilePath=aux+".bin";
 			this.codHuff=new Hashtable<Integer,char[]>(256);
 		}
 		else
 		{
-			Codificacion.outPutFilePath=aux+".txt";
+			outPutFilePath=aux+".txt";
 		}
 	}
 
@@ -70,7 +70,7 @@ public class Codificacion {
 				color = new Color(rgb, true);
 				r = color.getRed();
 				//System.out.println(r+"/n");
-				//System.out.println("colum "+j +" fila "+ i+" tam "+ this.codHuff.get(r).length);
+				//System.out.println("colum "+j +" fila "+ i);
 				if(ant==-1) {
 					ant=r;
 					acum=1;}
@@ -118,7 +118,7 @@ public class Codificacion {
 		
 		byte[] bytesCH=bs.toByteArray();
 		try {
-			fos =new FileOutputStream(Codificacion.outPutFilePath);
+			fos =new FileOutputStream(outPutFilePath);
 			fos.write(bytesCH);
 			for(int i=0;i<result.size();i++)
 				fos.write(result.get(i));
@@ -253,7 +253,7 @@ public class Codificacion {
 		
 		byte[] bytesCH=bs.toByteArray();
 		try {
-			fos =new FileOutputStream(Codificacion.outPutFilePath);
+			fos =new FileOutputStream(outPutFilePath);
 			fos.write(bytesCH);
 			fos.write(this.arregloByte);
 			fos.close();

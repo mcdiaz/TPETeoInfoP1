@@ -69,7 +69,16 @@ public class Imagen {
 				this.division.get(i).comprimirHuffman();
 			else
 				this.division.get(i).comprimirLlRC();*/
-		this.division.get(10).comprimirRLC();
+		this.division.get(0).comprimirRLC();
+		
+		/*BufferedImage imgSalida = null;
+		try {
+			imgSalida = ImageIO.read(new File("marsSurface.bmp"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		};
+		this.division.get(0).entropCondSalida(imgSalida);*/
 	}
 	/*
 	 public void setHt(float Ht) {

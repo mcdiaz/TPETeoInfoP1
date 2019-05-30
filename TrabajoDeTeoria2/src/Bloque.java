@@ -150,7 +150,7 @@ public class Bloque {
 		this.cRLC.codifRLC();
 	}
 	
-	public int entropCondSalida(BufferedImage imgSalida)
+	public void entropCondSalida(BufferedImage imgSalida)///////////////////////preg///////////////////////
 	{
 		int[][] mConjEntSal= new int[256][256];
 		float[][] mCondEntSal= new float[256][256];
@@ -195,7 +195,7 @@ public class Bloque {
 		for(int colum=0;colum<256;colum++) {
 			for(int fila=0;fila<256;fila++) {
 				
-				margEnt[colum]=(float)(mConjEntSal[colum][fila]/(500*500))+margEnt[colum];//Preg a carito!!!!!!
+				margEnt[colum]=(float)(mConjEntSal[colum][fila]/(500*500))+margEnt[colum];
 				}
 			}
 		
@@ -207,9 +207,19 @@ public class Bloque {
 				mCondEntSal[colum][fila]=(float)((mConjEntSal[colum][fila]/(500*500))/margEnt[colum]);
 			}
 		}
+		///////hice esto para chequiar que la suma de columna de 1////////////////
+		float[] arr=new float[256];
+		for(int colum=0;colum<256;colum++) {
+			for(int fila=0;fila<256;fila++) {
+				arr[colum]=arr[colum]+mCondEntSal[colum][fila];}
+					
+			}
+			for(int colum=0;colum<256;colum++) {
+				for(int fila=0;fila<256;fila++) {
+					System.out.println(arr[colum]);}
+		}
 		
 		
-		return -1;
 		
 	}
 	

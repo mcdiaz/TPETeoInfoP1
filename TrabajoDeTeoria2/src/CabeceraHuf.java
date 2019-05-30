@@ -7,6 +7,20 @@ public class CabeceraHuf implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	public int ancho,alto,inicancho,inicalto;
+	public ArrayList<DuplaSerial> simProb=new ArrayList<DuplaSerial>() ;
+	public int c;
+	
+	public CabeceraHuf(int inicancho,int inicalto,int ancho,int alto, ArrayList<DuplaSerial> simProb, int c) {
+		super();
+		this.ancho = ancho;
+		this.alto = alto;
+		this.inicancho = inicancho;
+		this.inicalto = inicalto;
+		this.simProb = simProb;
+		this.c=c;
+	}
+	
 	public int getAncho() {
 		return ancho;
 	}
@@ -35,7 +49,7 @@ public class CabeceraHuf implements Serializable{
 		return serialVersionUID;
 	}
 
-	public int ancho,alto,inicancho,inicalto;
+
 	public int getInicancho() {
 		return inicancho;
 	}
@@ -52,8 +66,7 @@ public class CabeceraHuf implements Serializable{
 		this.inicalto = inicalto;
 	}
 
-	public ArrayList<DuplaSerial> simProb=new ArrayList<DuplaSerial>() ;
-	public int c;
+	
 	public int getC() {
 		return c;
 	}
@@ -62,15 +75,7 @@ public class CabeceraHuf implements Serializable{
 		this.c = c;
 	}
 
-	public CabeceraHuf(int inicancho,int inicalto,int ancho,int alto, ArrayList<DuplaSerial> simProb, int c) {
-		super();
-		this.ancho = ancho;
-		this.alto = alto;
-		this.inicancho = inicancho;
-		this.inicalto = inicalto;
-		this.simProb = simProb;
-		this.c=c;
-	}
+	
 	
 
 	

@@ -92,13 +92,13 @@ public class Decodificacion {
 							
 							}
 						
-						//System.out.println(CR.getAlto());
+						//System.out.println("tamanio de codR:"+codR.length);
 					}
 				//System.out.println("alto : "+ CH.getAlto()+ " ancho: "+ CH.getAncho() + " simprob : " + CH.simProb.get(0).getS()+"\n");
 				
-				System.out.println(CR.getC());
+				//System.out.println(CR.getC());
 				
-				img= new BufferedImage(500, 500, 1);//DESCOMENTAR/////////////////
+				img= new BufferedImage(500, 500, CR.getC());//DESCOMENTAR/////////////////
 				
 				//generarArbol();//DESCOMENTAR//////////////////////
 				
@@ -113,10 +113,10 @@ public class Decodificacion {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			//System.out.println(codR[0]);
+			//System.out.println(codR[0]+" "+codR[1]);
 			
 		}
-	public void generarImagenConRlc() {
+	public void generarImagenConRlc() {//////////////////////////////////Listo////////////////////////////////
 		int i=0;
 		int columna=0;
 		int fila=0;
@@ -125,21 +125,30 @@ public class Decodificacion {
 			i++;
 			int cantidad=this.codR[i];
 			while(fila<500) {
-				while(columna<500) {
-						if(cantidad>0) {
+				while(columna<500 && cantidad >0) {
 							Color c = new Color(simbolo,simbolo,simbolo);
 							this.img.setRGB(fila,columna, c.getRGB());
+							cantidad--;
+							columna++;
 						}
-						else
-							break;
-						cantidad--;
-						columna++;
+					if(columna==500 && cantidad>0) {
+						fila++;
+						columna=0;
 					}
-				break;
+					if(cantidad==0)
+						break;
 				}
 			i++;
 		}
+			
+		try {
+			ImageIO.write(this.img,"bmp",new File("foto.bmp"));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}	
 	}
+
 	
 	public void generarArbol()
 	{
