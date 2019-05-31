@@ -193,7 +193,7 @@ public class Codificacion {
 			this.buffer=(byte)(this.buffer<<(this.bufferLength-bufferPos));
 			result.add(this.buffer);
 		}
-		System.out.println("valor result: "+result.get(0));
+		System.out.println("valor result: "+result.get(result.size()-1));
 		this.arregloByte= ConvertByteListToPrimitives(result);
 		this.generarArchivoHuf();
 		
@@ -207,22 +207,33 @@ public class Codificacion {
 		//System.out.println(acumCodif.length);
 		while (i < acumCodif.length) {
 			// La operación de corrimiento pone un '0'
-			//buffer = (byte) (buffer << 1);
+			this.buffer = (byte) (this.buffer << 1);//fuerzo que haya 0, aunque son todos 0's en el buffer
+			//lo que importa de buffer es el orden de los bits adentro de el, no el numero que forma
 			bufferPos++;
 			if (acumCodif[i] == '1') {
-				this.buffer = (byte) (this.buffer << 1);
-				this.buffer = (byte) (this.buffer | 1);
-			}
-			else
-				{this.buffer = (byte) (buffer << 1);}
+				this.buffer = (byte) (this.buffer | 1);//pisa la posicion y fuerza que haya un 1 ( 0 0 0 0 0 0 0 1  )
+			}/*else {
+				buffer = (byte) (buffer | 0); // fuerza , es lo mismo que desplazarlo
+			}*/
 
-			if (bufferPos == this.bufferLength) {
-				result.add(this.buffer);
-				this.buffer = 0;
-				//buffer = (byte) (buffer << 1);
-				bufferPos = 0;
-				this.bufferLength=8;
+			if(result.size()<=2  )
+			{
+				/*if(result.size()!=0)
+					System.out.println("pos: "+i+" bit: "+acumCodif[i] + "buffer: " + result.get(result.size()-1));
+				else*/
+					System.out.println("pos: "+i+" bit: "+acumCodif[i] + "buffer: " + this.buffer);
 			}
+			
+			
+			if (bufferPos == bufferLength) {//bufferlength es de tamanio 8 por la cantidad de bits en un byte
+					result.add(this.buffer);
+					this.buffer = 0;//reinicia buffer
+					bufferPos = 0;//reinicia contador
+					this.bufferLength=8;
+			}
+			
+			
+			
 			
 			i++;
 		}
