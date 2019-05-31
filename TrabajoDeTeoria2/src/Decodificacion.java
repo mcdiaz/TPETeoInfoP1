@@ -76,6 +76,7 @@ public class Decodificacion {
 						{cod[i]=(byte)bs.read();
 						//System.out.println(cod[i]);
 						}
+					System.out.println(cod[cod.length-1]);
 				}
 				
 				else
@@ -98,9 +99,9 @@ public class Decodificacion {
 				
 				//System.out.println(CR.getC());
 				
-				img= new BufferedImage(500, 500, CR.getC());//DESCOMENTAR/////////////////
+				img= new BufferedImage(500, 500, CH.getC());//DESCOMENTAR/////////////////
 				
-				//generarArbol();//DESCOMENTAR//////////////////////
+				generarArbol();//DESCOMENTAR//////////////////////
 				
 				//System.out.println("raiz"+this.arbolHuf.element().getP()+"\n");
 
@@ -173,16 +174,42 @@ public class Decodificacion {
 		this.secRestaurada = decodificarSecuencia();
 		Color c = null;
 		int s=0;
-		int inicMsj=-1;
-		boolean encontro=false;
-		System.out.println(secRestaurada.length);
-		for(int i=0;i<500;i++) {
-			for(int j=0;j<500;j++) {
+		//int inicMsj=-1;
+		//boolean encontro=false;
+		int posMsj=0;
+		//Nodo raizaux=this.arbolHuf.element();
+		System.out.println(this.cod.length*8);
+		for(int fila=0;fila<500;fila++) {
+			
+			for(int colum=0;colum<500;colum++) {
 				//if(inicMsj<secRestaurada.length-1) {
 					//System.out.println("x: "+img.getMinX());
-					recorrerArbol(this.arbolHuf.element(),inicMsj,i,j,encontro,c);
-					
-					
+					//recorrerArbol(this.arbolHuf.element(),inicMsj,i,j,encontro,c);
+				Nodo raizaux=this.arbolHuf.element();
+				
+					while(posMsj<this.secRestaurada.length)
+					{
+						
+						if(raizaux.getDer()!=null || raizaux.getIzq()!=null)
+						{
+							
+							if(raizaux.getIzq()!=null && this.secRestaurada[posMsj]=='0')
+								raizaux=raizaux.getIzq();
+							else
+								if(raizaux.getDer()!=null && this.secRestaurada[posMsj]=='1')
+									raizaux=raizaux.getDer();
+						}
+						else
+						{
+							s=raizaux.getS();
+							c=new Color(s,s,s);
+							this.img.setRGB(colum,fila, c.getRGB());
+							break;
+						}
+						posMsj++;
+						
+					}
+					//System.out.println("posMSj: "+posMsj+ "fila: "+fila+"colum: "+colum);
 				//}
 				
 			}
@@ -235,6 +262,9 @@ public class Decodificacion {
 			
 		}
 		}
+	
+	
+	
 }
 	
 	private char[] decodificarSecuencia() {//SE USA PARA PASAR EL ARREGLO DE BYTE COD A UN ARREGLO DE CHAR[], ASI LEEMOS BIT A BIT PARA RECORRERLO EN EL ARBOL
@@ -256,6 +286,13 @@ public class Decodificacion {
 						secRestaurada[indicesec] = '0';
 					}
 					
+					if(i<=2)
+					{
+						//if(indicesec!=0)
+						System.out.println("pos: "+indicesec+" bit: "+secRestaurada[indicesec] + "buffer" + this.cod[i] + "posCod: " + i);
+						//else
+						//	System.out.println("pos: "+indicesec+" bit: "+secRestaurada[0] + "buffer" + this.cod[i] + "posCod: " + i);
+					}
 					buffer = (byte) (buffer << 1);//para ver el segundo bit
 					bufferPos++;
 					indicesec++;
@@ -273,7 +310,7 @@ public class Decodificacion {
 
 	public static void main(String[] args) {
 		Decodificacion d = new Decodificacion();
-		d.generarImagenConRlc();
+		d.generarBloqueH();
 	}
 
 	

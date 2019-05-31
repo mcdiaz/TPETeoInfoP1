@@ -69,7 +69,7 @@ public class Imagen {
 				this.division.get(i).comprimirHuffman();
 			else
 				this.division.get(i).comprimirLlRC();*/
-		this.division.get(0).comprimirRLC();
+		this.division.get(10).comprimirHuffman();
 		
 		/*BufferedImage imgSalida = null;
 		try {
