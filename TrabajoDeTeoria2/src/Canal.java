@@ -27,20 +27,23 @@ public class Canal {
 			  
 		            this.vectorDeArchivos.add(ficheroEntrada);
 		        }
-		this.imgEntrada = new Imagen(this.vectorDeArchivos.get(0).toPath().toString());
+		this.imgEntrada = new Imagen(this.vectorDeArchivos.get(0).getAbsolutePath());
 		
-			this.imgSalida = new Imagen(this.vectorDeArchivos.get(1).toPath().toString());
+			this.imgSalida = new Imagen(this.vectorDeArchivos.get(1).getAbsolutePath());
 		
 	}
 	
-	public void 
+	public void calcularRuido()
+	{
+		System.out.println(this.imgEntrada.entropCondSalida(this.imgSalida));
+	}
 	
 	
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Canal c = new Canal();
-		
+		c.calcularRuido();
 	}
 
 }

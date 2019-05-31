@@ -17,7 +17,8 @@ public class Imagen {
 	private float Ht;
 	private int[][] mConjEntSal= new int[256][256];
 	private float[][] mCondEntSal= new float[256][256];
-	private float[] margEnt=new float[256];
+	private int[] margEnt=new int[256];
+	private float entropiaCondSal;
 	
 	public Imagen(String ruta) {//cargar datos
 		
@@ -88,69 +89,101 @@ public class Imagen {
 		
 		for(int i=0;i<this.division.size();i++)
 			
-			this.division.get(i).comprimirHuffman(ruta);
+			this.division.get(i).comprimirRLC(ruta);
 	}
 	/*
 	 public void setHt(float Ht) {
 		 this.Ht=Ht;
 	 }*/
 	
-	public void entropCondSalida(BufferedImage imgSalida) 
+	public void inicMat()
 	{
-		
-		//float[] margSal=new float[256];
-		
 		for(int k=0;k<256;k++) {//inicializo en 0 la matriz conjunta para ambas imagenes
 			for(int j=0;j<256;j++) {
-				mConjEntSal[k][j]= 0;
-				mCondEntSal[k][j]= 0;
+				this.mConjEntSal[k][j]= 0;
+				this.mCondEntSal[k][j]= 0;
 						}}
 		
 		for(int i=0;i<margEnt.length;i++) {
-			margEnt[i]=0f;
-			//margSal[i]= 0f;
+			this.margEnt[i]=0;
 		}
-		
+	}
+	
+	public int intensidad(int colum, int fila)
+	{
+		int rgbS = this.img.getRGB(colum, fila);
+		Color colorS = new Color(rgbS, true);
+		int rS = colorS.getRed();
+		return rS;
+	}
+	
+	public void cargarMatArr(Imagen imgSalida)
+	{
+		this.inicMat();
 		int rgbE;
 		Color colorE;
 		int rE;
-		int rgbS;
-		Color colorS;
+		
 		int rS;
-		for(int i=this.altoinf;i<=this.altosup;i++) {//cuento ocurrencias para cada imagen
-			for(int j=this.anchoinf;j<=this.anchosup;j++)
+		for(int fila=0;fila<this.img.getHeight();fila++) {//cuento ocurrencias para cada imagen
+			for(int colum=0;colum<this.img.getWidth();colum++)
 			{
-				rgbE = this.img.getRGB(j, i);
+				rgbE = this.img.getRGB(colum, fila);
 				colorE = new Color(rgbE, true);
 				rE = colorE.getRed();//numero de 0-255
-				rgbS = imgSalida.getRGB(j, i);
-				colorS = new Color(rgbS, true);
-				rS = colorS.getRed();
 				
-				mConjEntSal[rS][rE]=mConjEntSal[rS][rE]+1;
+				rS = imgSalida.intensidad(colum, fila);
+				
+				this.mConjEntSal[rS][rE]=this.mConjEntSal[rS][rE]+1;
 				
 			}
 		}
 		//rE es X
 		//rS es y
 		
-		for(int colum=0;colum<256;colum++) {
-			for(int fila=0;fila<256;fila++) {
+		for(int fila=0;fila<256;fila++) {//CALCULA MARGINAL DE LOS VALORES DE ENTRADA
+			for(int colum=0;colum<256;colum++) {
 				
-				margEnt[colum]=(float)(mConjEntSal[colum][fila]/(500*500))+margEnt[colum];
+				this.margEnt[fila]=(this.mConjEntSal[colum][fila])+this.margEnt[fila];
+				//System.out.println(this.margEnt[colum]);
 				}
 			}
 		
 	
 		
-		for(int colum=0;colum<256;colum++) {
-			for(int fila=0;fila<256;fila++) {
-				if(margEnt[colum]!=0)
-				mCondEntSal[colum][fila]=(float)((mConjEntSal[colum][fila]/(500*500))/margEnt[colum]);
+		for(int fila=0;fila<256;fila++) {//CALCULA CONDICIONAL
+			for(int colum=0;colum<256;colum++) {
+				if(this.margEnt[fila]!=0)
+				{
+					float probCond=(float)(this.mConjEntSal[colum][fila]/this.margEnt[fila]);
+					this.mCondEntSal[colum][fila]=probCond;
+				//System.out.println("conj: "+this.mConjEntSal[fila][colum]+" marg: "+this.margEnt[colum]+" cond : "+this.mConjEntSal[fila][colum]/this.margEnt[colum]);
+				}
 			}
 		}
-		///////hice esto para chequiar que la suma de columna de 1////////////////
+		
+		
+		
 		float[] arr=new float[256];
+		
+		for(int colum=0;colum<256;colum++) {
+			for(int fila=0;fila<256;fila++) {
+				arr[colum]=arr[colum]+mCondEntSal[fila][colum];}
+					
+			}
+			for(int colum=0;colum<256;colum++) {
+				
+					System.out.println(arr[colum]);
+					}
+	}
+	
+	
+	public float entropCondSalida(Imagen imgSalida) 
+	{
+		this.cargarMatArr( imgSalida);
+		
+		///////hice esto para chequiar que la suma de columna de 1////////////////
+		/*float[] arr=new float[256];
 		for(int colum=0;colum<256;colum++) {
 			for(int fila=0;fila<256;fila++) {
 				arr[colum]=arr[colum]+mCondEntSal[colum][fila];}
@@ -159,7 +192,39 @@ public class Imagen {
 			for(int colum=0;colum<256;colum++) {
 				for(int fila=0;fila<256;fila++) {
 					System.out.println(arr[colum]);}
-		}
+		}*/
+		
+		
+		float[] MargConj=new float[256];
+		//CALCULA MARGINAL DE LOS VALORES DE ENTRADA
+			for(int colum=0;colum<256;colum++) {
+				MargConj[colum]=(float)this.margEnt[colum]/(this.img.getHeight()*this.img.getWidth());
+				//System.out.println(this.margEnt[colum]);
+		
+			}
+			
+			
+	
+			//////////////////////////////////////////////////////////////
+			
+			float sumaEntropiaSubJ;
+			float suma=(float)0.0;
+			for(int colum=0; colum<256; colum++) {
+				sumaEntropiaSubJ=(float)0.0;
+				for(int fila=0; fila<256; fila++)
+				{
+					if(this.mCondEntSal[fila][colum]!=0)
+						sumaEntropiaSubJ=(float)((this.mCondEntSal[fila][colum])*( (Math.log10(this.mCondEntSal[fila][colum])) / Math.log10(2f)) ) + sumaEntropiaSubJ;
+						//System.out.println(sumaEntropiaSubJ);
+					
+				}
+				
+					//System.out.println(sumaEntropiaSubJ);
+					suma=(MargConj[colum]*sumaEntropiaSubJ)+suma;
+				
+			}
+			
+			return this.entropiaCondSal=-suma;
 		
 		
 		

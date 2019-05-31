@@ -19,23 +19,23 @@ public class Decodificacion {
 
 	
 	private int TYPE_INT_RGB = 1;
-	private Queue< Nodo > arbolHuf;
-	private CabeceraHuf CH;
+	//private Queue< Nodo > arbolHuf;
+	//private CabeceraHuf CH;
 	private CabeceraRLC CR;
-	private int inicancho, inicalto,ancho,alto;
-	private byte[] cod;//contiene codigo del archivo
+	//private int inicancho, inicalto,ancho,alto;
+	//private byte[] cod;//contiene codigo del archivo
 	private int[] codR;
 	private BufferedImage img;
-	private char[] secRestaurada;
+	//private char[] secRestaurada;
 	
-	private int[][] matriz;
+	//private int[][] matriz;
 	
 	private Vector<File> vectorDeArchivos=new Vector<File>();
 	
 	public Decodificacion() {
 		
-		this.arbolHuf = new PriorityQueue< Nodo >();
-		matriz=new int[500][500];
+		
+		//matriz=new int[500][500];
 		this.img=new BufferedImage(2000,2500,this.TYPE_INT_RGB);
 		
 		
@@ -72,7 +72,7 @@ public class Decodificacion {
 
 				//bs.mark(bs.available());
 				String nomArch=this.vectorDeArchivos.get(r).getName();
-				System.out.println(nomArch);
+				System.out.println("Este es el nombre del archivo: "+nomArch);
 				char tipoCod='0';
 				for(int i=0;i<nomArch.length();i++) {
 					if(nomArch.charAt(i)=='-')
@@ -82,6 +82,8 @@ public class Decodificacion {
 				}
 				
 				if(tipoCod=='h') {
+					byte[] cod;
+					CabeceraHuf CH=null;
 					try {
 						CH= (CabeceraHuf) os.readObject();
 					} catch (ClassNotFoundException e) {
@@ -93,8 +95,11 @@ public class Decodificacion {
 						{cod[i]=(byte)bs.read();
 						//System.out.println(cod[i]);
 						}
+					//this.arbolHuf = new PriorityQueue< Nodo >();
 					
-					this.generarArbol();
+					/*System.out.println("El nodo ultimo es: "+this.arbolHuf.element().getP());
+					System.out.println("sus hijos: "+this.arbolHuf.element().getIzq().getP()+ " "+this.arbolHuf.element().getDer().getP());*/
+					this.generarBloqueH(cod,CH);
 				}
 				
 				else
@@ -114,17 +119,7 @@ public class Decodificacion {
 						this.generarImagenConRlc();
 						//System.out.println("tamanio de codR:"+codR.length);
 					}
-				//System.out.println("alto : "+ CH.getAlto()+ " ancho: "+ CH.getAncho() + " simprob : " + CH.simProb.get(0).getS()+"\n");
-				
-				//System.out.println("obtengo el valor de pintar imagen:"+CR.getC());
-				//System.out.println("pase:");
-				
-				
-				//generarArbol();//DESCOMENTAR//////////////////////
-				
-				//System.out.println("raiz"+this.arbolHuf.element().getP()+"\n");
-
-				
+		
 				os.close();
 				
 				try {
@@ -147,7 +142,7 @@ public class Decodificacion {
 		  
 		  
 		  
-	public void generarImagenConRlc() {
+	public void generarImagenConRlc() {/////////////////////////////lISTO////////////////////////////////
 		int i=0;
 		int columna=CR.inicancho;
 		int fila=CR.inicalto;
@@ -183,52 +178,56 @@ public class Decodificacion {
 	}
 
 	
-	public void generarArbol()
+	public void generarArbol(Queue< Nodo > arbolHuf, CabeceraHuf CH)
 	{
+		;
 		for(int i=0; i<CH.simProb.size();i++) {//inicializamos el arbol
+			if(CH.simProb.get(i).getP()!=0.0) {
 				Nodo sP=new Nodo(CH.simProb.get(i).getS(),CH.simProb.get(i).getP());
-				this.arbolHuf.add(sP);
+				arbolHuf.add(sP);}
 		}
 		while(arbolHuf.size()>1)
 		{
-			Nodo n1=this.arbolHuf.poll();
-			Nodo n2=this.arbolHuf.poll();
+			Nodo n1=arbolHuf.poll();
+			Nodo n2=arbolHuf.poll();
 			Nodo padre=new Nodo(0,n1.getP()+n2.getP());
 			padre.setIzq(n1);
 			padre.setDer(n2);
-			this.arbolHuf.add(padre);
+			arbolHuf.add(padre);
 		}
-		System.out.println("raiz "+this.arbolHuf.element().getS() + " izq "+ this.arbolHuf.element().getIzq().getS() + " hoja " + this.arbolHuf.element().getIzq().getIzq().getS());
+		//System.out.println("raiz "+this.arbolHuf.element().getS() + " izq "+ this.arbolHuf.element().getIzq().getS() );
 	}
 	
-	public void generarBloqueH()
+	public void generarBloqueH(byte[] cod, CabeceraHuf CH)
 	{
-		this.secRestaurada = decodificarSecuencia();
+		Queue< Nodo > arbolHuf = new PriorityQueue< Nodo >();
+		this.generarArbol(arbolHuf, CH);
+		char[] secRestaurada = decodificarSecuencia(cod);
 		Color c = null;
 		int s=0;
-		//int inicMsj=-1;
-		//boolean encontro=false;
+
 		int posMsj=0;
-		//Nodo raizaux=this.arbolHuf.element();
-		System.out.println(this.cod.length*8);
-		for(int fila=0;fila<500;fila++) {
+		Nodo raizaux=arbolHuf.element();
+		//System.out.println(this.cod.length*8);
+		
+		for(int fila=CH.inicalto;fila<=CH.alto;fila++) {
 			
-			for(int colum=0;colum<500;colum++) {
+			for(int colum=CH.inicancho;colum<=CH.ancho;colum++) {
+				
 				//if(inicMsj<secRestaurada.length-1) {
 					//System.out.println("x: "+img.getMinX());
 					//recorrerArbol(this.arbolHuf.element(),inicMsj,i,j,encontro,c);
-				Nodo raizaux=this.arbolHuf.element();
-				
-					while(posMsj<this.secRestaurada.length)
+				//raizaux=arbolHuf.element();
+					while(posMsj<secRestaurada.length)
 					{
 						
 						if(raizaux.getDer()!=null || raizaux.getIzq()!=null)
 						{
 							
-							if(raizaux.getIzq()!=null && this.secRestaurada[posMsj]=='0')
+							if(raizaux.getIzq()!=null && secRestaurada[posMsj]=='0')
 								raizaux=raizaux.getIzq();
 							else
-								if(raizaux.getDer()!=null && this.secRestaurada[posMsj]=='1')
+								if(raizaux.getDer()!=null && secRestaurada[posMsj]=='1')
 									raizaux=raizaux.getDer();
 						}
 						else
@@ -236,6 +235,8 @@ public class Decodificacion {
 							s=raizaux.getS();
 							c=new Color(s,s,s);
 							this.img.setRGB(colum,fila, c.getRGB());
+							raizaux=arbolHuf.element();
+							c=null;
 							break;
 						}
 						posMsj++;
@@ -243,64 +244,18 @@ public class Decodificacion {
 					}
 					//System.out.println("posMSj: "+posMsj+ "fila: "+fila+"colum: "+colum);
 				//}
-				
+					
 			}
 		}
-		System.out.println(this.secRestaurada.length);
-		try {
-			ImageIO.write(this.img,"bmp",new File("foto.bmp"));
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}	
+		
 	}
 
 
 		
-	private void recorrerArbol(Nodo element,int posMsj,int fila, int colum,boolean encontro, Color c) {
-		// TODO Auto-generated method stub
-		//Color color;
-	if(!encontro) {
-		if(element.getDer()!=null || element.getIzq()!=null)	
-		{
-			posMsj++;
-			//System.out.println("pos: "+posMsj);
-			if(posMsj<this.secRestaurada.length)
-			{	if(element.getIzq()!=null && this.secRestaurada[posMsj]=='0') {
-				
-					recorrerArbol(element.getIzq(),posMsj,fila, colum,encontro,c);
-				}
-			else
-				if(element.getDer()!=null && this.secRestaurada[posMsj]=='1') {
-					recorrerArbol(element.getDer(),posMsj,fila, colum,encontro,c);
-				}
-			}
-		}
-		else
-		{		
-				int s=element.getS();
-				c=new Color(s,s,s);
-				this.img.setRGB(colum,fila, c.getRGB());
-				encontro=true;
-				//System.out.println(secRestaurada.length);
-				int length=this.secRestaurada.length-posMsj;
-				char[] auxsec=new char[length];
-				int g=0;
-				for(int k=posMsj+1;k<this.secRestaurada.length;k++)
-				{
-					auxsec[g]=this.secRestaurada[k];
-					
-					g++;
-				}
-				this.secRestaurada=auxsec;
-			
-		}
-		}
-}
 	
-	private char[] decodificarSecuencia() {//SE USA PARA PASAR EL ARREGLO DE BYTE COD A UN ARREGLO DE CHAR[], ASI LEEMOS BIT A BIT PARA RECORRERLO EN EL ARBOL
+	private char[] decodificarSecuencia(byte[] cod) {//SE USA PARA PASAR EL ARREGLO DE BYTE COD A UN ARREGLO DE CHAR[], ASI LEEMOS BIT A BIT PARA RECORRERLO EN EL ARBOL
 		
-			char[] secRestaurada = new char[this.cod.length*8];//se deb mandar cuantos datos va a haber adentro, no se debe tener asi como una constante adentro
+			char[] secRestaurada = new char[cod.length*8];//se deb mandar cuantos datos va a haber adentro, no se debe tener asi como una constante adentro
 			int indicesec=0;//indice en toda la secuencia	
 			int bufferLength=8;
 			byte mask = (byte) (1 << (bufferLength - 1)); // mask: 10000000 - bufferlength siempre va a ser 8
@@ -308,7 +263,7 @@ public class Decodificacion {
 			int i = 0;//indice en la lista de byte
 			while (indicesec < secRestaurada.length) //longitud de secuencia puede ser distinta de la secuencia de inputSequence
 			{
-				byte buffer = this.cod[i];			
+				byte buffer = cod[i];			
 				while (bufferPos < bufferLength) {
 					
 					if ((buffer & mask) == mask) {
@@ -335,6 +290,7 @@ public class Decodificacion {
 	public static void main(String[] args) {
 		Decodificacion d = new Decodificacion();
 		//d.generarImagenConRlc();
+		
 	}
 
 	
