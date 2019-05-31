@@ -4,10 +4,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.nio.file.Files;
-import java.util.Collections;
 import java.util.PriorityQueue;
 import java.util.Queue;
-import java.util.Vector;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -18,7 +16,6 @@ import javax.swing.JFileChooser;
 public class Decodificacion {
 
 	
-	private int TYPE_INT_RGB = 1;
 	private Queue< Nodo > arbolHuf;
 	private CabeceraHuf CH;
 	private CabeceraRLC CR;
@@ -30,49 +27,35 @@ public class Decodificacion {
 	
 	private int[][] matriz;
 	
-	private Vector<File> vectorDeArchivos=new Vector<File>();
-	
 	public Decodificacion() {
 		
 		this.arbolHuf = new PriorityQueue< Nodo >();
 		matriz=new int[500][500];
-		this.img=new BufferedImage(2000,2500,this.TYPE_INT_RGB);
-		
-		
-		//////////////////////////abre consolita para selecionar carpeta////////////
 		JFileChooser ventanita=new JFileChooser();
-		 ventanita.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 		ventanita.showOpenDialog(ventanita);
 		File ruta=ventanita.getSelectedFile();
 		
-		//////////////////////guarda los archivos en un vector /////////////////////////////////
-		  for (File ficheroEntrada : ruta.listFiles()) {
-			  
-		            this.vectorDeArchivos.add(ficheroEntrada);
-		        }
-		      
-		        
-		  for(int r=0;r<this.vectorDeArchivos.size();r++) {
-			 
-			 //System.out.println("agarra archivo:"+this.vectorDeArchivos.get(r).toPath());
 			try {
 				
-				byte[] inPut= Files.readAllBytes(this.vectorDeArchivos.get(r).toPath());
-				//System.out.println(this.vectorDeArchivos.get(r).toPath());
-				
+				byte[] inPut= Files.readAllBytes(ruta.toPath());
+				//System.out.println(ruta.toPath());
+				System.out.println(ruta.getName());
 				//System.out.println(inPut.length);
 				
 				ByteArrayInputStream bs= new ByteArrayInputStream(inPut);
 				//int inic=bs.available();
 				//System.out.println(inPut[0]);
 				ObjectInputStream  os=new ObjectInputStream(bs);
+				
+				
+				
+				
 				//System.out.println(inPut.length);
 				//System.out.println(bs.available());
 				//System.out.println(bs.read());
 
 				//bs.mark(bs.available());
-				String nomArch=this.vectorDeArchivos.get(r).getName();
-				System.out.println(nomArch);
+				String nomArch=ruta.getName();
 				char tipoCod='0';
 				for(int i=0;i<nomArch.length();i++) {
 					if(nomArch.charAt(i)=='-')
@@ -80,7 +63,7 @@ public class Decodificacion {
 						tipoCod=nomArch.charAt(i+1);
 					}
 				}
-				
+				System.out.println(tipoCod);
 				if(tipoCod=='h') {
 					try {
 						CH= (CabeceraHuf) os.readObject();
@@ -108,15 +91,14 @@ public class Decodificacion {
 							{codR[i]=(int)bs.read();
 							
 							}
-						//System.out.println("Esto es la constante:"+CR.getC());
-						this.generarImagenConRlc();
+						
 						//System.out.println("tamanio de codR:"+codR.length);
 					}
 				//System.out.println("alto : "+ CH.getAlto()+ " ancho: "+ CH.getAncho() + " simprob : " + CH.simProb.get(0).getS()+"\n");
 				
-				//System.out.println("obtengo el valor de pintar imagen:"+CR.getC());
-				//System.out.println("pase:");
+				//System.out.println(CR.getC());
 				
+				img= new BufferedImage(500, 500, CR.getC());//DESCOMENTAR/////////////////
 				
 				//generarArbol();//DESCOMENTAR//////////////////////
 				
@@ -125,51 +107,33 @@ public class Decodificacion {
 				
 				os.close();
 				
-				try {
-					ImageIO.write(this.img,"bmp",new File("foto.bmp"));
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}	
+				
 				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			//System.out.println(codR[0]+" "+codR[1]);
-		  }
+			
 		}
-	
-		  
-		  
-		  
-		  
-		  
-	public void generarImagenConRlc() {
+	public void generarImagenConRlc() {//////////////////////////////////Listo////////////////////////////////
 		int i=0;
-		int columna=CR.inicancho;
-		int fila=CR.inicalto;
-		/*System.out.println(CR.inicancho+" "+CR.ancho);
-		System.out.println(CR.inicalto+" "+CR.alto);*/
+		int columna=0;
+		int fila=0;
 		while(i<this.codR.length) {
 			int simbolo=this.codR[i];
-			
 			i++;
 			int cantidad=this.codR[i];
-			//System.out.println("Esto es el simbolo:"+ simbolo+" "+"su cantidad es:"+cantidad);
-			while(fila<=CR.alto) {
-				//System.out.println("Fila: "+ fila);
-				while(columna<=CR.ancho && cantidad >0 ) {
-					//System.out.println("Columna: "+ columna);
+			while(fila<500) {
+				while(columna<500 && cantidad >0) {
 							Color c = new Color(simbolo,simbolo,simbolo);
-							//System.out.println("color: "+ c.getRGB());
 							this.img.setRGB(fila,columna, c.getRGB());
 							cantidad--;
 							columna++;
 						}
-					if(columna>CR.ancho && cantidad>0) {
+					if(columna==500 && cantidad>0) {
 						fila++;
-						columna=CR.inicancho;
+						columna=0;
 					}
 					if(cantidad==0)
 						break;
@@ -177,7 +141,12 @@ public class Decodificacion {
 			i++;
 		}
 			
-		
+		try {
+			ImageIO.write(this.img,"bmp",new File("foto.bmp"));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}	
 	}
 
 	
@@ -204,56 +173,28 @@ public class Decodificacion {
 		this.secRestaurada = decodificarSecuencia();
 		Color c = null;
 		int s=0;
-		//int inicMsj=-1;
-		//boolean encontro=false;
-		int posMsj=0;
-		//Nodo raizaux=this.arbolHuf.element();
-		System.out.println(this.cod.length*8);
-		for(int fila=0;fila<500;fila++) {
-			
-			for(int colum=0;colum<500;colum++) {
+		int inicMsj=-1;
+		boolean encontro=false;
+		System.out.println(secRestaurada.length);
+		for(int i=0;i<500;i++) {
+			for(int j=0;j<500;j++) {
 				//if(inicMsj<secRestaurada.length-1) {
 					//System.out.println("x: "+img.getMinX());
-					//recorrerArbol(this.arbolHuf.element(),inicMsj,i,j,encontro,c);
-				Nodo raizaux=this.arbolHuf.element();
-				
-					while(posMsj<this.secRestaurada.length)
-					{
-						
-						if(raizaux.getDer()!=null || raizaux.getIzq()!=null)
-						{
-							
-							if(raizaux.getIzq()!=null && this.secRestaurada[posMsj]=='0')
-								raizaux=raizaux.getIzq();
-							else
-								if(raizaux.getDer()!=null && this.secRestaurada[posMsj]=='1')
-									raizaux=raizaux.getDer();
-						}
-						else
-						{
-							s=raizaux.getS();
-							c=new Color(s,s,s);
-							this.img.setRGB(colum,fila, c.getRGB());
-							break;
-						}
-						posMsj++;
-						
-					}
-					//System.out.println("posMSj: "+posMsj+ "fila: "+fila+"colum: "+colum);
+					recorrerArbol(this.arbolHuf.element(),inicMsj,i,j,encontro,c);
+					
+					
 				//}
 				
 			}
 		}
 		System.out.println(this.secRestaurada.length);
 		try {
-			ImageIO.write(this.img,"bmp",new File("foto3.bmp"));
+			ImageIO.write(this.img,"bmp",new File("foto.bmp"));
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}	
 	}
-
-
 		
 	private void recorrerArbol(Nodo element,int posMsj,int fila, int colum,boolean encontro, Color c) {
 		// TODO Auto-generated method stub
@@ -332,7 +273,7 @@ public class Decodificacion {
 
 	public static void main(String[] args) {
 		Decodificacion d = new Decodificacion();
-		//d.generarImagenConRlc();
+		d.generarImagenConRlc();
 	}
 
 	

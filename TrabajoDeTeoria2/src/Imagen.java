@@ -12,12 +12,21 @@ public class Imagen {
 
 	private BufferedImage img;
 	private ArrayList<Bloque> division;
+	//private File fileA;
+//	private File fileD;
+	//private FileWriter escribirA;
+	//private FileWriter escribirD;
 	private float Ht;
 	
 	public Imagen(String ruta) {//cargar datos
 		
 		try {
 			this.img = ImageIO.read(new File(ruta));
+			 //fileA=new File("Inciso A.txt");
+			// escribirA=new FileWriter(fileA,true);
+			// fileD=new File("Inciso D.txt");
+			// escribirD=new FileWriter(fileD,true);
+			 
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 	}
@@ -55,14 +64,13 @@ public class Imagen {
 	}
 	
 	public void comprimir() {
-		
 		/*for(int i=0;i<this.division.size();i++)
-			if(this.division.get(i).getEntropiaCM()<this.Ht)
+			if(this.division.get(i).getEntropiaCM()<Ht)
 				this.division.get(i).comprimirHuffman();
 			else
-				this.division.get(i).comprimirRLC();*/
-		//this.division.get(6).comprimirRLC();
-		//this.division.get(6).comprimirHuffman();
+				this.division.get(i).comprimirLlRC();*/
+		this.division.get(0).comprimirRLC();
+		
 		/*BufferedImage imgSalida = null;
 		try {
 			imgSalida = ImageIO.read(new File("marsSurface.bmp"));
@@ -71,18 +79,6 @@ public class Imagen {
 			e.printStackTrace();
 		};
 		this.division.get(0).entropCondSalida(imgSalida);*/
-		
-		
-		JFileChooser ventanita=new JFileChooser();
-		ventanita.showSaveDialog(ventanita);
-		String ruta=ventanita.getSelectedFile().getAbsolutePath();
-		System.out.println(ruta);
-		File carpeta=new File(ruta);
-		carpeta.mkdir();
-		
-		
-		for(int i=0;i<this.division.size();i++)
-			this.division.get(i).comprimirRLC(ruta);
 	}
 	/*
 	 public void setHt(float Ht) {
@@ -95,6 +91,7 @@ public class Imagen {
 		String ruta=ventanita.getSelectedFile().getAbsolutePath();//obtiene la ruta del archivo selecionado
 		Imagen imagen= new Imagen(ruta);
 		imagen.Dividir();
+		//imagen.setHt(Ht);// pedir por consola
 		imagen.comprimir();
 
 	}

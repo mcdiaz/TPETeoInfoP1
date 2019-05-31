@@ -20,8 +20,6 @@ public class Bloque {
 	private int[][] mConjunta;
 	//private float[][] mAcumulada;
 	private int cantSimbolos;
-	
-	
 	// PARTE 2
 	private int numBloque;
 	private Codificacion cH;
@@ -143,22 +141,16 @@ public class Bloque {
 
 	
 	//PARTE 2
-	public void comprimirHuffman(String ruta) {
-		cH=new Codificacion(this.img, this.anchoinf, this.altoinf, this.anchosup, this.altosup,"h",this.numBloque,ruta);
+	public void comprimirHuffman() {
+		cH=new Codificacion(this.img, this.anchoinf, this.altoinf, this.anchosup, this.altosup,"h",this.numBloque);
 		this.cH.codifHuffman(this.probabilidades);
 	}
-	
-	
-	public void comprimirRLC(String ruta) {
-		cRLC=new Codificacion(this.img, this.anchoinf, this.altoinf, this.anchosup, this.altosup,"r",this.numBloque,ruta);
+	public void comprimirRLC() {
+		cRLC=new Codificacion(this.img, this.anchoinf, this.altoinf, this.anchosup, this.altosup,"r",this.numBloque);
 		this.cRLC.codifRLC();
 	}
 	
-	
-	
-/////////////////////////////////////////////// ruido ///////////////////////////////////////////////////////	
-	
-	public void entropCondSalida(BufferedImage imgSalida) 
+	public void entropCondSalida(BufferedImage imgSalida)///////////////////////preg///////////////////////
 	{
 		int[][] mConjEntSal= new int[256][256];
 		float[][] mCondEntSal= new float[256][256];
