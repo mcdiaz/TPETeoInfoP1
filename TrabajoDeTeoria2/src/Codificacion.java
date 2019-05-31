@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
+import javax.swing.JFileChooser;
+
 public class Codificacion {
 	
 	private Queue< Nodo > arbolHuf;
@@ -33,7 +35,10 @@ public class Codificacion {
 	byte[] arregloByte;
 	private FileOutputStream fos;
 	
-	public Codificacion(BufferedImage img, int inicancho, int inicalto, int ancho, int alto,String cod,int num) {
+	private String rutaDeAcceso;
+	
+	
+	public Codificacion(BufferedImage img, int inicancho, int inicalto, int ancho, int alto,String cod,int num,String ruta) {
 		this.arbolHuf = new PriorityQueue< Nodo >();
 		this.img = img;
 		this.ancho = ancho;
@@ -42,19 +47,24 @@ public class Codificacion {
 		this.inicalto=inicalto;
 		this.CH=null;
 		this.CR=null;
+		this.rutaDeAcceso=ruta;
 		String aux= Integer.toString(num)+ "-"+ cod;
 		//System.out.println(aux);
 		if(cod.equals("h"))
 		{
-			outPutFilePath=aux+".bin";
+			outPutFilePath="\\"+aux+".bin";
 			this.codHuff=new Hashtable<Integer,char[]>(256);
 		}
 		else
 		{
-			outPutFilePath=aux+".txt";
+			outPutFilePath="\\"+aux+".txt";
 		}
+		
 	}
 
+	
+	
+	///////////////////// codificacion RLC ////////////////////////
 	public void codifRLC()
 	{
 		List<Integer> result= new ArrayList<Integer>();
@@ -69,39 +79,31 @@ public class Codificacion {
 				rgb = this.img.getRGB(j, i);
 				color = new Color(rgb, true);
 				r = color.getRed();
-				//System.out.println(r+"/n");
-				//System.out.println("colum "+j +" fila "+ i);
-				if(ant==-1) {
-					ant=r;
-					acum=1;}
-				else
-					if(r==ant)
-						acum++;
+					if(ant==-1) {
+						ant=r;
+						acum=1;
+					}
 					else
-						if(r!=ant)
-					{
-					//System.out.println("esto es la intencidad:"+r+"Con su repeticiones:"+acum);
-					
-					result.add(ant);
-					result.add(acum);
-					acum=1;
-					ant=r;
-					//System.out.println("intensidad:"+ant+"con acum:"+acum);
+						if(r==ant)
+							acum++;
+						else
+							if(r!=ant){
+								result.add(ant);
+								result.add(acum);
+								acum=1;
+								ant=r;
+					}
 				}
-				
 			}
-			
-		}
 		result.add(ant);
 		result.add(acum);
-		
-		//System.out.println(result.get(0));
-		
 		
 		this.CR=new CabeceraRLC(this.inicancho,this.inicalto,this.ancho,this.alto,img.TYPE_INT_RGB);
 		this.generarArchivoRLC(result);
 	}
 
+	
+	////////////////////////// gernera archivo para RLC///////////////////////
 	public void generarArchivoRLC(List<Integer> result)
 	{
 		
@@ -118,7 +120,7 @@ public class Codificacion {
 		
 		byte[] bytesCH=bs.toByteArray();
 		try {
-			fos =new FileOutputStream(outPutFilePath);
+			fos =new FileOutputStream(this.rutaDeAcceso+outPutFilePath);
 			fos.write(bytesCH);
 			for(int i=0;i<result.size();i++)
 				fos.write(result.get(i));
@@ -129,6 +131,9 @@ public class Codificacion {
 		}
 	}
 	
+	
+	
+ ///////////////////////////////////////// arbol huffman ////////////////////////////////
 	public void inicArbolHuffman(float[] simbProb)
 	{
 		
@@ -194,7 +199,7 @@ public class Codificacion {
 			result.add(this.buffer);
 		}
 		System.out.println("valor result: "+result.get(0));
-		this.arregloByte= ConvertByteListToPrimitives(result);
+		ConvertByteListToPrimitives(result);
 		this.generarArchivoHuf();
 		
 	}
@@ -267,11 +272,11 @@ public class Codificacion {
 
 
 
-	private byte[] ConvertByteListToPrimitives(List<Byte> result) {
-		byte[] arrOut=new byte[result.size()];
-		for(int i=0;i<arrOut.length;i++)
-			arrOut[i]=result.get(i);
-		return arrOut;
+	public void ConvertByteListToPrimitives(List<Byte> result) {
+		this.arregloByte=new byte[result.size()];
+		for(int i=0;i<this.arregloByte.length;i++)
+			this.arregloByte[i]=result.get(i);
+		
 	}
 
 
