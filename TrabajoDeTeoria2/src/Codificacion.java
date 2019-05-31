@@ -145,7 +145,7 @@ public class Codificacion {
 				this.simProb.add(dS);
 			}
 		}
-		//System.out.println(img.TYPE_INT_RGB);
+		System.out.println(img.TYPE_INT_RGB);
 		this.CH=new CabeceraHuf(this.inicancho,this.inicalto,this.ancho, this.alto, this.simProb, img.TYPE_INT_RGB);
 		
 	}
@@ -257,7 +257,7 @@ public class Codificacion {
 		
 		byte[] bytesCH=bs.toByteArray();
 		try {
-			fos =new FileOutputStream(outPutFilePath);
+			fos =new FileOutputStream(this.rutaDeAcceso+outPutFilePath);
 			fos.write(bytesCH);
 			fos.write(this.arregloByte);
 			fos.close();

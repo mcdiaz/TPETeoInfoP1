@@ -93,6 +93,8 @@ public class Decodificacion {
 						{cod[i]=(byte)bs.read();
 						//System.out.println(cod[i]);
 						}
+					
+					this.generarArbol();
 				}
 				
 				else
@@ -163,7 +165,7 @@ public class Decodificacion {
 					//System.out.println("Columna: "+ columna);
 							Color c = new Color(simbolo,simbolo,simbolo);
 							//System.out.println("color: "+ c.getRGB());
-							this.img.setRGB(fila,columna, c.getRGB());
+							this.img.setRGB(columna,fila, c.getRGB());
 							cantidad--;
 							columna++;
 						}
