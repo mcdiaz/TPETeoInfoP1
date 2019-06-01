@@ -319,9 +319,6 @@ public class Decodificacion {
 		
 	}
 
-	public static void main(String[] args) {
-		Decodificacion d = new Decodificacion();
-	}
 	
 
 }
