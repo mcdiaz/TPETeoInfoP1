@@ -1,5 +1,6 @@
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Vector;
 
@@ -41,16 +42,21 @@ public class Canal {
 	}
 	
 	public void calcularRuido()
-	{
-		System.out.println(this.imgEntrada.entropCondSalida(this.imgSalida));
+	{	JFileChooser ventanita=new JFileChooser();
+		ventanita.showSaveDialog(ventanita);
+		String ruta=ventanita.getSelectedFile().getAbsolutePath();
+		File carpeta=new File(ruta+".txt");
+		try {
+			FileWriter escribir=new FileWriter(carpeta,true);
+			String s="El ruido de las dos imagenes es de: "+this.imgEntrada.entropCondSalida(this.imgSalida);
+			escribir.write(s);
+			escribir.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	
-	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		Canal c = new Canal();
-		c.calcularRuido();
-	}
 
 }

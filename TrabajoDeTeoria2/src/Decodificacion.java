@@ -1,8 +1,11 @@
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.nio.file.Files;
 import java.util.Collections;
 import java.util.PriorityQueue;
@@ -36,7 +39,7 @@ public class Decodificacion {
 		
 		
 		//matriz=new int[500][500];
-		this.img=new BufferedImage(2000,2500,this.TYPE_INT_RGB);
+		
 		
 		
 		//////////////////////////abre consolita para selecionar carpeta////////////
@@ -50,10 +53,35 @@ public class Decodificacion {
 			  
 		            this.vectorDeArchivos.add(ficheroEntrada);
 		        }
-		      
+		  
+		  	
+		     for (int i=0;i<this.vectorDeArchivos.size();i++) {
+		    	if(this.vectorDeArchivos.get(i).getName().equals("tamanio.txt")) {
+		    		try {
+						FileReader lector=new FileReader(this.vectorDeArchivos.get(i).getAbsolutePath());
+						this.vectorDeArchivos.remove(i);
+						BufferedReader contenido=new BufferedReader(lector);
+						try {
+							String texto=contenido.readLine();
+							 String[] parts = texto.split("-");
+							 String ancho = parts[0]; 
+							 String alto = parts[1];
+							 String tipo= parts[2];
+							 this.img=new BufferedImage(Integer.parseInt(ancho),Integer.parseInt(alto),Integer.parseInt(tipo));
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+		    	}
+		     }
+		    
+		     
 		        
 		  for(int r=0;r<this.vectorDeArchivos.size();r++) {
-			 
 			 //System.out.println("agarra archivo:"+this.vectorDeArchivos.get(r).toPath());
 			try {
 				
@@ -72,7 +100,7 @@ public class Decodificacion {
 
 				//bs.mark(bs.available());
 				String nomArch=this.vectorDeArchivos.get(r).getName();
-				System.out.println("Este es el nombre del archivo: "+nomArch);
+				//System.out.println("Este es el nombre del archivo: "+nomArch);
 				char tipoCod='0';
 				for(int i=0;i<nomArch.length();i++) {
 					if(nomArch.charAt(i)=='-')
@@ -122,12 +150,7 @@ public class Decodificacion {
 		
 				os.close();
 				
-				try {
-					ImageIO.write(this.img,"bmp",new File("foto.bmp"));
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}	
+				
 				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -135,6 +158,15 @@ public class Decodificacion {
 			}
 			//System.out.println(codR[0]+" "+codR[1]);
 		  }
+		  JFileChooser guardarImagen=new JFileChooser();
+			ventanita.showSaveDialog(ventanita);
+			String rutaImagen=ventanita.getSelectedFile().getAbsolutePath();
+			try {
+				ImageIO.write(this.img,"bmp",new File(rutaImagen+".bmp"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	
 		  
@@ -289,11 +321,7 @@ public class Decodificacion {
 
 	public static void main(String[] args) {
 		Decodificacion d = new Decodificacion();
-		//d.generarImagenConRlc();
-		
 	}
-
-	
 	
 
 }

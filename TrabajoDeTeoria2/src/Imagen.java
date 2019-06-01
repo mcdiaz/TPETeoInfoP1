@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
@@ -82,19 +83,25 @@ public class Imagen {
 		JFileChooser ventanita=new JFileChooser();
 		ventanita.showSaveDialog(ventanita);
 		String ruta=ventanita.getSelectedFile().getAbsolutePath();
-		System.out.println(ruta);
+		//System.out.println(ruta);
 		File carpeta=new File(ruta);
 		carpeta.mkdir();
 		
+		File archivo=new File(ruta+"\\tamanio.txt");
+		try {
+			FileWriter escribir=new FileWriter(archivo,true);
+			escribir.write(this.img.getWidth()+"-"+this.img.getHeight()+"-"+this.img.getType());
+			escribir.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		for(int i=0;i<this.division.size();i++)
 			
 			this.division.get(i).comprimirRLC(ruta);
 	}
-	/*
-	 public void setHt(float Ht) {
-		 this.Ht=Ht;
-	 }*/
+
 	
 	public void inicMat()
 	{
@@ -240,12 +247,27 @@ public class Imagen {
 	
 	
 	public static void main(String[] args) {
+		
+		Scanner entrada=new Scanner(System.in);
+        System.out.println("Que desea hacer? 1-Comprimir 2-Descomprimir 3-Sacar Ruido");
+        int num=entrada.nextInt();
+		
+        if(num==1) {
 		JFileChooser ventanita=new JFileChooser();
 		ventanita.showOpenDialog(ventanita);
 		String ruta=ventanita.getSelectedFile().getAbsolutePath();//obtiene la ruta del archivo selecionado
 		Imagen imagen= new Imagen(ruta);
 		imagen.Dividir();
-		imagen.comprimir();
+		imagen.comprimir();}
+        else
+        	if(num==2) {
+        		Decodificacion d = new Decodificacion();
+        	}
+        	else
+        		if(num==3) {
+        			Canal c = new Canal();
+        			c.calcularRuido();
+        		}
 
 	}
 
