@@ -150,8 +150,9 @@ public class Codificacion {
 		
 	}
 	
-	public void generarArbol()
+	public void generarArbol(float[] simbProb)
 	{
+		this.inicArbolHuffman(simbProb);
 		while(arbolHuf.size()>1)
 		{
 			Nodo n1=this.arbolHuf.poll();
@@ -167,28 +168,20 @@ public class Codificacion {
 	{
 		List<Byte>result=new ArrayList<Byte>();
 		ArrayList<Character> acumCod=new ArrayList<Character>();
-		/*List<Byte>resultaux=new ArrayList<Byte>();
-		List<Byte>resultverdadero=new ArrayList<Byte>();*/
 		
-		this.inicArbolHuffman(simbProb);
-		this.generarArbol();//hasta aca venimos piola!!!
+		
+		this.generarArbol(simbProb);
 		int rgb=0;
 		Color color;
 		int r=0;
-		//this.buffer=0;
 		int bufferPos=0;
-		//int bufferLength=8;
 		this.generarCodigo(acumCod,this.arbolHuf.element());
-		//System.out.println("prob "+simbProb[232]);
-		//ArrayList<Character> acumCodif=new ArrayList<Character>();
 		for(int i=this.inicalto;i<=this.alto;i++) {
 			for(int j=this.inicancho;j<=this.ancho;j++)
 			{
 				rgb = this.img.getRGB(j, i);
 				color = new Color(rgb, true);
 				r = color.getRed();
-				//System.out.println(r+"/n");
-				//System.out.println("colum "+j +" fila "+ i+" tam "+ this.codHuff.get(r).length);
 				codificarSecuencia(this.codHuff.get(r),bufferPos,result);
 				
 				}

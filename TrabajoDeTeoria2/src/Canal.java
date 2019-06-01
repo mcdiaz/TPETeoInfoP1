@@ -27,10 +27,17 @@ public class Canal {
 			  
 		            this.vectorDeArchivos.add(ficheroEntrada);
 		        }
-		this.imgEntrada = new Imagen(this.vectorDeArchivos.get(0).getAbsolutePath());
+		  if(this.vectorDeArchivos.get(0).getName() == "marsSurface.bmp")
+		  {  this.imgEntrada = new Imagen(this.vectorDeArchivos.get(0).getAbsolutePath());
 		
 			this.imgSalida = new Imagen(this.vectorDeArchivos.get(1).getAbsolutePath());
-		
+		  }
+		  else
+		  {  this.imgSalida = new Imagen(this.vectorDeArchivos.get(0).getAbsolutePath());
+			
+			this.imgEntrada = new Imagen(this.vectorDeArchivos.get(1).getAbsolutePath());
+		  }
+			  
 	}
 	
 	public void calcularRuido()

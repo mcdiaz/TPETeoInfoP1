@@ -101,7 +101,7 @@ public class Imagen {
 		for(int k=0;k<256;k++) {//inicializo en 0 la matriz conjunta para ambas imagenes
 			for(int j=0;j<256;j++) {
 				this.mConjEntSal[k][j]= 0;
-				this.mCondEntSal[k][j]= 0;
+				this.mCondEntSal[k][j]= (float)0.0;
 						}}
 		
 		for(int i=0;i<margEnt.length;i++) {
@@ -144,7 +144,7 @@ public class Imagen {
 		for(int fila=0;fila<256;fila++) {//CALCULA MARGINAL DE LOS VALORES DE ENTRADA
 			for(int colum=0;colum<256;colum++) {
 				
-				this.margEnt[fila]=(this.mConjEntSal[colum][fila])+this.margEnt[fila];
+				this.margEnt[colum]=(this.mConjEntSal[fila][colum])+this.margEnt[colum];
 				//System.out.println(this.margEnt[colum]);
 				}
 			}
@@ -153,18 +153,20 @@ public class Imagen {
 		
 		for(int fila=0;fila<256;fila++) {//CALCULA CONDICIONAL
 			for(int colum=0;colum<256;colum++) {
-				if(this.margEnt[fila]!=0)
+				if(this.margEnt[colum]!=0)
 				{
-					float probCond=(float)(this.mConjEntSal[colum][fila]/this.margEnt[fila]);
-					this.mCondEntSal[colum][fila]=probCond;
+					float probCond=(float)this.mConjEntSal[fila][colum]/this.margEnt[colum];
+					this.mCondEntSal[fila][colum]=probCond;
 				//System.out.println("conj: "+this.mConjEntSal[fila][colum]+" marg: "+this.margEnt[colum]+" cond : "+this.mConjEntSal[fila][colum]/this.margEnt[colum]);
+					//if(this.mCondEntSal[fila][colum]!=(float)0.0)
+					//System.out.println(this.mCondEntSal[fila][colum]);
 				}
 			}
 		}
 		
 		
 		
-		float[] arr=new float[256];
+		/*float[] arr=new float[256];
 		
 		for(int colum=0;colum<256;colum++) {
 			for(int fila=0;fila<256;fila++) {
@@ -173,8 +175,8 @@ public class Imagen {
 			}
 			for(int colum=0;colum<256;colum++) {
 				
-					System.out.println(arr[colum]);
-					}
+					System.out.println(arr[colum]);}*/
+		
 	}
 	
 	
@@ -198,13 +200,19 @@ public class Imagen {
 		float[] MargConj=new float[256];
 		//CALCULA MARGINAL DE LOS VALORES DE ENTRADA
 			for(int colum=0;colum<256;colum++) {
-				MargConj[colum]=(float)this.margEnt[colum]/(this.img.getHeight()*this.img.getWidth());
+				MargConj[colum]=((float)this.margEnt[colum]/(this.img.getHeight()*this.img.getWidth()));
 				//System.out.println(this.margEnt[colum]);
 		
 			}
 			
 			
-	
+		/*	float sumaP=(float) 0.0;
+			for(int colum=0;colum<256;colum++) {
+				sumaP=sumaP+MargConj[colum];
+				//System.out.println(this.margEnt[colum]);
+		
+			}
+			System.out.println("La suma de Conj da :"+sumaP);*/
 			//////////////////////////////////////////////////////////////
 			
 			float sumaEntropiaSubJ;
@@ -213,14 +221,14 @@ public class Imagen {
 				sumaEntropiaSubJ=(float)0.0;
 				for(int fila=0; fila<256; fila++)
 				{
-					if(this.mCondEntSal[fila][colum]!=0)
-						sumaEntropiaSubJ=(float)((this.mCondEntSal[fila][colum])*( (Math.log10(this.mCondEntSal[fila][colum])) / Math.log10(2f)) ) + sumaEntropiaSubJ;
-						//System.out.println(sumaEntropiaSubJ);
-					
+					if(this.mCondEntSal[fila][colum]!=(float)0.0)
+						{sumaEntropiaSubJ=(this.mCondEntSal[fila][colum]*(((float)Math.log10(this.mCondEntSal[fila][colum])) / (float)Math.log10(2f))) + sumaEntropiaSubJ;
+						//System.out.println(this.mCondEntSal[fila][colum]);
+				}
 				}
 				
 					//System.out.println(sumaEntropiaSubJ);
-					suma=(MargConj[colum]*sumaEntropiaSubJ)+suma;
+					suma=(MargConj[colum]*sumaEntropiaSubJ) + suma;
 				
 			}
 			
