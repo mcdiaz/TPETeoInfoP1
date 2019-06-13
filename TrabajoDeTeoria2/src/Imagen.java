@@ -20,15 +20,18 @@ public class Imagen {
 	private float[][] mCondEntSal= new float[256][256];
 	private int[] margEnt=new int[256];
 	private float entropiaCondSal;
+
 	
 	public Imagen(String ruta) {//cargar datos
 		
 		try {
+			
 			this.img = ImageIO.read(new File(ruta));
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 	}
 		this.division=new ArrayList<Bloque>();
+		
 	}
 	
 	public void Dividir()//guarda la posicion de cada imagencita en el vector dividir
@@ -62,28 +65,11 @@ public class Imagen {
 	}
 	
 	public void comprimir() {
-		
-		/*for(int i=0;i<this.division.size();i++)
-			if(this.division.get(i).getEntropiaCM()<this.Ht)
-				this.division.get(i).comprimirHuffman();
-			else
-				this.division.get(i).comprimirRLC();*/
-		//this.division.get(6).comprimirRLC();
-		//this.division.get(6).comprimirHuffman();
-		/*BufferedImage imgSalida = null;
-		try {
-			imgSalida = ImageIO.read(new File("marsSurface.bmp"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		};
-		this.division.get(0).entropCondSalida(imgSalida);*/
-		
+
 		
 		JFileChooser ventanita=new JFileChooser();
 		ventanita.showSaveDialog(ventanita);
 		String ruta=ventanita.getSelectedFile().getAbsolutePath();
-		//System.out.println(ruta);
 		File carpeta=new File(ruta);
 		carpeta.mkdir();
 		
@@ -96,22 +82,26 @@ public class Imagen {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		float h=(float) 3.85;
 		for(int i=0;i<this.division.size();i++)
 			
-			this.division.get(i).comprimirRLC(ruta);
+			if(this.division.get(i).getEntropiaCM()>h)
+				this.division.get(i).comprimirHuffman(ruta);
+			else
+				this.division.get(i).comprimirRLC(ruta);
+		
 	}
 
 	
-	public void inicMat()
+	public void inicMat()//inicializa matrices que necesito
 	{
 		for(int k=0;k<256;k++) {//inicializo en 0 la matriz conjunta para ambas imagenes
 			for(int j=0;j<256;j++) {
 				this.mConjEntSal[k][j]= 0;
-				this.mCondEntSal[k][j]= (float)0.0;
+				//this.mCondEntSal[k][j]= (float)0.0;
 						}}
 		
-		for(int i=0;i<margEnt.length;i++) {
+		for(int i=0;i<256;i++) {
 			this.margEnt[i]=0;
 		}
 	}
@@ -129,146 +119,63 @@ public class Imagen {
 		this.inicMat();
 		int rgbE;
 		Color colorE;
-		int rE;
+		int intensidadE;
 		
-		int rS;
+		int intensidadS;
 		for(int fila=0;fila<this.img.getHeight();fila++) {//cuento ocurrencias para cada imagen
 			for(int colum=0;colum<this.img.getWidth();colum++)
 			{
 				rgbE = this.img.getRGB(colum, fila);
 				colorE = new Color(rgbE, true);
-				rE = colorE.getRed();//numero de 0-255
+				intensidadE = colorE.getRed();//numero de 0-255
 				
-				rS = imgSalida.intensidad(colum, fila);
+				intensidadS = imgSalida.intensidad(colum, fila);
 				
-				this.mConjEntSal[rS][rE]=this.mConjEntSal[rS][rE]+1;
-				
-			}
-		}
-		//rE es X
-		//rS es y
-		
-		for(int fila=0;fila<256;fila++) {//CALCULA MARGINAL DE LOS VALORES DE ENTRADA
-			for(int colum=0;colum<256;colum++) {
-				
-				this.margEnt[colum]=(this.mConjEntSal[fila][colum])+this.margEnt[colum];
-				//System.out.println(this.margEnt[colum]);
-				}
-			}
-		
-	
-		
-		for(int fila=0;fila<256;fila++) {//CALCULA CONDICIONAL
-			for(int colum=0;colum<256;colum++) {
-				if(this.margEnt[colum]!=0)
-				{
-					float probCond=(float)this.mConjEntSal[fila][colum]/this.margEnt[colum];
-					this.mCondEntSal[fila][colum]=probCond;
-				//System.out.println("conj: "+this.mConjEntSal[fila][colum]+" marg: "+this.margEnt[colum]+" cond : "+this.mConjEntSal[fila][colum]/this.margEnt[colum]);
-					//if(this.mCondEntSal[fila][colum]!=(float)0.0)
-					//System.out.println(this.mCondEntSal[fila][colum]);
-				}
+				this.mConjEntSal[intensidadS][intensidadE]=this.mConjEntSal[intensidadS][intensidadE] + 1;
+				this.margEnt[intensidadE]=this.margEnt[intensidadE] + 1;
 			}
 		}
 		
-		
-		
-		/*float[] arr=new float[256];
-		
-		for(int colum=0;colum<256;colum++) {
-			for(int fila=0;fila<256;fila++) {
-				arr[colum]=arr[colum]+mCondEntSal[fila][colum];}
-					
-			}
-			for(int colum=0;colum<256;colum++) {
-				
-					System.out.println(arr[colum]);}*/
 		
 	}
 	
-	
+	/////RUIDO/////////
 	public float entropCondSalida(Imagen imgSalida) 
 	{
-		this.cargarMatArr( imgSalida);
-		
-		///////hice esto para chequiar que la suma de columna de 1////////////////
-		/*float[] arr=new float[256];
-		for(int colum=0;colum<256;colum++) {
-			for(int fila=0;fila<256;fila++) {
-				arr[colum]=arr[colum]+mCondEntSal[colum][fila];}
+		cargarMatArr(imgSalida);
+		float sumaEntropiaSubJ;
+		float suma=(float)0.0;
+		float probMargColum;
+		for(int columna=0; columna<256; columna++) {
+			sumaEntropiaSubJ=(float)0.0;
+			for(int fila=0; fila<256; fila++)
+			{
+				if(this.margEnt[columna]!=0 ) {
+					float probCond =((float)this.mConjEntSal[fila][columna]/(float)this.margEnt[columna]);
+					sumaEntropiaSubJ=(float)((probCond)*(Math.log10(probCond)/Math.log10(2f))) + sumaEntropiaSubJ;
 					
-			}
-			for(int colum=0;colum<256;colum++) {
-				for(int fila=0;fila<256;fila++) {
-					System.out.println(arr[colum]);}
-		}*/
-		
-		
-		float[] MargConj=new float[256];
-		//CALCULA MARGINAL DE LOS VALORES DE ENTRADA
-			for(int colum=0;colum<256;colum++) {
-				MargConj[colum]=((float)this.margEnt[colum]/(this.img.getHeight()*this.img.getWidth()));
-				//System.out.println(this.margEnt[colum]);
-		
-			}
-			
-			
-		/*	float sumaP=(float) 0.0;
-			for(int colum=0;colum<256;colum++) {
-				sumaP=sumaP+MargConj[colum];
-				//System.out.println(this.margEnt[colum]);
-		
-			}
-			System.out.println("La suma de Conj da :"+sumaP);*/
-			//////////////////////////////////////////////////////////////
-			
-			float sumaEntropiaSubJ;
-			float suma=(float)0.0;
-			for(int colum=0; colum<256; colum++) {
-				sumaEntropiaSubJ=(float)0.0;
-				for(int fila=0; fila<256; fila++)
-				{
-					if(this.mCondEntSal[fila][colum]!=(float)0.0)
-						{sumaEntropiaSubJ=(this.mCondEntSal[fila][colum]*(((float)Math.log10(this.mCondEntSal[fila][colum])) / (float)Math.log10(2f))) + sumaEntropiaSubJ;
-						//System.out.println(this.mCondEntSal[fila][colum]);
 				}
-				}
-				
-					//System.out.println(sumaEntropiaSubJ);
-					suma=(MargConj[colum]*sumaEntropiaSubJ) + suma;
-				
 			}
 			
-			return this.entropiaCondSal=-suma;
+			
+			probMargColum=(float)this.margEnt[columna]/((float)this.img.getHeight()*this.img.getWidth());
+				suma=(probMargColum*sumaEntropiaSubJ)+suma;
+			
+		}
 		
-		
-		
+		return -suma;
 	}
 	
-	
 	public static void main(String[] args) {
-		
-		Scanner entrada=new Scanner(System.in);
-        System.out.println("Que desea hacer? 1-Comprimir 2-Descomprimir 3-Sacar Ruido");
-        int num=entrada.nextInt();
-		
-        if(num==1) {
+	
 		JFileChooser ventanita=new JFileChooser();
 		ventanita.showOpenDialog(ventanita);
 		String ruta=ventanita.getSelectedFile().getAbsolutePath();//obtiene la ruta del archivo selecionado
 		Imagen imagen= new Imagen(ruta);
 		imagen.Dividir();
-		imagen.comprimir();}
-        else
-        	if(num==2) {
-        		Decodificacion d = new Decodificacion();
-        	}
-        	else
-        		if(num==3) {
-        			Canal c = new Canal();
-        			c.calcularRuido();
-        		}
-
+		imagen.comprimir();
+		
 	}
+   
 
 }

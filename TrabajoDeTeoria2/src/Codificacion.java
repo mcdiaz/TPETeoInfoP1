@@ -1,9 +1,7 @@
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -11,8 +9,6 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
-
-import javax.swing.JFileChooser;
 
 public class Codificacion {
 	
@@ -24,16 +20,15 @@ public class Codificacion {
 	private ArrayList<DuplaSerial> simProb=new ArrayList<DuplaSerial>() ;
 	private Hashtable<Integer,char[]> codHuff;
 	private int inicancho,inicalto;
-	private byte buffer=0;
-	private int bufferLength=8;
-	
-	/*private File binario;
-	private FileWriter escribirBinario;*/
+	//private byte buffer=0;
+	//private int bufferLength=8;
 	
 	public String outPutFilePath;
 	byte[] arregloByte;
 	private FileOutputStream fos;
-	
+	List<Integer> codResultRLC= new ArrayList<Integer>();
+
+	List<Byte>codResultHuf=new ArrayList<Byte>();
 	private String rutaDeAcceso;
 	
 	
@@ -48,7 +43,6 @@ public class Codificacion {
 		this.CR=null;
 		this.rutaDeAcceso=ruta;
 		String aux= Integer.toString(num)+ "-"+ cod;
-		//System.out.println(aux);
 		if(cod.equals("h"))
 		{
 			outPutFilePath="\\"+aux+".bin";
@@ -60,6 +54,16 @@ public class Codificacion {
 		}
 		
 		
+	}
+	
+	public int getCantBytesRLC()
+	{
+		return this.codResultRLC.size()*8;
+	}
+	
+	public int getCantBytesHuf()
+	{
+		return this.codResultHuf.size();
 	}
 
 	
@@ -99,6 +103,7 @@ public class Codificacion {
 		result.add(acum);
 		
 		this.CR=new CabeceraRLC(this.inicancho,this.inicalto,this.ancho,this.alto,img.TYPE_INT_RGB);
+		this.codResultRLC=result;
 		this.generarArchivoRLC(result);
 	}
 
@@ -146,8 +151,7 @@ public class Codificacion {
 				this.simProb.add(dS);
 			}
 		}
-		System.out.println(img.TYPE_INT_RGB);
-		this.CH=new CabeceraHuf(this.inicancho,this.inicalto,this.ancho, this.alto, this.simProb, img.TYPE_INT_RGB);
+		this.CH=new CabeceraHuf(this.inicancho,this.inicalto,this.ancho, this.alto, this.simProb, this.img.TYPE_INT_RGB);
 		
 	}
 	
@@ -167,15 +171,20 @@ public class Codificacion {
 	
 	public void codifHuffman(float[] simbProb)
 	{
-		List<Byte>result=new ArrayList<Byte>();
-		ArrayList<Character> acumCod=new ArrayList<Character>();
 		
+		ArrayList<Character> acumCod=new ArrayList<Character>();
 		
 		this.generarArbol(simbProb);
 		int rgb=0;
 		Color color;
+		
+		List<Byte>result=new ArrayList<Byte>();
 		int r=0;
 		int bufferPos=0;
+		byte buffer=0;
+		int bufferLength = 8;
+		
+		//chequear codigos - cond prefijo
 		this.generarCodigo(acumCod,this.arbolHuf.element());
 		for(int i=this.inicalto;i<=this.alto;i++) {
 			for(int j=this.inicancho;j<=this.ancho;j++)
@@ -183,58 +192,41 @@ public class Codificacion {
 				rgb = this.img.getRGB(j, i);
 				color = new Color(rgb, true);
 				r = color.getRed();
-				codificarSecuencia(this.codHuff.get(r),bufferPos,result);
+				//
+				//codificarSecuencia(this.codHuff.get(r),bufferPos,result);
+				int posCod=0;
+				while (posCod < this.codHuff.get(r).length) {
+					// La operación de corrimiento pone un '0'
+					buffer = (byte) (buffer << 1);//fuerzo que haya 0, aunque son todos 0's en el buffer
+					//lo que importa de buffer es el orden de los bits adentro de el, no el numero que forma
+					bufferPos++;
+					if (this.codHuff.get(r)[posCod] == '1') {
+						buffer = (byte) (buffer | 1);//pisa la posicion y fuerza que haya un 1 ( 0 0 0 0 0 0 0 1  )
+					}
+
+					if (bufferPos == bufferLength) {//bufferlength es de tamanio 8 por la cantidad de bits en un byte
+						result.add(buffer);
+						buffer = 0;//reinicia buffer
+						bufferPos = 0;//reinicia contador
+					}
+
+					posCod++;
+				}
+				
 				
 				}
 			}
-		if(bufferPos<this.bufferLength && bufferPos!=0) {
-			this.buffer=(byte)(this.buffer<<(this.bufferLength-bufferPos));
-			result.add(this.buffer);
+		if ((bufferPos < bufferLength) && (bufferPos != 0)) {//mientras haya simbolos por decodificar
+			buffer = (byte) (buffer << (bufferLength - bufferPos));//corro 7 lugares y me quedo con la primera posicion
+			result.add(buffer);
 		}
 		System.out.println("valor result: "+result.get(0));
 		ConvertByteListToPrimitives(result);
+		this.codResultHuf=result;
 		this.generarArchivoHuf();
 		
 	}
 	
-
-	
-	private void codificarSecuencia(char[] acumCodif, int bufferPos, List<Byte> result) {
-		// TODO Auto-generated method stub
-		int i = 0;
-		//System.out.println(acumCodif.length);
-		while (i < acumCodif.length) {
-			// La operación de corrimiento pone un '0'
-			//buffer = (byte) (buffer << 1);
-			bufferPos++;
-			if (acumCodif[i] == '1') {
-				this.buffer = (byte) (this.buffer << 1);
-				this.buffer = (byte) (this.buffer | 1);
-			}
-			else
-				{this.buffer = (byte) (buffer << 1);}
-
-			if (bufferPos == this.bufferLength) {
-				result.add(this.buffer);
-				this.buffer = 0;
-				//buffer = (byte) (buffer << 1);
-				bufferPos = 0;
-				this.bufferLength=8;
-			}
-			
-			i++;
-		}
-		if(bufferPos<bufferLength && bufferPos!=0) {
-			//System.out.println("bufferLength: "+this.bufferLength +"buferPos: "+ bufferPos);
-			int corrimiento=this.bufferLength-bufferPos;
-			//System.out.println(corrimiento);
-			this.buffer=(byte)(this.buffer<<(corrimiento));
-			this.bufferLength=(corrimiento);
-			
-			bufferPos=0;
-		}
-	}
-
 
 
 	private void generarArchivoHuf() {
@@ -300,13 +292,9 @@ public class Codificacion {
 				{
 					if(raiz.getDer()==null && raiz.getIzq()==null)
 					{
-						//chocamos los cinco
-						//acumCod.remove(i);
-						//i--;
 						char[] arr=new char[acumCod.size()];
 						for(int j=0;j<acumCod.size();j++)
 							arr[j]=acumCod.get(j);
-						//System.out.println("cargo primer simbolo");*/
 						this.codHuff.put(raiz.getS(),arr);
 					}
 					
