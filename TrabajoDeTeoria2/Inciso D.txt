@@ -1,18 +1,6 @@
  Bloque desde 500 a 999 y 0 a 499: 
- 	 Desvio: 0.0
- 	 Media: 0.0
+ 	 Desvio: 6.708204
+ 	 Media: 200.54005
  Bloque desde 0 a 499 y 1500 a 1999: 
- 	 Desvio: 0.0
- 	 Media: 0.0
- Bloque desde 500 a 999 y 0 a 499: 
- 	 Desvio: 6.0827627
- 	 Media: 200.62273
- Bloque desde 0 a 499 y 1500 a 1999: 
- 	 Desvio: 7.28011
- 	 Media: 195.40216
- Bloque desde 500 a 999 y 0 a 499: 
- 	 Desvio: 7.937254
- 	 Media: 200.28212
- Bloque desde 0 a 499 y 1500 a 1999: 
- 	 Desvio: 7.28011
- 	 Media: 195.38852
+ 	 Desvio: 7.2111025
+ 	 Media: 195.3452

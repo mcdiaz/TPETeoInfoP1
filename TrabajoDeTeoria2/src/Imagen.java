@@ -148,7 +148,7 @@ public class Imagen {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		float h=(float) 3.85;
+		float h=(float) 3.4;
 		for(int i=0;i<this.division.size();i++)
 			
 			if(this.division.get(i).getEntropiaCM()>h)
@@ -292,9 +292,9 @@ public class Imagen {
 		String ruta=ventanita.getSelectedFile().getAbsolutePath();//obtiene la ruta del archivo selecionado
 		Imagen imagen= new Imagen(ruta);
 		imagen.Dividir();
-	//	imagen.comprimir();
-		imagen.generarDesvioYMedia();
-		imagen.generarHistograma();
+		imagen.comprimir();
+	//	imagen.generarDesvioYMedia();
+	//	imagen.generarHistograma();
 		
 	}
    
