@@ -31,7 +31,7 @@ public class Imagen {
 			System.out.println(e.getMessage());
 	}
 		this.division=new ArrayList<Bloque>();
-		
+
 	}
 	
 	public void Dividir()//guarda la posicion de cada imagencita en el vector dividir
@@ -150,19 +150,23 @@ public class Imagen {
 			sumaEntropiaSubJ=(float)0.0;
 			for(int fila=0; fila<256; fila++)
 			{
+				float probCond=0;
 				if(this.margEnt[columna]!=0 ) {
-					float probCond =((float)this.mConjEntSal[fila][columna]/(float)this.margEnt[columna]);
+					
+					probCond =((float)this.mConjEntSal[fila][columna]/(float)this.margEnt[columna]);
+					if(probCond!=0)
 					sumaEntropiaSubJ=(float)((probCond)*(Math.log10(probCond)/Math.log10(2f))) + sumaEntropiaSubJ;
 					
+					
 				}
+				
 			}
 			
-			
-			probMargColum=(float)this.margEnt[columna]/((float)this.img.getHeight()*this.img.getWidth());
+			probMargColum=(float)this.margEnt[columna]/((float)(this.img.getHeight())*(float)(this.img.getWidth()));
 				suma=(probMargColum*sumaEntropiaSubJ)+suma;
+				
 			
 		}
-		
 		return -suma;
 	}
 	
