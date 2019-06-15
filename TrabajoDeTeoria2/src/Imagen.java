@@ -14,12 +14,15 @@ public class Imagen {
 
 	private BufferedImage img;
 	private ArrayList<Bloque> division;
+	private File fileD;
+	private FileWriter escribirD;
 	//PARTE 2
 	private float Ht;
 	private int[][] mConjEntSal= new int[256][256];
-	private float[][] mCondEntSal= new float[256][256];
+	//private float[][] mCondEntSal= new float[256][256];
 	private int[] margEnt=new int[256];
-	private float entropiaCondSal;
+	private int[] margSal=new int[256];
+
 
 	
 	public Imagen(String ruta) {//cargar datos
@@ -27,11 +30,23 @@ public class Imagen {
 		try {
 			
 			this.img = ImageIO.read(new File(ruta));
+			fileD=new File("Inciso D.txt");
+			 escribirD=new FileWriter(fileD,true);
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 	}
 		this.division=new ArrayList<Bloque>();
 
+	}
+	
+	public int getAltura()
+	{
+		return this.img.getHeight();
+	}
+	
+	public int getAncho()
+	{
+		return this.img.getWidth();
 	}
 	
 	public void Dividir()//guarda la posicion de cada imagencita en el vector dividir
@@ -63,6 +78,57 @@ public class Imagen {
 		}
 		Collections.sort(this.division, new Comparador());
 	}
+	
+	public void generarHistograma() { // genera los 3 histogramas pedidos por la catedra
+		this.division.get(this.division.size()-1).crearHistograma("Mayor entropia");
+		this.division.get(0).crearHistograma("Menor Entropia");
+		float suma=(float) 0.0;
+		for(int i=0;i<this.division.size();i++) {   //suma de todas las entropias
+			suma=suma+this.division.get(i).getEntropiaCM();// recorriendo el vector division
+		}
+		suma=suma/this.division.size()-1;
+		int posicionAnt=0;
+		float resultAnt=-1;
+		float resultAct=0;
+		for(int i=1;i<this.division.size()-1;i++) {
+			resultAct=Math.abs(this.division.get(i).getEntropiaCM()-suma);
+			if(resultAnt>=0 && (resultAct==0 || resultAct>resultAnt))    //obtenemos la entropia mas cercana
+			{
+				resultAnt=resultAct;
+				posicionAnt=i;
+				break;
+			}
+			resultAnt=resultAct;
+			posicionAnt=i;
+		}
+		this.division.get(posicionAnt).crearHistograma("Entropia promedio");
+	}
+	
+	
+	public void generarDesvioYMedia() {//genera en un archivo los devios y valor medio de la entropia mayor y menor y los inserta en un archivo
+		try {
+			escribirD.write(
+					" Bloque desde "+ this.division.get(0).getAltoInf()+
+					" a "+ this.division.get(0).getAltoSup()+
+					" y "+this.division.get(0).getAnchoInf() +
+					" a "+ this.division.get(0).getAnchoSup()+
+					": \n \t Desvio: "+Float.toString((float) this.division.get(0).getDesvio())+
+					"\n \t Media: "+Float.toString((float) this.division.get(0).getMedia())+
+					"\n"+
+					
+					" Bloque desde "+ this.division.get(this.division.size()-1).getAltoInf()+
+					" a "+ this.division.get(this.division.size()-1).getAltoSup()+
+					" y "+this.division.get(this.division.size()-1).getAnchoInf() +
+					" a "+ this.division.get(this.division.size()-1).getAnchoSup()+
+					": \n \t Desvio: "+Float.toString((float) this.division.get(this.division.size()-1).getDesvio())+
+					"\n \t Media: "+Float.toString((float) this.division.get(this.division.size()-1).getMedia())+"\n"
+					
+					);
+		escribirD.close();
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}	
+}
 	
 	public void comprimir() {
 
@@ -103,6 +169,7 @@ public class Imagen {
 		
 		for(int i=0;i<256;i++) {
 			this.margEnt[i]=0;
+			this.margSal[i]=0;
 		}
 	}
 	
@@ -114,7 +181,7 @@ public class Imagen {
 		return rS;
 	}
 	
-	public void cargarMatArr(Imagen imgSalida)
+	public void cargarDatosRuido(Imagen imgSalida)
 	{
 		this.inicMat();
 		int rgbE;
@@ -135,36 +202,84 @@ public class Imagen {
 				this.margEnt[intensidadE]=this.margEnt[intensidadE] + 1;
 			}
 		}
-		
-		
 	}
 	
+	
 	/////RUIDO/////////
-	public float entropCondSalida(Imagen imgSalida) 
+	public float ruidoCanal(Imagen imgSalida) 
 	{
-		cargarMatArr(imgSalida);
+		cargarDatosRuido(imgSalida);
 		float sumaEntropiaSubJ;
 		float suma=(float)0.0;
 		float probMargColum;
 		for(int columna=0; columna<256; columna++) {
 			sumaEntropiaSubJ=(float)0.0;
-			for(int fila=0; fila<256; fila++)
-			{
-				float probCond=0;
-				if(this.margEnt[columna]!=0 ) {
+			if(this.margEnt[columna]!=0 ) {
+				for(int fila=0; fila<256; fila++)
+				{
+					float probCond=(float)0.0;
+				
 					
 					probCond =((float)this.mConjEntSal[fila][columna]/(float)this.margEnt[columna]);
-					if(probCond!=0)
-					sumaEntropiaSubJ=(float)((probCond)*(Math.log10(probCond)/Math.log10(2f))) + sumaEntropiaSubJ;
-					
-					
+						if(probCond!=(float)0.0)
+							sumaEntropiaSubJ=(float)((probCond)*(Math.log10(probCond)/Math.log10(2f))) + sumaEntropiaSubJ;
 				}
+				probMargColum=(float)this.margEnt[columna]/((float)(this.img.getHeight())*(float)(this.img.getWidth()));
+				suma=(probMargColum*sumaEntropiaSubJ)+suma;
 				
 			}
 			
-			probMargColum=(float)this.margEnt[columna]/((float)(this.img.getHeight())*(float)(this.img.getWidth()));
+			
+		}
+		return -suma;
+	}
+	
+	public void cargarDatosPerdida(Imagen imgSalida)
+	{
+		this.inicMat();
+		int rgbE;
+		Color colorE;
+		int intensidadE;
+		int intensidadS;
+		for(int fila=0;fila<imgSalida.getAltura();fila++) {//cuento ocurrencias para cada imagen
+			for(int colum=0;colum<imgSalida.getAncho();colum++)
+			{
+				rgbE = this.img.getRGB(colum, fila);
+				colorE = new Color(rgbE, true);
+				intensidadE = colorE.getRed();//numero de 0-255
+				
+				intensidadS = imgSalida.intensidad(colum, fila);
+				
+				this.mConjEntSal[intensidadS][intensidadE]=this.mConjEntSal[intensidadS][intensidadE] + 1;
+				this.margSal[intensidadS]=this.margSal[intensidadS] + 1;
+			}
+		}
+	}
+	
+	public float perdidaCanal(Imagen imgSalida) 
+	{
+		cargarDatosPerdida(imgSalida);
+		float sumaEntropiaSubJ;
+		float suma=(float)0.0;
+		float probMargColum;
+		for(int fila=0; fila<256; fila++) {
+			sumaEntropiaSubJ=(float)0.0;
+			if(this.margSal[fila]!=0 ) 
+			{
+				for(int columna=0; columna<256; columna++)
+				{
+					float probCond=(float)0.0;
+				
+					
+					probCond =((float)this.mConjEntSal[fila][columna]/(float)this.margSal[fila]);
+						if(probCond!=(float)0.0)
+							sumaEntropiaSubJ=(float)((probCond)*(Math.log10(probCond)/Math.log10(2f))) + sumaEntropiaSubJ;
+				}
+				probMargColum=(float)this.margSal[fila]/((float)(imgSalida.getAltura())*(float)(imgSalida.getAncho()));
 				suma=(probMargColum*sumaEntropiaSubJ)+suma;
 				
+			}
+			
 			
 		}
 		return -suma;
@@ -177,7 +292,9 @@ public class Imagen {
 		String ruta=ventanita.getSelectedFile().getAbsolutePath();//obtiene la ruta del archivo selecionado
 		Imagen imagen= new Imagen(ruta);
 		imagen.Dividir();
-		imagen.comprimir();
+	//	imagen.comprimir();
+		imagen.generarDesvioYMedia();
+		imagen.generarHistograma();
 		
 	}
    

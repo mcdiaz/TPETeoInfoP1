@@ -45,8 +45,9 @@ public class Canal {
 		File carpeta=new File(ruta+".txt");
 		try {
 			FileWriter escribir=new FileWriter(carpeta,true);
-			float ent=this.imgEntrada.entropCondSalida(this.imgSalida);
-			String s="El ruido de las dos imagenes es de: "+ent;
+			float ruido=this.imgEntrada.ruidoCanal(this.imgSalida);
+			float perdida=this.imgEntrada.perdidaCanal(this.imgSalida);
+			String s="El ruido de las dos imagenes es de: "+ruido+"/n"+ "La perdida de las dos imagenes es de: "+perdida;
 			System.out.println(s);
 			escribir.write(s);
 			escribir.close();

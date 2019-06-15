@@ -1,6 +1,17 @@
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+/*
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartUtilities;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;*/
 
+import org.jfree.chart.*;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
 
 public class Bloque {
 	
@@ -23,6 +34,9 @@ public class Bloque {
 	private int numBloque;
 	private Codificacion cH;
 	private Codificacion cRLC;
+	private float[][] mAcumulada;
+	private float desvio;
+	private float mediaConSimulacion;
 	
 
 	
@@ -39,9 +53,79 @@ public class Bloque {
 		this.cantSimbolos=(Math.abs(this.anchosup-this.anchoinf)+1)*(Math.abs(this.altosup-this.altoinf)+1);
 		this.mCondicional=new int[256][256];
 		this.mConjunta=new int[256][256];
+		this.mAcumulada=new float[256][256];
 		InicializoEn0();
 		cargar();
+		calcularDM();
 		
+		
+	}
+	
+
+	public void crearHistograma(String cuadrado) {//crea histograma en formato .png con el nombre que se envie por parametro
+		  DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+		  String numero="Histograma "+cuadrado+".PNG";
+		  for(int i=0;i<this.ocurrenciasD.length;i++) {
+			  if(this.ocurrenciasD[i]!=(double)0.0) {
+				  dataset.setValue(this.ocurrenciasD[i], "ocurrencias", Integer.toString(i));
+				  }}
+		  JFreeChart chart= ChartFactory.createBarChart("Histograma", "valores de grises","ocurrencias", dataset, PlotOrientation.VERTICAL, true, true, false);
+			try {
+				ChartUtilities.saveChartAsPNG(new File(numero), chart, 6000, 2000);
+			}catch(IOException e) {}
+	}
+	
+	private boolean converge(float anterior,float actual) {//calculo de convergencia
+		return (Math.abs(anterior-actual)<0.001f);
+	}
+	
+	private int generar(int c) {//generador de un valor de intensidad aleatorio
+		float x= (float)Math.random();
+		int f=0;
+		while(f<256)
+		{
+			if( x < (float)this.mAcumulada[f][c] )
+			{
+				return f;
+			}
+			f++;
+		}
+		return 0;
+	}
+	
+	public void calcularDM() {//calculo de desvio y media por medio de simulacion montecarlo
+		int suma=0;
+		float mediaAct=0f;
+		int tiradas=0;
+		float mediaAnt=-1;
+
+		int aleat=0;
+		for(int i=0;i<this.ocurrencias.length;i++) {//calcula la primer intensidad que sus ocurrencias sean distintas de 0 
+			if(this.ocurrencias[i]!=0) {
+				aleat=i;
+				break;
+				}
+			}
+		int sumaDesvio=0;
+		float desvioAnt=-1f;
+		float desvioAct=0f;
+		while ((!converge(mediaAnt,mediaAct) && !converge(desvioAnt,desvioAct)) || tiradas<100000) { //chequea que no converja
+					 
+					aleat=this.generar(aleat);
+					
+					suma=suma+aleat;
+					tiradas++;
+					
+					
+					mediaAnt=mediaAct;
+					mediaAct=(float)suma/tiradas;
+					
+					sumaDesvio=(int)Math.pow(aleat-mediaAct, 2)+sumaDesvio;//calculo de desvio al cuadrado utilizando la clase math
+					desvioAnt=desvioAct;
+					desvioAct=(float)Math.sqrt(sumaDesvio/tiradas);//uso de la clase math para sacar la raiz cuadrada
+		}
+		this.desvio=desvioAct;
+		this.mediaConSimulacion=mediaAct;
 		
 	}
 	
@@ -53,6 +137,7 @@ public class Bloque {
 		}
 		for(int k=0;k<256;k++) {
 			for(int j=0;j<256;j++) {
+				this.mAcumulada[k][j]= 0f;
 				this.mConjunta[k][j]= 0;
 				this.mCondicional[k][j]=0;
 						}}
@@ -60,6 +145,37 @@ public class Bloque {
 
 	public int getCantSimbolos() {
 		return cantSimbolos;
+	}
+	
+	public float getDesvio() {return this.desvio;}
+	public float getMedia() {return this.mediaConSimulacion;}
+	
+	public void cargarMatrizAcumulada() {//cargar matriz acumulada con sus probabilidades 
+		float suma=0f;
+		for(int f=0;f<256;f++) {		
+			for(int c=0;c<256;c++) {
+				if(f!=255) {
+					if(this.ocurrencias[c]!=0) {
+						if(f==0) {
+							suma= (float)this.mCondicional[f][c]/(float)this.ocurrencias[c];
+						}
+						else {
+							suma= ((float)this.mCondicional[f][c]/(float)this.ocurrencias[c])+this.mAcumulada[f-1][c];
+							
+							}
+						if((Math.rint(suma*10000)/10000)<0.9) {
+							this.mAcumulada[f][c]=suma;
+						}
+						else this.mAcumulada[f][c]=1f;
+						}
+					else this.mAcumulada[f][c]=0f;
+				}
+				else
+							this.mAcumulada[f][c]=1f;
+			}
+		
+		}
+		
 	}
 	
 	private void cargar() {//cargamos los arreglos y las matrices dependiendo la escala de griss cuantas ocurrencias obtuvo 
@@ -88,6 +204,7 @@ public class Bloque {
 			i++;}
 		this.cargarEntropiaSM();
 		this.cargarEntropiaCondiconal();
+		this.cargarMatrizAcumulada();
 		
 	}
 	
@@ -106,7 +223,7 @@ public class Bloque {
 		
 	}
 	
-	public void cargarEntropiaCondiconal()//Se tiene que seguir probando
+	public void cargarEntropiaCondiconal()
 	{
 		float sumaEntropiaSubJ;
 		float suma=(float)0.0;

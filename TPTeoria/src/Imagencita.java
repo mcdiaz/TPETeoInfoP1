@@ -4,11 +4,12 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Queue;
 
 import org.jfree.chart.*;
 import org.jfree.data.category.DefaultCategoryDataset;
 
-import sun.misc.Queue;
+//import sun.misc.Queue;
 
 import org.jfree.chart.plot.PlotOrientation;
 
@@ -57,7 +58,7 @@ public class Imagencita {
 		InicializoEn0();
 		cargar();
 		calcularDM();
-		Queue<Imagencita> l = new Queue<Imagencita>();
+		//Queue<Imagencita> l = new Queue<Imagencita>();
 	}
 	
 	private void InicializoEn0() {//inicializa todo en 0
