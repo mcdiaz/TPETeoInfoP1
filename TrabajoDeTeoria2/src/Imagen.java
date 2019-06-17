@@ -16,6 +16,8 @@ public class Imagen {
 	private ArrayList<Bloque> division;
 	private File fileD;
 	private FileWriter escribirD;
+	private File fileA;
+	private FileWriter escribirA;
 	//PARTE 2
 	private float Ht;
 	private int[][] mConjEntSal= new int[256][256];
@@ -30,6 +32,8 @@ public class Imagen {
 		try {
 			
 			this.img = ImageIO.read(new File(ruta));
+			fileA=new File("Inciso A.txt");
+			 escribirA=new FileWriter(fileA,true);
 			fileD=new File("Inciso D.txt");
 			 escribirD=new FileWriter(fileD,true);
 		} catch (IOException e) {
@@ -77,6 +81,24 @@ public class Imagen {
 			i=filaSup+1;
 		}
 		Collections.sort(this.division, new Comparador());
+	}
+	
+	public void calcularEntropias() { //inserta las entropias de todas las subimagenes recorriendo todo el vector de divisiones
+		try {
+		for(int i=0; i<this.division.size();i++)
+			escribirA.write(
+					"Entropias de Bloque desde "+ this.division.get(i).getAltoInf()+
+					" a "+ this.division.get(i).getAltoSup()+
+					" y "+this.division.get(i).getAnchoInf() +
+					" a "+ this.division.get(i).getAnchoSup()+
+					": \n  \t Entropia sin memoria: "+Float.toString((float) this.division.get(i).getEntropiaSM())+
+					"\n  \t Entropia con memoria: "+Float.toString((float) this.division.get(i).getEntropiaCM())+
+					"\n \n"
+					);
+		escribirA.close();
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}	
 	}
 	
 	public void generarHistograma() { // genera los 3 histogramas pedidos por la catedra
@@ -148,7 +170,7 @@ public class Imagen {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		float h=(float) 3.4;
+		float h=(float) 3.6;
 		for(int i=0;i<this.division.size();i++)
 			
 			if(this.division.get(i).getEntropiaCM()>h)
@@ -293,6 +315,7 @@ public class Imagen {
 		Imagen imagen= new Imagen(ruta);
 		imagen.Dividir();
 		imagen.comprimir();
+	//	imagen.calcularEntropias();
 	//	imagen.generarDesvioYMedia();
 	//	imagen.generarHistograma();
 		
