@@ -155,7 +155,7 @@ public class Imagen {
 		}	
 }
 	
-	public void comprimir() {
+	public void comprimir(float h) {
 
 		
 		JFileChooser ventanita=new JFileChooser();
@@ -173,7 +173,7 @@ public class Imagen {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		float h=(float) 3.4;
+		//float h=(float) 3.4;
 		for(int i=0;i<this.division.size();i++)
 			
 			if(this.division.get(i).getEntropiaCM()>h)
@@ -335,7 +335,7 @@ public class Imagen {
 		return -suma;
 	}
 	*/
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 	
 		JFileChooser ventanita=new JFileChooser();
 		ventanita.showOpenDialog(ventanita);
@@ -347,7 +347,7 @@ public class Imagen {
 		imagen.generarDesvioYMedia();
 		imagen.generarHistograma();
 		
-	}
+	}*/
    
 
 }

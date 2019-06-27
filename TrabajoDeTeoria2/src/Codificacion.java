@@ -87,16 +87,19 @@ public class Codificacion {
 						ant=r;
 						acum=1;
 					}
-					else
-						if(r==ant)
+						if(r==ant && acum<256)
 							acum++;
-						else
 							if(r!=ant){
 								result.add(ant);
 								result.add(acum);
 								acum=1;
 								ant=r;
 					}
+								if(acum==255){
+									result.add(ant);
+									result.add(acum);
+									acum=1;
+							}
 				}
 			}
 		result.add(ant);

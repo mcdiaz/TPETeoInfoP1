@@ -1,6 +1,7 @@
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -13,6 +14,7 @@ public class Ventana extends JFrame implements ActionListener{
 	private JButton boton1;
 	private JButton boton2;
 	private JButton boton3;
+	private JButton boton4;
 	private JTextField campoValor;
 	
 	public Ventana() {
@@ -45,6 +47,10 @@ public class Ventana extends JFrame implements ActionListener{
 		boton3.setBounds(0, 100, 100, 40);
 		boton3.addActionListener((ActionListener) this);
 		panel.add(boton3);
+		boton4=new JButton("Calcula datos parte 1");
+		boton4.setBounds(0, 150, 250, 40);
+		boton4.addActionListener((ActionListener) this);
+		panel.add(boton4);
 		
 		
 	}
@@ -52,7 +58,7 @@ public class Ventana extends JFrame implements ActionListener{
 	
 	public void actionPerformed(ActionEvent e) { //llamado de accion
 		String s;
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub;
 		Decodificacion d;
 		if (e.getActionCommand().equals("Descomprimir"))
 			d = new Decodificacion();
@@ -63,6 +69,7 @@ public class Ventana extends JFrame implements ActionListener{
 				String ruta=ventanita.getSelectedFile().getAbsolutePath();//obtiene la ruta del archivo selecionado
 				Imagen imagen= new Imagen(ruta);
 				imagen.Dividir();
+				//System.out.println(campoValor.getText());
 				imagen.comprimir(Float.parseFloat(campoValor.getText()));
 				
 			}
@@ -71,6 +78,17 @@ public class Ventana extends JFrame implements ActionListener{
 					Canal c = new Canal();
         			c.calcularRuido();
 				}
+				else
+					if(e.getActionCommand().equals("Calcula datos parte 1")) {
+						JFileChooser ventanita=new JFileChooser();
+						ventanita.showOpenDialog(ventanita);
+						String ruta=ventanita.getSelectedFile().getAbsolutePath();//obtiene la ruta del archivo selecionado
+						Imagen imagen= new Imagen(ruta);
+						imagen.Dividir();
+						imagen.calcularEntropias();
+						imagen.generarDesvioYMedia();
+						imagen.generarHistograma();
+					}
 	}
 	public static void main(String[] args) {
 		Ventana v1=new Ventana();
