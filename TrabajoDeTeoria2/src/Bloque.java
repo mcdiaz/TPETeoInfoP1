@@ -68,12 +68,14 @@ public class Bloque {
 		  DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		  String numero="Histograma "+cuadrado+".PNG";
 		  for(int i=0;i<this.ocurrenciasD.length;i++) {
-			  if(this.ocurrenciasD[i]!=(double)0.0) {
+			 // if(this.ocurrenciasD[i]!=(double)0.0) {
 				  dataset.setValue(this.ocurrenciasD[i], "ocurrencias", Integer.toString(i));
-				  }}
+				  }
+		  //}
 		  JFreeChart chart= ChartFactory.createBarChart("Histograma", "valores de grises","ocurrencias", dataset, PlotOrientation.VERTICAL, true, true, false);
-			try {
-				ChartUtilities.saveChartAsPNG(new File(numero), chart, 6000, 2000);
+			
+		  try {
+				ChartUtilities.saveChartAsPNG(new File(numero), chart, 10000, 2000);
 			}catch(IOException e) {}
 	}
 	

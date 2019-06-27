@@ -34,10 +34,8 @@ public class Imagen {
 		try {
 			
 			this.img = ImageIO.read(new File(ruta));
-			fileA=new File("Inciso A.txt");
-			 escribirA=new FileWriter(fileA,true);
-			fileD=new File("Inciso D.txt");
-			 escribirD=new FileWriter(fileD,true);
+			
+			
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 	}
@@ -85,8 +83,10 @@ public class Imagen {
 		Collections.sort(this.division, new Comparador());
 	}
 	
-	public void calcularEntropias() { //inserta las entropias de todas las subimagenes recorriendo todo el vector de divisiones
+	public void calcularEntropias() {
+		fileA=new File("Inciso A.txt"); //inserta las entropias de todas las subimagenes recorriendo todo el vector de divisiones
 		try {
+			escribirA=new FileWriter(fileA,true);
 		for(int i=0; i<this.division.size();i++)
 			escribirA.write(
 					"Entropias de Bloque desde "+ this.division.get(i).getAltoInf()+
@@ -129,8 +129,10 @@ public class Imagen {
 	}
 	
 	
-	public void generarDesvioYMedia() {//genera en un archivo los devios y valor medio de la entropia mayor y menor y los inserta en un archivo
+	public void generarDesvioYMedia() {
+		fileD=new File("Inciso D.txt");//genera en un archivo los devios y valor medio de la entropia mayor y menor y los inserta en un archivo
 		try {
+			escribirD=new FileWriter(fileD,true);
 			escribirD.write(
 					" Bloque de entropia: "+ this.division.get(0).getEntropiaCM()+" \t desde "+ this.division.get(0).getAltoInf()+
 					" a "+ this.division.get(0).getAltoSup()+
