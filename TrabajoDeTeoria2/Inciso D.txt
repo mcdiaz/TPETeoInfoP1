@@ -1,6 +1,468 @@
+ Bloque desde 0 a 499 y 1000 a 1499: 
+ 	 Desvio: 45.193176
+ 	 Media: 216.35237
+ Bloque desde 2000 a 2499 y 1500 a 1999: 
+ 	 Desvio: 47.53182
+ 	 Media: 195.30414
+ Bloque desde 0 a 499 y 1000 a 1499: 
+ 	 Desvio: 0.0
+ 	 Media: 0.0
+ Bloque desde 2000 a 2499 y 1500 a 1999: 
+ 	 Desvio: 0.0
+ 	 Media: 0.0
+ Bloque desde 0 a 499 y 1000 a 1499: 
+ 	 Desvio: 0.0
+ 	 Media: 0.0
+ Bloque desde 2000 a 2499 y 1500 a 1999: 
+ 	 Desvio: 0.0
+ 	 Media: 0.0
  Bloque desde 500 a 999 y 0 a 499: 
- 	 Desvio: 6.708204
- 	 Media: 200.54005
+ 	 Desvio: 10.882692
+ 	 Media: 199.46355
  Bloque desde 0 a 499 y 1500 a 1999: 
- 	 Desvio: 7.2111025
- 	 Media: 195.3452
+ 	 Desvio: 7.075287
+ 	 Media: 195.20401
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 9.063803
+ 	 Media: 200.26176
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 7.0496116
+ 	 Media: 195.28203
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 1.2031114
+ 	 Media: 255.92876
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 0.81714475
+ 	 Media: 255.93375
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 1.0260412
+ 	 Media: 255.9314
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 0.80924904
+ 	 Media: 255.93398
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 2.8114562
+ 	 Media: 255.80263
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 2.0694637
+ 	 Media: 255.86961
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 6.709126
+ 	 Media: 200.95518
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 7.318968
+ 	 Media: 195.53616
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 7.530796
+ 	 Media: 200.81204
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 7.328176
+ 	 Media: 195.54758
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 6.338395
+ 	 Media: 201.00891
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 7.3173013
+ 	 Media: 195.50526
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 25.929976
+ 	 Media: 219.3653
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 7.516428
+ 	 Media: 195.6846
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 7.7339916
+ 	 Media: 200.77039
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 7.320837
+ 	 Media: 195.51979
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 0.8119203
+ 	 Media: 255.93402
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 0.8017877
+ 	 Media: 255.93411
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 0.8119203
+ 	 Media: 255.93402
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 0.8017877
+ 	 Media: 255.93411
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 0.8119203
+ 	 Media: 255.93402
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 0.8017877
+ 	 Media: 255.93411
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 7.143135
+ 	 Media: 200.87831
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 7.321477
+ 	 Media: 195.51027
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 7.4300275
+ 	 Media: 200.80917
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 7.3153286
+ 	 Media: 195.51767
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 7.0606437
+ 	 Media: 200.88237
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 7.3247447
+ 	 Media: 195.53827
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 7.2
+ 	 Media: 200.86098
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 7.3
+ 	 Media: 195.51111
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 6.3772187
+ 	 Media: 201.0
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 7.3178344
+ 	 Media: 195.5
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 7.3956776
+ 	 Media: 200.8232
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 7.3233666
+ 	 Media: 195.5216
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 5.976979
+ 	 Media: 201.1428
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 7.3186626
+ 	 Media: 195.5719
+ Bloque desde 0 a 499 y 1000 a 1499: 
+ 	 Desvio: 0.0
+ 	 Media: 0.0
+ Bloque desde 2000 a 2499 y 1500 a 1999: 
+ 	 Desvio: 0.0
+ 	 Media: 0.0
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 0.81190914
+ 	 Media: 255.934
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 0.80178195
+ 	 Media: 255.9341
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 6.1073413
+ 	 Media: 201.1065
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 7.315361
+ 	 Media: 195.5542
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 1.0569686
+ 	 Media: 255.931
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 0.80178195
+ 	 Media: 255.9341
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 0.9433584
+ 	 Media: 255.9326
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 0.8199697
+ 	 Media: 255.9337
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 0.81190914
+ 	 Media: 255.934
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 0.80178195
+ 	 Media: 255.9341
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 0.81190914
+ 	 Media: 255.934
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 0.80178195
+ 	 Media: 255.9341
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 0.81190914
+ 	 Media: 255.934
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 0.80178195
+ 	 Media: 255.9341
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 5.973292
+ 	 Media: 201.0844
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 7.3223805
+ 	 Media: 195.5495
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 6.0032697
+ 	 Media: 201.113
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 7.3049855
+ 	 Media: 195.558
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 3.0993989
+ 	 Media: 201.8608
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 7.2694526
+ 	 Media: 195.7264
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 6.1380353
+ 	 Media: 201.0872
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 7.3205695
+ 	 Media: 195.5753
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 6.494545
+ 	 Media: 201.0408
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 7.3208685
+ 	 Media: 195.5773
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 5.7489505
+ 	 Media: 201.1526
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 7.316316
+ 	 Media: 195.5623
+ Bloque desde 0 a 499 y 1000 a 1499: 
+ 	 Desvio: 0.7992526
+ 	 Media: 255.9342
+ Bloque desde 2000 a 2499 y 1500 a 1999: 
+ 	 Desvio: 0.80700165
+ 	 Media: 255.9328
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 6.6168556
+ 	 Media: 200.9619
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 7.315398
+ 	 Media: 195.509
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 6.335538
+ 	 Media: 200.9917
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 7.326159
+ 	 Media: 195.5105
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 6.7914553
+ 	 Media: 200.9522
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 7.329806
+ 	 Media: 195.53
+ Bloque desde 0 a 499 y 0 a 499: 
+ 	 Desvio: 5.4722404
+ 	 Media: 200.4252
+ Bloque desde 2000 a 2499 y 1500 a 1999: 
+ 	 Desvio: 3.4108462
+ 	 Media: 198.6868
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 6.3933067
+ 	 Media: 201.0088
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 7.326886
+ 	 Media: 195.5272
+ Bloque desde 0 a 499 y 1000 a 1499: 
+ 	 Desvio: 2.6303809
+ 	 Media: 235.8948
+ Bloque desde 2000 a 2499 y 1500 a 1999: 
+ 	 Desvio: 2.766101
+ 	 Media: 236.1986
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 6.5983315
+ 	 Media: 200.97
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 7.305595
+ 	 Media: 195.5
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 6.7904344
+ 	 Media: 200.95
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 7.3227043
+ 	 Media: 195.533
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 6.9416857
+ 	 Media: 200.914
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 7.3117027
+ 	 Media: 195.499
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 6.288084
+ 	 Media: 201.0236
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 7.304177
+ 	 Media: 195.5026
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 27.013256
+ 	 Media: 230.4488
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 7.8191433
+ 	 Media: 195.8959
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 6.8139563
+ 	 Media: 200.9384
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 7.322841
+ 	 Media: 195.5165
+ Bloque desde 0 a 499 y 1000 a 1499: 
+ 	 Desvio: 3.2788718
+ 	 Media: 235.9898
+ Bloque desde 2000 a 2499 y 1500 a 1999: 
+ 	 Desvio: 2.584763
+ 	 Media: 235.8454
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 0.79937476
+ 	 Media: 255.9342
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 0.79937476
+ 	 Media: 255.9342
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 6.904781
+ 	 Media: 200.9183
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 7.316283
+ 	 Media: 195.5088
+ Bloque desde 0 a 499 y 1000 a 1499: 
+ 	 Desvio: 0.0
+ 	 Media: 22.0
+ Bloque desde 2000 a 2499 y 1500 a 1999: 
+ 	 Desvio: 0.0
+ 	 Media: 22.0
+ Bloque desde 0 a 499 y 1000 a 1499: 
+ 	 Desvio: 0.0
+ 	 Media: 22.0
+ Bloque desde 2000 a 2499 y 1500 a 1999: 
+ 	 Desvio: 0.0
+ 	 Media: 22.0
+ Bloque desde 0 a 499 y 1000 a 1499: 
+ 	 Desvio: 0.0
+ 	 Media: 22.0
+ Bloque desde 2000 a 2499 y 1500 a 1999: 
+ 	 Desvio: 0.0
+ 	 Media: 22.0
+ Bloque desde 0 a 499 y 1000 a 1499: 
+ 	 Desvio: 0.0
+ 	 Media: 22.0
+ Bloque desde 2000 a 2499 y 1500 a 1999: 
+ 	 Desvio: 0.0
+ 	 Media: 22.0
+ Bloque desde 0 a 499 y 1000 a 1499: 
+ 	 Desvio: 0.104880884
+ 	 Media: 22.3945
+ Bloque desde 2000 a 2499 y 1500 a 1999: 
+ 	 Desvio: 100.993454
+ 	 Media: 161.0773
+ Bloque desde 0 a 499 y 1000 a 1499: 
+ 	 Desvio: 3.025723
+ 	 Media: 231.5983
+ Bloque desde 2000 a 2499 y 1500 a 1999: 
+ 	 Desvio: 2.4287858
+ 	 Media: 231.5402
+ Bloque desde 0 a 499 y 1000 a 1499: 
+ 	 Desvio: 2.2257583
+ 	 Media: 231.438
+ Bloque desde 2000 a 2499 y 1500 a 1999: 
+ 	 Desvio: 2.7468164
+ 	 Media: 231.5968
+ Bloque desde 0 a 499 y 1000 a 1499: 
+ 	 Desvio: 4.1081624
+ 	 Media: 236.8126
+ Bloque desde 2000 a 2499 y 1500 a 1999: 
+ 	 Desvio: 2.18655
+ 	 Media: 236.0846
+ Bloque desde 0 a 499 y 1000 a 1499: 
+ 	 Desvio: 2.959054
+ 	 Media: 236.065
+ Bloque desde 2000 a 2499 y 1500 a 1999: 
+ 	 Desvio: 2.5209126
+ 	 Media: 235.8928
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 6.4244065
+ 	 Media: 201.0099
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 7.3190846
+ 	 Media: 195.5076
+ Bloque desde 0 a 499 y 1000 a 1499: 
+ 	 Desvio: 4.186526
+ 	 Media: 236.6395
+ Bloque desde 2000 a 2499 y 1500 a 1999: 
+ 	 Desvio: 2.4376218
+ 	 Media: 235.9008
+ Bloque desde 2000 a 2499 y 0 a 499: 
+ 	 Desvio: 10.621864
+ 	 Media: 165.174
+ Bloque desde 1500 a 1999 y 500 a 999: 
+ 	 Desvio: 25.167738
+ 	 Media: 205.5403
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 0.8006247
+ 	 Media: 255.9348
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 0.8006247
+ 	 Media: 255.9348
+ Bloque desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 6.414515
+ 	 Media: 201.0219
+ Bloque desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 7.3229094
+ 	 Media: 195.5278
+ Bloque desde 2000 a 2499 y 0 a 499: 
+ 	 Desvio: 10.643073
+ 	 Media: 165.2071
+ Bloque desde 1500 a 1999 y 500 a 999: 
+ 	 Desvio: 25.201727
+ 	 Media: 205.5882
+ Bloque desde 0 a 499 y 1000 a 1499: 
+ 	 Desvio: 6.2522798
+ 	 Media: 110.7314
+ Bloque desde 2000 a 2499 y 1500 a 1999: 
+ 	 Desvio: 9.371286
+ 	 Media: 23.3971
+ Bloque de entropia: 0.0044516204 	 desde 0 a 499 y 1000 a 1499: 
+ 	 Desvio: 2.989816
+ 	 Media: 194.1193
+ Bloque de entropia: 0.0051937387 	 desde 2000 a 2499 y 1500 a 1999: 
+ 	 Desvio: 16.822752
+ 	 Media: 26.1405
+ Bloque de entropia: 0.0044516204 	 desde 0 a 499 y 1000 a 1499: 
+ 	 Desvio: 59.605686
+ 	 Media: 50.6337
+ 	 Primer simbolo: 224 
+ Bloque de entropia: 0.0051937387 	 desde 2000 a 2499 y 1500 a 1999: 
+ 	 Desvio: 6.910427
+ 	 Media: 22.8733
+ 	 Primer simbolo: 79 
+ Bloque de entropia: 0.0044516204 	 desde 0 a 499 y 1000 a 1499: 
+ 	 Desvio: 4.590316
+ 	 Media: 236.7911
+ 	 Primer simbolo: 255 
+ Bloque de entropia: 0.0051937387 	 desde 2000 a 2499 y 1500 a 1999: 
+ 	 Desvio: 8.339785
+ 	 Media: 111.8992
+ 	 Primer simbolo: 155 
+ Bloque de entropia: 3.4078987 	 desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 6.6143785
+ 	 Media: 200.9568
+ 	 Primer simbolo: 198 
+ Bloque de entropia: 4.6634912 	 desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 7.3202457
+ 	 Media: 195.5039
+ 	 Primer simbolo: 197 
+ Bloque de entropia: 4.2560196 	 desde 2000 a 2499 y 0 a 499: 
+ 	 Desvio: 10.606932
+ 	 Media: 165.1531
+ 	 Primer simbolo: 160 
+ Bloque de entropia: 5.50353 	 desde 1500 a 1999 y 500 a 999: 
+ 	 Desvio: 25.182316
+ 	 Media: 205.6321
+ 	 Primer simbolo: 191 
+ Bloque de entropia: 3.4078987 	 desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 7.527616
+ 	 Media: 200.7965
+ 	 Primer simbolo: 203 
+ Bloque de entropia: 4.6634912 	 desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 7.3196993
+ 	 Media: 195.5168
+ 	 Primer simbolo: 205 
+ Bloque de entropia: 3.4078987 	 desde 500 a 999 y 0 a 499: 
+ 	 Desvio: 6.420514
+ 	 Media: 200.9993
+ 	 Primer simbolo: 200 
+ Bloque de entropia: 4.6634912 	 desde 0 a 499 y 1500 a 1999: 
+ 	 Desvio: 7.3229094
+ 	 Media: 195.528
+ 	 Primer simbolo: 198 

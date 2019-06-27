@@ -46,7 +46,8 @@ public class Canal {
 		try {
 			FileWriter escribir=new FileWriter(carpeta,true);
 			float ruido=this.imgEntrada.ruidoCanal(this.imgSalida);
-			float perdida=this.imgEntrada.perdidaCanal(this.imgSalida);
+			float perdida=0;
+					//this.imgSalida.ruidoCanal(this.imgEntrada);
 			String s="El ruido de las dos imagenes es de: "+ruido+"/n"+ "La perdida de las dos imagenes es de: "+perdida;
 			System.out.println(s);
 			escribir.write(s);

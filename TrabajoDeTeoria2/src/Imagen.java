@@ -24,6 +24,8 @@ public class Imagen {
 	//private float[][] mCondEntSal= new float[256][256];
 	private int[] margEnt=new int[256];
 	private int[] margSal=new int[256];
+	private File fileRuido;
+	private FileWriter escribirRuido;
 
 
 	
@@ -130,20 +132,21 @@ public class Imagen {
 	public void generarDesvioYMedia() {//genera en un archivo los devios y valor medio de la entropia mayor y menor y los inserta en un archivo
 		try {
 			escribirD.write(
-					" Bloque desde "+ this.division.get(0).getAltoInf()+
+					" Bloque de entropia: "+ this.division.get(0).getEntropiaCM()+" \t desde "+ this.division.get(0).getAltoInf()+
 					" a "+ this.division.get(0).getAltoSup()+
 					" y "+this.division.get(0).getAnchoInf() +
 					" a "+ this.division.get(0).getAnchoSup()+
 					": \n \t Desvio: "+Float.toString((float) this.division.get(0).getDesvio())+
 					"\n \t Media: "+Float.toString((float) this.division.get(0).getMedia())+
-					"\n"+
+					"\n \t Primer simbolo: "+this.division.get(0).getPrimerSimb() +" \n"+
 					
-					" Bloque desde "+ this.division.get(this.division.size()-1).getAltoInf()+
+					" Bloque de entropia: "+ this.division.get(this.division.size()-1).getEntropiaCM()+" \t desde "+ this.division.get(this.division.size()-1).getAltoInf()+
 					" a "+ this.division.get(this.division.size()-1).getAltoSup()+
 					" y "+this.division.get(this.division.size()-1).getAnchoInf() +
 					" a "+ this.division.get(this.division.size()-1).getAnchoSup()+
 					": \n \t Desvio: "+Float.toString((float) this.division.get(this.division.size()-1).getDesvio())+
-					"\n \t Media: "+Float.toString((float) this.division.get(this.division.size()-1).getMedia())+"\n"
+					"\n \t Media: "+Float.toString((float) this.division.get(this.division.size()-1).getMedia())+
+					"\n \t Primer simbolo: "+this.division.get(this.division.size()-1).getPrimerSimb() +" \n"
 					
 					);
 		escribirD.close();
@@ -152,7 +155,7 @@ public class Imagen {
 		}	
 }
 	
-	public void comprimir(float h) {
+	public void comprimir() {
 
 		
 		JFileChooser ventanita=new JFileChooser();
@@ -170,7 +173,7 @@ public class Imagen {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//float h=(float) 3.6;
+		float h=(float) 3.4;
 		for(int i=0;i<this.division.size();i++)
 			
 			if(this.division.get(i).getEntropiaCM()>h)
@@ -230,32 +233,56 @@ public class Imagen {
 	/////RUIDO/////////
 	public float ruidoCanal(Imagen imgSalida) 
 	{
+		fileRuido=new File("Ruido.txt");
+		 try {
+			escribirRuido=new FileWriter(fileRuido,true);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		 try {
+			escribirRuido.write("Probabilidades de las intensidades: \n");
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 		cargarDatosRuido(imgSalida);
 		float sumaEntropiaSubJ;
 		float suma=(float)0.0;
-		float probMargColum;
+		float probMargColum=(float)0.0;
+		float probCond=(float)0.0;
 		for(int columna=0; columna<256; columna++) {
 			sumaEntropiaSubJ=(float)0.0;
 			if(this.margEnt[columna]!=0 ) {
 				for(int fila=0; fila<256; fila++)
 				{
-					float probCond=(float)0.0;
-				
 					
-					probCond =((float)this.mConjEntSal[fila][columna]/(float)this.margEnt[columna]);
-						if(probCond!=(float)0.0)
-							sumaEntropiaSubJ=(float)((probCond)*(Math.log10(probCond)/Math.log10(2f))) + sumaEntropiaSubJ;
+					probCond =(float)(Math.rint((float)this.mConjEntSal[fila][columna]/(float)this.margEnt[columna]*10000)/10000);
+					try {
+						escribirRuido.write(probCond+" \t ");
+					}
+					catch (IOException e1) {
+						e1.printStackTrace();
+					}
+					if(probCond!=(float)0.0)
+							sumaEntropiaSubJ= (float)(Math.rint((probCond*(Math.log10(probCond)/(Math.log10(2f))))*10)/10 + sumaEntropiaSubJ);
 				}
-				probMargColum=(float)this.margEnt[columna]/((float)(this.img.getHeight())*(float)(this.img.getWidth()));
+				try {
+					escribirRuido.write("\n");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				probMargColum=(float)(Math.rint(((float)this.margEnt[columna]/(float)(this.img.getHeight()*this.img.getWidth()))*10000)/10000);
 				suma=(probMargColum*sumaEntropiaSubJ)+suma;
 				
 			}
-			
-			
+		}
+		try {
+			escribirRuido.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		return -suma;
 	}
-	
+/*	
 	public void cargarDatosPerdida(Imagen imgSalida)
 	{
 		this.inicMat();
@@ -284,13 +311,14 @@ public class Imagen {
 		float sumaEntropiaSubJ;
 		float suma=(float)0.0;
 		float probMargColum;
+		float probCond=(float)0.0;
 		for(int fila=0; fila<256; fila++) {
 			sumaEntropiaSubJ=(float)0.0;
 			if(this.margSal[fila]!=0 ) 
 			{
 				for(int columna=0; columna<256; columna++)
 				{
-					float probCond=(float)0.0;
+					
 				
 					
 					probCond =((float)this.mConjEntSal[fila][columna]/(float)this.margSal[fila]);
@@ -306,20 +334,20 @@ public class Imagen {
 		}
 		return -suma;
 	}
-	
-/*	public static void main(String[] args) {
+	*/
+	public static void main(String[] args) {
 	
 		JFileChooser ventanita=new JFileChooser();
 		ventanita.showOpenDialog(ventanita);
 		String ruta=ventanita.getSelectedFile().getAbsolutePath();//obtiene la ruta del archivo selecionado
 		Imagen imagen= new Imagen(ruta);
 		imagen.Dividir();
-		imagen.comprimir();
+	//	imagen.comprimir();
 	//	imagen.calcularEntropias();
-	//	imagen.generarDesvioYMedia();
-	//	imagen.generarHistograma();
+		imagen.generarDesvioYMedia();
+		imagen.generarHistograma();
 		
 	}
-   */
+   
 
 }

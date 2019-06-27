@@ -10,12 +10,13 @@ public class Interfaz {
         int num=entrada.nextInt();
 		
         if(num==1) {
-		JFileChooser ventanita=new JFileChooser();
-		ventanita.showOpenDialog(ventanita);
-		String ruta=ventanita.getSelectedFile().getAbsolutePath();//obtiene la ruta del archivo selecionado
-		Imagen imagen= new Imagen(ruta);
-		imagen.Dividir();
-		imagen.comprimir();}
+			JFileChooser ventanita=new JFileChooser();
+			ventanita.showOpenDialog(ventanita);
+			String ruta=ventanita.getSelectedFile().getAbsolutePath();//obtiene la ruta del archivo selecionado
+			Imagen imagen= new Imagen(ruta);
+			imagen.Dividir();
+		//	imagen.comprimir((float) 3.4);
+		}
         else
         	if(num==2) {
         		Decodificacion d = new Decodificacion();

@@ -37,6 +37,8 @@ public class Bloque {
 	private float[][] mAcumulada;
 	private float desvio;
 	private float mediaConSimulacion;
+	private float[] probAcum;
+	private int primerSimb=0;
 	
 
 	
@@ -76,7 +78,7 @@ public class Bloque {
 	}
 	
 	private boolean converge(float anterior,float actual) {//calculo de convergencia
-		return (Math.abs(anterior-actual)<0.001f);
+		return ((float)Math.abs(anterior-actual)<0.0000000000001f);
 	}
 	
 	private int generar(int c) {//generador de un valor de intensidad aleatorio
@@ -84,7 +86,7 @@ public class Bloque {
 		int f=0;
 		while(f<256)
 		{
-			if( x < (float)this.mAcumulada[f][c] )
+			if( x < this.mAcumulada[f][c] )
 			{
 				return f;
 			}
@@ -93,36 +95,63 @@ public class Bloque {
 		return 0;
 	}
 	
+	private void probAcum() 
+	{
+		this.probAcum = new float[256];
+		for(int i=0;i<this.probabilidades.length;i++)
+		{
+				if(i==255)
+					this.probAcum[i]=1f;
+				else
+					if(i==0)
+						this.probAcum[i]=this.probabilidades[i];
+					else
+						this.probAcum[i]=this.probabilidades[i]+this.probAcum[i-1];
+		}
+	}
+	
+	private int generarPrimerSimb() {//generador de un valor de intensidad aleatorio
+		float x= (float)Math.random();
+		int f=0;
+		while(f<256)
+		{
+			if( x < this.probAcum[f] )
+			{
+				return f;
+			}
+			f++;
+		}
+		return 0;
+	}
+	
+	
+	
 	public void calcularDM() {//calculo de desvio y media por medio de simulacion montecarlo
-		int suma=0;
+		this.probAcum();
+		float suma=0f;
 		float mediaAct=0f;
 		int tiradas=0;
-		float mediaAnt=-1;
+		float mediaAnt=-1f;
 
-		int aleat=0;
-		for(int i=0;i<this.ocurrencias.length;i++) {//calcula la primer intensidad que sus ocurrencias sean distintas de 0 
-			if(this.ocurrencias[i]!=0) {
-				aleat=i;
-				break;
-				}
-			}
-		int sumaDesvio=0;
+		int aleat=generarPrimerSimb();
+		this.primerSimb=aleat;
+		float sumaDesvio=0f;
 		float desvioAnt=-1f;
 		float desvioAct=0f;
-		while ((!converge(mediaAnt,mediaAct) && !converge(desvioAnt,desvioAct)) || tiradas<100000) { //chequea que no converja
+		while ((!converge(mediaAnt,mediaAct) && !converge(desvioAnt,desvioAct)) || tiradas<1000000) { //chequea que no converja
 					 
 					aleat=this.generar(aleat);
 					
-					suma=suma+aleat;
+					suma=suma+(float)aleat;
 					tiradas++;
 					
 					
 					mediaAnt=mediaAct;
-					mediaAct=(float)suma/tiradas;
+					mediaAct=(float)(Math.rint((suma/tiradas)*10000)/10000);
 					
-					sumaDesvio=(int)Math.pow(aleat-mediaAct, 2)+sumaDesvio;//calculo de desvio al cuadrado utilizando la clase math
+					sumaDesvio=(float)((float)(Math.rint(Math.pow(aleat-mediaAct, 2)*1000)/1000)+sumaDesvio);//calculo de desvio al cuadrado utilizando la clase math
 					desvioAnt=desvioAct;
-					desvioAct=(float)Math.sqrt(sumaDesvio/tiradas);//uso de la clase math para sacar la raiz cuadrada
+					desvioAct=(float)Math.sqrt(Math.rint(sumaDesvio/tiradas*1000)/1000);//uso de la clase math para sacar la raiz cuadrada
 		}
 		this.desvio=desvioAct;
 		this.mediaConSimulacion=mediaAct;
@@ -147,6 +176,12 @@ public class Bloque {
 		return cantSimbolos;
 	}
 	
+
+	public int getPrimerSimb()
+	{
+		return this.primerSimb;
+	}
+	
 	public float getDesvio() {return this.desvio;}
 	public float getMedia() {return this.mediaConSimulacion;}
 	
@@ -157,13 +192,14 @@ public class Bloque {
 				if(f!=255) {
 					if(this.ocurrencias[c]!=0) {
 						if(f==0) {
-							suma= (float)this.mCondicional[f][c]/(float)this.ocurrencias[c];
+							suma= (float)Math.rint(((this.mCondicional[f][c]/this.ocurrencias[c])*10000)/10000);
 						}
 						else {
-							suma= ((float)this.mCondicional[f][c]/(float)this.ocurrencias[c])+this.mAcumulada[f-1][c];
+							suma= (float)((Math.rint(((float)this.mCondicional[f][c]/(float)this.ocurrencias[c])*10000)/10000)+this.mAcumulada[f-1][c]);
 							
 							}
-						if((Math.rint(suma*10000)/10000)<0.9) {
+						suma=(float)(Math.rint(suma*10000)/10000);
+						if(suma<=(float)0.9) {
 							this.mAcumulada[f][c]=suma;
 						}
 						else this.mAcumulada[f][c]=1f;
